@@ -1,16 +1,30 @@
-﻿namespace HeatingOptimizer;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+
+namespace HeatingOptimizer;
+
 class Program
 {
+    ProductionUnit GasBoiler1 = new ProductionUnit(ProductionUnitType.GasBoiler, "GB1", 4.0d, 0.0d, 520.0m, 175, 0.9d);
+    ProductionUnit GasBoiler2 = new ProductionUnit(ProductionUnitType.GasBoiler, "GB2", 3.0d, 0.0d, 560.0m, 130, 0.7d);
+    ProductionUnit OilBoiler1 = new ProductionUnit(ProductionUnitType.GasBoiler, "OB1", 4.0d, 0.0d, 670.0m, 330, 1.5d);
+    ProductionUnit GasMotor1 = new ProductionUnit(ProductionUnitType.GasBoiler, "GM1", 3.5d, 2.6d, 960.0m, 650, 1.8d);
+    ProductionUnit HeatPump1 = new ProductionUnit(ProductionUnitType.GasBoiler, "HP1", 6.0d, -6.0d, 60.0m, 0, 0);
     static void Main(string[] args)
     {
        HeatingData.GetData();
        foreach(var item in HeatingData.WinterTimeFrame)
        {
-           Console.WriteLine($"Time from: {item.TimeFrom} Time to: {item.TimeTo} Heat demand: {item.HeatDemand} Electricity price: {item.ElectricityPrice}");
+           Console.WriteLine($"Measure start: {item.TimeFrom} Measure end: {item.TimeTo} Heat demand: {item.HeatDemand} Electricity price: {item.ElectricityPrice}");
        }
        foreach(var item in HeatingData.SummerTimeFrame)
        {
            Console.WriteLine($"Summer Time from: {item.TimeFrom.TimeOfDay} Time to: {item.TimeTo.TimeOfDay} Heat demand: {item.HeatDemand} Electricity price: {item.ElectricityPrice}");
+       }
+       Console.WriteLine($"{ProductionUnitType.GasBoiler} {ProductionUnitType.OilBoiler} {ProductionUnitType.GasMotor} {ProductionUnitType.HeatPump}");
+       var json = JsonSerializer.Serialize<List<Timeframe>>(HeatingData.WinterTimeFrame);
+       using (StreamWriter textWriter = new("input_winter.json")){
+              textWriter.Write(json.ToString());
        }
     }
 }
