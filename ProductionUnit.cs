@@ -10,13 +10,13 @@ enum ProductionUnitType
 }
 class ProductionUnit
 {
-    ProductionUnitType Type { get; }
-    string Name { get; }
-    double MaxHeatOutput { get; }
-    double MaxElectricity { get; }
-    decimal ProductionCosts { get; }
-    int CO2Emissions { get; }
-    double Consumption { get; }
+    protected internal ProductionUnitType Type { get; }
+    protected internal string Name { get; }
+    protected internal double MaxHeatOutput { get; }
+    protected internal double MaxElectricity { get; }
+    protected internal decimal ProductionCosts { get; }
+    protected internal int CO2Emissions { get; }
+    protected internal double Consumption { get; }
     
     
     protected internal ProductionUnit(ProductionUnitType type, string name, double? maxHeatOutput, double? maxElectricity, decimal? productionCosts, int? co2Emissions, double? consumption)
