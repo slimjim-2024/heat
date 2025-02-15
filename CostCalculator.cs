@@ -5,9 +5,9 @@ namespace HeatingOptimizer
         static int scenarioNumber=0;
         static string[][] scenarios = [["GB1","GB2", "OB1"],
         ["GB1", "OB1", "GM1", "HP1"]];
-        static StreamWriter textWriter = new("output.csv");
         public static void CalculateCosts(List<ProductionUnit> productionUnits, List<Timeframe> timeframes)
         {
+            StreamWriter textWriter = new("output.csv");
             string[] currentScenario = scenarios[scenarioNumber];
             List<ProductionUnit> unitsInScenario = productionUnits.FindAll(unit => currentScenario.Contains(unit.Name));
             foreach (var unit in unitsInScenario)
