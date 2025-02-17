@@ -1,5 +1,0 @@
-Name: GB1 
-Max heat: 4,0 MW 
-Production costs: 520 DKK / MWh(th) 
-CO2 emissions: 175 kg / MWh(th) 
-Gas consumption: 0,9 MWh(gas) / MWh(th)

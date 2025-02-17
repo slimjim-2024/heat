@@ -7,7 +7,7 @@ namespace HeatingOptimizer
         ["GB1", "OB1", "GM1", "HP1"]];
         public static void CalculateCosts(List<ProductionUnit> productionUnits, List<Timeframe> timeframes)
         {
-            StreamWriter textWriter = new("output.csv");
+            StreamWriter textWriter = new("output.csv", true);
             string[] currentScenario = scenarios[scenarioNumber];
             List<ProductionUnit> unitsInScenario = productionUnits.FindAll(unit => currentScenario.Contains(unit.Name));
             foreach (var unit in unitsInScenario)

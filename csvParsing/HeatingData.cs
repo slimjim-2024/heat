@@ -6,11 +6,11 @@ class HeatingData
 {
     protected internal static List<Timeframe> WinterTimeFrame = new List<Timeframe>(); // list of timeframes
     protected internal static List<Timeframe> SummerTimeFrame = new List<Timeframe>(); // list of timeframes
-    public static void GetData() // function for getting data from csv file
+    public static void GetData(string path = "heating_data.csv") // function for getting data from csv file
     {
         try
         {
-            using (StreamReader sr = new StreamReader("heating_data.csv")) //reads the .csv file
+            using (StreamReader sr = new StreamReader(path)) //reads the .csv file
             {
                 string? line;
                 // skip the first 3 lines
