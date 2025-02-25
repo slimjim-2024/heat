@@ -18,8 +18,7 @@ class Init{
     static List<ProductionUnit> ProductionUnits = new();
     public static void Initialize()
     {
-        ProductionUnits=JsonSerializer.Deserialize<List<ProductionUnit>>(File.ReadAllText("ProductionUnits.json"));
-
+        ProductionUnits = HeatingData.GetProductionUnits(@"machines.csv");
         ProductionUnits.Sort((ProductionUnit a, ProductionUnit b) => (decimal)(a.MaxHeatOutput * 1000) / a.ProductionCosts > (decimal)(b.MaxHeatOutput * 1000) / b.ProductionCosts ? -1 : 1);
         foreach (var item in ProductionUnits)
         {

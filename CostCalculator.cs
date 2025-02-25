@@ -1,15 +1,18 @@
+using System;
+using System.Collections.Generic;
+
 namespace HeatingOptimizer
 {
     class CostCalculator
     {
-        static int scenarioNumber=0;
-        static string[][] scenarios = [["GB1","GB2", "OB1"],
-        ["GB1", "OB1", "GM1", "HP1"]];
-        public static void CalculateCosts(List<ProductionUnit> productionUnits, List<Timeframe> timeframes)
+        // private static int scenarioNumber = 0;
+        public static void CalculateCosts(List<ProductionUnit> productionUnits, List<Timeframe> timeframes, string[] workingUnits)
         {
             StreamWriter textWriter = new("output.csv", true);
-            string[] currentScenario = scenarios[scenarioNumber];
-            List<ProductionUnit> unitsInScenario = productionUnits.FindAll(unit => currentScenario.Contains(unit.Name));
+            // string[] currentScenario = scenarios[scenarioNumber];
+            // List<ProductionUnit> unitsInScenario = productionUnits.FindAll(unit => workingUnits.Contains(unit.Name));
+            
+            List<ProductionUnit> unitsInScenario = productionUnits.FindAll(unit => workingUnits.Contains(unit.Name));
             foreach (var unit in unitsInScenario)
             {
                 // Console.WriteLine($"{unit.Name} {unit.MaxHeatOutput} {unit.ProductionCosts}");
@@ -24,7 +27,8 @@ namespace HeatingOptimizer
         {
             decimal totalCost = 0;
             double heatDemand = timeframe.HeatDemand;
-            machines.Sort((ProductionUnit a, ProductionUnit b) => (decimal)(a.MaxHeatOutput * 1000) / a.ProductionCosts > (decimal)(b.MaxHeatOutput * 1000) / b.ProductionCosts ? -1 : 1);
+            machines.Sort((ProductionUnit a, ProductionUnit b) => 
+            (decimal)(a.MaxHeatOutput * 1000) / a.ProductionCosts > (decimal)(b.MaxHeatOutput * 1000) / b.ProductionCosts ? -1 : 1);
             foreach (var machine in machines)
             {
                 // Console.WriteLine($"{machine.Name} {machine.MaxHeatOutput} {machine.ProductionCosts} {heatDemand}");

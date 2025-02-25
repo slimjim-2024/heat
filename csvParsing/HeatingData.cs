@@ -34,4 +34,27 @@ class HeatingData
             Console.WriteLine(e.Message);
         }
     }
+    public static List<ProductionUnit> GetProductionUnits(string fileName)
+    {
+        List<ProductionUnit> productionUnits = new List<ProductionUnit>();
+        try
+        {
+            using (StreamReader sr = new StreamReader(fileName))
+            {
+                string? line;
+                sr.ReadLine();
+                while ((line = sr.ReadLine()) != null)
+                {
+                    string[] data = line.Split(",");
+                    productionUnits.Add(new ProductionUnit(data[0], double.Parse(data[1]), double.Parse(data[2]), decimal.Parse(data[3]), int.Parse(data[4]), double.Parse(data[5])));
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("The file could not be read:");
+            Console.WriteLine(e.Message);
+        }
+        return productionUnits;
+    }
 }
