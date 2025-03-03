@@ -20,6 +20,5 @@
                     <Button></Button>
                 </StackPanel>
             </StackPanel>
-        </StackPanel>
     </StackPanel>
 </Window>
