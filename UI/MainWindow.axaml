@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:flex="clr-namespace:Alba.Avalonia.FlexPanel;assembly=Alba.Avalonia.FlexPanel"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="HeatingOptimizer.MainWindow"
         Title="Super Optimizing Power Heating System">
@@ -11,13 +12,35 @@
             <TextBlock Margin="0 5" FontSize="18" FontWeight="Bold">File entry</TextBlock>
             <TextBox Watermark="Enter the file path to the csv file"/>
             <!-- adding a chart container (canvas) -->
-            </StackPanel>
             <StackPanel Margin="20">
             <!-- Adding a container for the buttons-->
-                <StackPanel>
-                    <Button></Button>
-                    <Button></Button>
-                    <Button></Button>
+                <flex:FlexPanel Direction="Row" JustifyContent="Center" AlignItems="Center">
+                    <Button Margin="10">Load</Button>
+                    <Button Margin="10">Save</Button>
+                    <Button Margin="10">Edit</Button>
+                    <!-- to do checkboxes and droplist with the names of the machines // labels are also needed -->
+
+                    <flex:FlexPanel>
+                        <CheckBox Margin="10">Gas Boiler 1</CheckBox>
+                        <CheckBox Margin="10">Gas Boiler 2</CheckBox>
+                        <CheckBox Margin="10">Oil Motor </CheckBox>
+                        <CheckBox Margin="10">Gas Motor</CheckBox>
+                        <CheckBox Margin="10">Heat Pump</CheckBox>
+                    </flex:FlexPanel>
+                    <!-- adding the dropdown for the options -->
+                        <flex:FlexPanel>
+                              <ComboBox SelectedIndex="0" MaxDropDownHeight="100">
+                                <ComboBoxItem>Smallest price</ComboBoxItem>
+                                <ComboBoxItem>The most economic</ComboBoxItem>
+                                <ComboBoxItem>Smallest emission</ComboBoxItem>
+                                <ComboBoxItem>Best efficiency</ComboBoxItem>
+                            </ComboBox>
+                        </flex:FlexPanel>
+                </flex:FlexPanel>
+                <flex:FlexPanel Direction="Row" JustifyContent="Center" AlignItems="Center">
+                    <Canvas Background="AliceBlue" Height="400" Width="400" Margin="10"></Canvas>
+                    <Canvas Background="Purple" Height="400" Width="400" Margin="10"></Canvas>
+                </flex:FlexPanel>
                 </StackPanel>
             </StackPanel>
     </StackPanel>
