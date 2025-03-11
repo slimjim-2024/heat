@@ -1,50 +1,46 @@
-using System;
-using System.Collections.Generic;
 
 namespace HeatingOptimizer
 {
     class CostCalculator
     {
-        // private static int scenarioNumber = 0;
-        public static void CalculateCosts(List<ProductionUnit> productionUnits, List<Timeframe> timeframes, string[] workingUnits)
+        public static void CalculateTimeframe(Timeframe timeframe, List<ProductionUnit> prodUnits)
         {
-            StreamWriter textWriter = new("output.csv", true);
-            // string[] currentScenario = scenarios[scenarioNumber];
-            // List<ProductionUnit> unitsInScenario = productionUnits.FindAll(unit => workingUnits.Contains(unit.Name));
-            
-            List<ProductionUnit> unitsInScenario = productionUnits.FindAll(unit => workingUnits.Contains(unit.Name));
-            foreach (var unit in unitsInScenario)
-            {
-                // Console.WriteLine($"{unit.Name} {unit.MaxHeatOutput} {unit.ProductionCosts}");
-            }
-            foreach (var timeframe in timeframes)
-            {
-                textWriter.WriteLine($"{timeframe.TimeFrom},{timeframe.TimeTo},{timeframe.HeatDemand},{CalculateCostsForTimeframe(unitsInScenario, timeframe)}");
-            }
-            textWriter.Close();
+            double remainingHeat = timeframe.HeatDemand;
+                foreach (var prodUnit in prodUnits)
+                {
+                    // Calculate heat
+                    double heatProduced = Math.Min(remainingHeat, prodUnit.MaxHeatOutput);
+                    prodUnit.SeasonHeatProduction.Append(heatProduced);
+                    remainingHeat -= heatProduced;
+
+                    // Calculate electricity
+                    // Check w/ teacher if formulae is right
+                    double fraction = heatProduced / prodUnit.MaxHeatOutput;
+                    double electricityProduced = fraction * prodUnit.MaxElectricity;
+
+                    // Calculate cost
+                    prodUnit.SeasonProductionCosts.Append(
+                        heatProduced*(double)prodUnit.ProductionCosts - electricityProduced*(double)timeframe.ElectricityPrice
+                        );
+                }
         }
-        private static decimal CalculateCostsForTimeframe(List<ProductionUnit> machines, Timeframe timeframe)
+
+        // prodUnits is an already sorted list of the machines in use
+        public static void CalculateSeason(List<ProductionUnit> prodUnits, List<Timeframe> Season)
         {
-            decimal totalCost = 0;
-            double heatDemand = timeframe.HeatDemand;
-            machines.Sort((ProductionUnit a, ProductionUnit b) => 
-            (decimal)(a.MaxHeatOutput * 1000) / a.ProductionCosts > (decimal)(b.MaxHeatOutput * 1000) / b.ProductionCosts ? -1 : 1);
-            foreach (var machine in machines)
+            // Makes prodUnit.SeasonHeatProduction empty before calculation
+            foreach (var prodUnit in prodUnits) prodUnit.SeasonHeatProduction = [];
+
+            foreach (Timeframe timeframe in Season)
             {
-                // Console.WriteLine($"{machine.Name} {machine.MaxHeatOutput} {machine.ProductionCosts} {heatDemand}");
-                if (machine.MaxHeatOutput < heatDemand)
-                {
-                    totalCost += (decimal)machine.MaxHeatOutput * machine.ProductionCosts;
-                    // machines.Remove(machine);
-                    heatDemand -= machine.MaxHeatOutput;
-                }
-                else
-                {
-                    totalCost += (decimal)heatDemand * machine.ProductionCosts;
-                    break;
-                }
+                /* 
+                When trying to get the cheapest solution,
+                timeframes' electricity price should be taken into account:
+                if (any prodUnit produces electricity && calculating cheapest solution)
+                    Sort prodUnits;
+                */
+                CalculateTimeframe(timeframe, prodUnits);
             }
-            return totalCost;
         }
     }
 }
