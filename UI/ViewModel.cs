@@ -4,6 +4,9 @@ using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.Kernel.Sketches;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Avalonia.Controls;
+using Avalonia.Media;
+using System.Linq;
 
 namespace HeatingOptimizer
 {
@@ -11,6 +14,16 @@ namespace HeatingOptimizer
     {
         [ObservableProperty]
         private static ISeries[] _series = [];
+
+        // checking which of the options is selected by their index
+
+       private int _selectedIndex = 0; // Default to first index
+
+        public int SelectedIndex
+        {
+            get => _selectedIndex;
+            set => SetProperty(ref _selectedIndex, value);
+        }
         public ViewModel()
         {
             // in the view model, here are defined the units that need to be displayed in a chart

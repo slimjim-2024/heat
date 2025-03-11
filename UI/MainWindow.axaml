@@ -27,20 +27,23 @@
 
                     <!-- to do checkboxes and droplist with the names of the machines // labels are also needed -->
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <CheckBox Margin="10">Gas Boiler 1</CheckBox>
-                        <CheckBox Margin="10">Gas Boiler 2</CheckBox>
-                        <CheckBox Margin="10">Oil Motor</CheckBox>
-                        <CheckBox Margin="10">Gas Motor</CheckBox>
-                        <CheckBox Margin="10">Heat Pump</CheckBox>
+                        <CheckBox IsChecked="" Margin="10">Gas Boiler 1</CheckBox>
+                        <CheckBox IsChecked="" Margin="10">Gas Boiler 2</CheckBox>
+                        <CheckBox IsChecked="" Margin="10">Oil Motor</CheckBox>
+                        <CheckBox IsChecked="" Margin="10">Gas Motor</CheckBox>
+                        <CheckBox IsChecked="" Margin="10">Heat Pump</CheckBox>
                     </StackPanel>
 
                     <!-- Adding the dropdown for the options -->
+                     <!-- SelectedItem="{Binding SelectedOption}" -->
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <ComboBox SelectedIndex="0" MaxDropDownHeight="100">
+                        <ComboBox SelectedIndex="{Binding SelectedIndex}" Margin="10">
+                            <ComboBoxItem>--Select--</ComboBoxItem>
+                            <ComboBoxItem>Smallest emission</ComboBoxItem>
                             <ComboBoxItem>Smallest price</ComboBoxItem>
                             <ComboBoxItem>The most economic</ComboBoxItem>
-                            <ComboBoxItem>Smallest emission</ComboBoxItem>
                             <ComboBoxItem>Best efficiency</ComboBoxItem>
+                            <ComboBoxItem>Cheapest option</ComboBoxItem>
                         </ComboBox>
                     </StackPanel>
                 </StackPanel>
