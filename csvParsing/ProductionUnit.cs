@@ -19,7 +19,7 @@ class ProductionUnit
 
     protected internal List<double> SeasonHeatProduction = new();
     protected internal List<double> SeasonElectricityProduction = new();
-    protected internal List<double> SeasonProductionCosts = new();
+    protected internal List<decimal> SeasonProductionCosts = new();
 
     protected internal ProductionUnit(string name, double? maxHeatOutput, double? maxElectricity, decimal? productionCosts, int? co2Emissions, double? consumption)
     {
