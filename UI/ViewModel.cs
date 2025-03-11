@@ -13,26 +13,30 @@ namespace HeatingOptimizer
         private static ISeries[] _series = [];
         public ViewModel()
         {
+            // in the view model, here are defined the units that need to be displayed in a chart
             Series = new ISeries[]
             {
             new StackedAreaSeries<double?>{Name=ProductionUnit.CreateProductionUnit(ProductionUnitType.GasBoiler).Name, Values=[ 3, 2, 3, 3, 2, 4, 9 ], LineSmoothness = 0},
             new StackedAreaSeries<double?>{Name=ProductionUnit.CreateProductionUnit(ProductionUnitType.OilBoiler).Name, Values= [6, 5, 6, 0, 0, 5, 2 ], LineSmoothness = 0},
             new StackedAreaSeries<double?>{Name=ProductionUnit.CreateProductionUnit(ProductionUnitType.GasMotor).Name, Values=[ 4, 8, 2, 8, 9, 0, 0], LineSmoothness = 0},
+            new StackedAreaSeries<double?>{Name=ProductionUnit.CreateProductionUnit(ProductionUnitType.HeatPump).Name, Values=[ 4, 8, 2, 8, 9, 0, 0], LineSmoothness = 0},
             };
         }
+
+        // for now just setting up the axes for efficiency and the time period
 
         // X Axis
         public ICartesianAxis[] XAxes { get; set; } = new ICartesianAxis[]
         {
         new Axis
         {
-            Name = "X Axis",
+            Name = "Time Period",
             NamePaint = new SolidColorPaint(SKColor.Parse("#808080")),
             TextSize = 18,
             LabelsPaint = new SolidColorPaint(SKColor.Parse("#B0B0B0")),
             SeparatorsPaint = new SolidColorPaint
             {
-                Color = SKColor.Parse("#B0B0B0"),
+                Color = SKColor.Parse("#ffffff"),
                 StrokeThickness = 1,
             },
             ZeroPaint = new SolidColorPaint
@@ -53,18 +57,18 @@ namespace HeatingOptimizer
         {
         new Axis
         {
-            Name = "Y Axis",
+            Name = "Efficiency",
             NamePaint = new SolidColorPaint(SKColor.Parse("#808080")),
             TextSize = 18,
             LabelsPaint = new SolidColorPaint(SKColor.Parse("#B0B0B0")),
             SeparatorsPaint = new SolidColorPaint
             {
-                Color = SKColor.Parse("#B0B0B0"),
+                Color = SKColor.Parse("#ffffff"),
                 StrokeThickness = 1,
             },
             ZeroPaint = new SolidColorPaint
             {
-                Color = SKColor.Parse("#808080"),
+                Color = SKColor.Parse("#000"),
                 StrokeThickness = 2
             },
             TicksPaint = new SolidColorPaint

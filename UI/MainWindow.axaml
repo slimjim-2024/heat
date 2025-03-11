@@ -10,36 +10,53 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
+
     <StackPanel>
-        <!--  Adding a heading (label) to a project  -->
+        <!-- Adding a heading (label) to a project -->
         <StackPanel Margin="20">
-            <TextBlock
-                Margin="0,5"
-                FontSize="18"
-                FontWeight="Bold">
-                File entry
-            </TextBlock>
-            <TextBox Watermark="Enter the file path to the csv file" />
-            <!--  adding a chart container (canvas)  -->
-        </StackPanel>
-        <StackPanel Margin="20">
-            <!--  Adding a container for the buttons  -->
-            <StackPanel>
-                <Button />
-                <Button />
-                <Button />
+            <TextBlock Margin="0 5" FontSize="18" FontWeight="Bold">File entry</TextBlock>
+            <TextBox Watermark="Enter the file path to the csv file"/>
+
+            <!-- Adding a chart container (canvas) -->
+            <StackPanel Margin="20">
+                <!-- Adding a container for the buttons-->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Margin="10">Load</Button>
+                    <Button Margin="10">Save</Button>
+                    <Button Margin="10">Edit</Button>
+
+                    <!-- to do checkboxes and droplist with the names of the machines // labels are also needed -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <CheckBox Margin="10">Gas Boiler 1</CheckBox>
+                        <CheckBox Margin="10">Gas Boiler 2</CheckBox>
+                        <CheckBox Margin="10">Oil Motor</CheckBox>
+                        <CheckBox Margin="10">Gas Motor</CheckBox>
+                        <CheckBox Margin="10">Heat Pump</CheckBox>
+                    </StackPanel>
+
+                    <!-- Adding the dropdown for the options -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <ComboBox SelectedIndex="0" MaxDropDownHeight="100">
+                            <ComboBoxItem>Smallest price</ComboBoxItem>
+                            <ComboBoxItem>The most economic</ComboBoxItem>
+                            <ComboBoxItem>Smallest emission</ComboBoxItem>
+                            <ComboBoxItem>Best efficiency</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <lvc:CartesianChart
+                        Width="800"
+                        Height="400"
+                        Series="{Binding Series}"
+                        XAxes="{Binding XAxes}"
+                        YAxes="{Binding YAxes}"/>
+                </StackPanel>
             </StackPanel>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <lvc:CartesianChart
-                    Width="800"
-                    Height="400"
-                    Series="{Binding Series}" />
-            </Grid>
         </StackPanel>
     </StackPanel>
+
     <Window.DataContext>
         <vms:ViewModel />
     </Window.DataContext>
