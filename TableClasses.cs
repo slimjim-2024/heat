@@ -1,6 +1,6 @@
 namespace HeatingOptimizer;
 
-class Timeframe
+public class Timeframe
 {
     protected internal DateTime TimeFrom { get; }
     protected internal DateTime TimeTo { get; }

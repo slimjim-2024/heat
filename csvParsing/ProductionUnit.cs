@@ -1,27 +1,27 @@
 using System.Reflection.Metadata;
 
 namespace HeatingOptimizer;
-enum ProductionUnitType
+public enum ProductionUnitType
 {
     GasBoiler,
     OilBoiler,
     GasMotor,
     HeatPump
 }
-class ProductionUnit
+public class ProductionUnit
 {
-    protected internal string Name { get; }
-    protected internal double MaxHeatOutput { get; }
-    protected internal double MaxElectricity { get; }
-    protected internal decimal ProductionCosts { get; }
-    protected internal int CO2Emissions { get; }
-    protected internal double Consumption { get; }
+    public string Name { get; }
+    public double MaxHeatOutput { get; }
+    public double MaxElectricity { get; }
+    public decimal ProductionCosts { get; }
+    public int CO2Emissions { get; }
+    public double Consumption { get; }
 
-    protected internal List<double> SeasonHeatProduction = new();
-    protected internal List<double> SeasonElectricityProduction = new();
-    protected internal List<decimal> SeasonProductionCosts = new();
+    public List<double> SeasonHeatProduction = [];
+    public List<double> SeasonElectricityProduction = [];
+    public List<decimal> SeasonProductionCosts = [];
 
-    protected internal ProductionUnit(string name, double? maxHeatOutput, double? maxElectricity, decimal? productionCosts, int? co2Emissions, double? consumption)
+    public ProductionUnit(string name, double? maxHeatOutput, double? maxElectricity, decimal? productionCosts, int? co2Emissions, double? consumption)
     {
         Name = name;
         MaxHeatOutput = maxHeatOutput ?? 0.0d;

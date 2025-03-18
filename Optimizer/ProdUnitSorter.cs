@@ -1,6 +1,6 @@
 namespace HeatingOptimizer;
 
-static class ProdUnitSorter
+public static class ProdUnitSorter
 {
     /*
     public enum SortType
@@ -11,14 +11,14 @@ static class ProdUnitSorter
     }
     */
 
-    public static List<ProductionUnit> Sort(List<ProductionUnit> pUnits, Timeframe timeframe, short sortType)
+    public static List<ProductionUnit> Sort(List<ProductionUnit> pUnits, decimal electricityPrice, short sortType)
     {
         return sortType switch
         {
             // (Heat cost - Electricity return)/Total heat production = cost/return per unit of heat
-            0 => pUnits.OrderBy(x => (x.MaxHeatOutput * (double)x.ProductionCosts - x.MaxElectricity * (double)timeframe.ElectricityPrice) / x.MaxHeatOutput).ToList(),
-            1 => pUnits.OrderBy(x => x.CO2Emissions).ToList(),// Less emissions
-            2 => pUnits.OrderBy(x => x.Consumption).ToList(),// Less consumption
+            0 => [.. pUnits.OrderBy(x => (x.MaxHeatOutput * (double)x.ProductionCosts - x.MaxElectricity * (double)electricityPrice) / x.MaxHeatOutput)],
+            1 => [.. pUnits.OrderBy(x => x.CO2Emissions)],// Less emissions
+            2 => [.. pUnits.OrderBy(x => x.Consumption)],// Less consumption
             _ => [] // Throw exception?
         };
     }

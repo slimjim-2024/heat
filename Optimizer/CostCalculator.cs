@@ -44,7 +44,7 @@ namespace HeatingOptimizer
                 as electicity prices change every timeframe
                 */
                 if (i==1 || sortType==0 /*cheapest*/)
-                    prodUnits = ProdUnitSorter.Sort(prodUnits, season[i], sortType);
+                    prodUnits = ProdUnitSorter.Sort(prodUnits, season[i].ElectricityPrice, sortType);
                 CalculateTimeframe(season[i], prodUnits);
             }
         }
