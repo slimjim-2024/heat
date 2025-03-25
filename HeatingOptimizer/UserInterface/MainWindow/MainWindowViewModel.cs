@@ -31,6 +31,7 @@ namespace HeatingOptimizer.ViewModels
         public MainWindowViewModel()
         {
             // in the view model, here are defined the units that need to be displayed in a chart
+            /*
             Series = new ISeries[]
             {
             new StackedAreaSeries<double?>{Name=ProductionUnit.CreateProductionUnit(ProductionUnitType.GasBoiler).Name, Values=[ 3, 2, 3, 3, 2, 4, 9 ], LineSmoothness = 0},
@@ -38,6 +39,7 @@ namespace HeatingOptimizer.ViewModels
             new StackedAreaSeries<double?>{Name=ProductionUnit.CreateProductionUnit(ProductionUnitType.GasMotor).Name, Values=[ 4, 8, 2, 8, 9, 0, 0], LineSmoothness = 0},
             new StackedAreaSeries<double?>{Name=ProductionUnit.CreateProductionUnit(ProductionUnitType.HeatPump).Name, Values=[ 4, 8, 2, 8, 9, 0, 0], LineSmoothness = 0},
             };
+            */
         }
 
         // for now just setting up the axes for efficiency and the time period
