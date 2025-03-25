@@ -1,3 +1,5 @@
+using System;
+
 namespace HeatingOptimizer;
 
 public class Timeframe
@@ -7,7 +9,7 @@ public class Timeframe
     protected internal double HeatDemand { get; }
     protected internal decimal ElectricityPrice { get; }
 
-    protected internal Timeframe(DateTime tFrom, DateTime tTo, double hDemand, decimal ePrice)
+    public Timeframe(DateTime tFrom, DateTime tTo, double hDemand, decimal ePrice)
     {
         TimeFrom = tFrom;
         TimeTo = tTo;

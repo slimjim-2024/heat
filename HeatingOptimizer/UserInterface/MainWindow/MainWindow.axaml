@@ -1,27 +1,31 @@
 <Window
-    x:Class="HeatingOptimizer.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vms="using:HeatingOptimizer"
+    xmlns:local="clr-namespace:MainWindow.UI"
+    xmlns:vms="using:HeatingOptimizer.ViewModels"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    x:DataType="vms:MainWindowViewModel"
+    x:Class="HeatingOptimizer.UI.MainWindow"
     Title="Super Optimizing Power Heating System"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
-    mc:Ignorable="d">
+    >
+    <Window.DataContext>
+        <vms:MainWindowViewModel />
+    </Window.DataContext>
 
-    <StackPanel>
+        <ScrollViewer HorizontalAlignment="Stretch">
         <!-- Adding a heading (label) to a project -->
-        <StackPanel Margin="20">
+        <StackPanel Margin="20" ScrollViewer.AllowAutoHide="True" ScrollViewer.VerticalScrollBarVisibility="Visible" >
             <TextBlock Margin="0 5" FontSize="18" FontWeight="Bold">File entry</TextBlock>
-            <TextBox Watermark="Enter the file path to the csv file"/>
-
+                <TextBox Watermark="Enter the file path to the csv file" Text="{Binding InputText, Mode=OneWayToSource}"/>
             <!-- Adding a chart container (canvas) -->
             <StackPanel Margin="20">
                 <!-- Adding a container for the buttons-->
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Button Margin="10">Load</Button>
+                <WrapPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Click="Button_Click" HorizontalAlignment="Stretch">Load</Button>
+                    <Button Margin="10" Click="BrowseFile">Browse file</Button>
                     <Button Margin="10">Save</Button>
                     <Button Margin="10">Edit</Button>
 
@@ -46,7 +50,7 @@
                             <ComboBoxItem>Cheapest option</ComboBoxItem>
                         </ComboBox>
                     </StackPanel>
-                </StackPanel>
+                </WrapPanel>
 
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <lvc:CartesianChart
@@ -57,10 +61,6 @@
                         YAxes="{Binding YAxes}"/>
                 </StackPanel>
             </StackPanel>
-        </StackPanel>
     </StackPanel>
-
-    <Window.DataContext>
-        <vms:ViewModel />
-    </Window.DataContext>
+    </ScrollViewer>
 </Window>

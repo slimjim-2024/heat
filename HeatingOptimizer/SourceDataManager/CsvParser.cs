@@ -1,17 +1,32 @@
-// Note for the csv file
-//  [0] is time from,  [1] is time to, [2] is heat demand, [3] is an Electricity price
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using CsvHelper;
 
-namespace HeatingOptimizer;
-class HeatingData
+namespace HeatingOptimizer.SourceDataManager;
+
+public class CsvParser
 {
+    protected internal static List<Timeframe> WinterTimeFrame = []; // list of timeframes
+    protected internal static List<Timeframe> SummerTimeFrame = []; // list of timeframes
+    protected internal static List<ProductionUnit> ProductionUnits = [];
 
-    protected internal static List<Timeframe> WinterTimeFrame = new List<Timeframe>(); // list of timeframes
-    protected internal static List<Timeframe> SummerTimeFrame = new List<Timeframe>(); // list of timeframes
-    private static string? line;
-    public static void GetData(string path = "heating_data.csv") // function for getting data from csv file
+    public static void ParseMachineData(string path = "machines.csv")
     {
+        // Our class property names match our CSV file header names, we can read the file without any configuration.
+        using (var reader = new StreamReader(path))
+        using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+        {
+            ProductionUnits = csv.GetRecords<ProductionUnit>().ToList();
+        }
+    }
+
+    public static void ParseHeatingData(string path = "heating_data.csv") // function for getting data from csv file
+    {
+        string? line = null;
+
         try
         {
             using (StreamReader sr = new StreamReader(path)) //reads the .csv file
@@ -36,30 +51,6 @@ class HeatingData
             Console.WriteLine($"The line was {line ?? "null"}");
             Console.WriteLine("The file could not be read:");
             Console.WriteLine(e.Message);
-
         }
-    }
-    public static List<ProductionUnit> GetProductionUnits(string fileName)
-    {
-        List<ProductionUnit> productionUnits = new List<ProductionUnit>();
-        try
-        {
-            using (StreamReader sr = new StreamReader(fileName))
-            {
-                string? line;
-                sr.ReadLine();
-                while ((line = sr.ReadLine()) != null)
-                {
-                    string[] data = line.Split(",");
-                    productionUnits.Add(new ProductionUnit(data[0], double.Parse(data[1], CultureInfo.InvariantCulture), double.Parse(data[2], CultureInfo.InvariantCulture), decimal.Parse(data[3], CultureInfo.InvariantCulture), int.Parse(data[4]), double.Parse(data[5], CultureInfo.InvariantCulture)));
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("The file could not be read:");
-            Console.WriteLine(e.Message);
-        }
-        return productionUnits;
     }
 }

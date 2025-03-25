@@ -1,7 +1,9 @@
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Avalonia.Reactive;
 
-namespace HeatingOptimizer
+namespace HeatingOptimizer.Optimizer
 {
     class CostCalculator
     {
@@ -30,22 +32,18 @@ namespace HeatingOptimizer
             }
         }
 
-        public static void CalculateSeason(List<ProductionUnit> prodUnits, List<Timeframe> season, short sortType)
+        public static void CalculatePeriod(List<ProductionUnit> prodUnits, List<Timeframe> period, short sortType)
         {
             // Makes prodUnit.SeasonHeatProduction empty before calculation
-            foreach (var prodUnit in prodUnits) prodUnit.SeasonHeatProduction = [];
+            foreach (var prodUnit in prodUnits) prodUnit.SeasonHeatProduction.Clear();
             
-            for (int i = 0; i < season.Count; i++) // Loop through each timeframe
+            for (int i = 0; i < period.Count; i++) // Loop through each timeframe
             {
-                /*
-                Sort prodUnits on first timeframe
-                ||
-                Sort on every timeframe if looking for cheapest solution,
-                as electicity prices change every timeframe
-                */
+                // Sort prodUnits on first timeframe
+                // Sort on every timeframe if looking for cheapest solution, as electicity prices change every timeframe
                 if (i==1 || sortType==0 /*cheapest*/)
-                    prodUnits = ProdUnitSorter.Sort(prodUnits, season[i].ElectricityPrice, sortType);
-                CalculateTimeframe(season[i], prodUnits);
+                    prodUnits = ProdUnitSorter.Sort(prodUnits, period[i], sortType);
+                CalculateTimeframe(period[i], prodUnits);
             }
         }
     }
