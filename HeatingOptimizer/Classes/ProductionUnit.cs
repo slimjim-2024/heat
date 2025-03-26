@@ -12,24 +12,15 @@ public enum ProductionUnitType
 
 public class ProductionUnit
 {
-    public string Name { get; }
-    public double MaxHeatOutput { get; }
-    public double MaxElectricity { get; }
-    public decimal ProductionCosts { get; }
-    public int CO2Emissions { get; }
-    public double Consumption { get; }
+    public string Name { get; set; } = "";
+    public double MaxHeatOutput { get; set; }
+    public double MaxElectricity { get; set; }
+    public decimal ProductionCosts { get; set; }
+    public int CO2Emissions { get; set; }
+    public double Consumption { get; set; }
 
-    public List<double> SeasonHeatProduction = [];
-    public List<double> SeasonElectricityProduction = [];
-    public List<decimal> SeasonProductionCosts = [];
-
-    public ProductionUnit(string name, double maxHeatOutput, double maxElectricity, decimal productionCosts, int co2Emissions, double consumption)
+    public override string ToString() // Override for the ListBox
     {
-        Name = name;
-        MaxHeatOutput = maxHeatOutput;
-        MaxElectricity = maxElectricity;
-        ProductionCosts = productionCosts;
-        CO2Emissions = co2Emissions;
-        Consumption = consumption;
+        return $"{Name}";
     }
 }
