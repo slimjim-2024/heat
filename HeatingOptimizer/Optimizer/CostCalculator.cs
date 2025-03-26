@@ -5,37 +5,38 @@ using Avalonia.Reactive;
 
 namespace HeatingOptimizer.Optimizer
 {
-    class CostCalculator
-    {
-        private static void CalculateTimeframe(Timeframe timeframe, List<ProductionUnit> prodUnits)
+    static class CostCalculator
+    {        
+        private static void CalculateTimeframe(TimeFrame timeframe, List<ProductionUnit> prodUnits,
+        ref Dictionary<string, Results> resultDict)
         {
             double remainingHeat = timeframe.HeatDemand;
             foreach (var prodUnit in prodUnits)
             {
-                // Calculate heat
+                // Calculates pUnit's result data
                 double heatProduced = Math.Min(remainingHeat, prodUnit.MaxHeatOutput);
                 remainingHeat -= heatProduced;
                 
-                // Calculate electricity // Check w/ supervisor if formulae is right
                 double fraction = heatProduced / prodUnit.MaxHeatOutput;
                 double electricityProduced = fraction * prodUnit.MaxElectricity;
-
-                // Calculate cost
+                
                 decimal cost = (decimal)(heatProduced*(double)prodUnit.ProductionCosts - electricityProduced*(double)timeframe.ElectricityPrice);
 
-                // Also record Gas Consumption?
+                double emissions = heatProduced*prodUnit.CO2Emissions;
 
-                // Process results
-                prodUnit.SeasonHeatProduction.Append(heatProduced);
-                prodUnit.SeasonElectricityProduction.Append(electricityProduced);
-                prodUnit.SeasonProductionCosts.Append(cost);
+                double consumption = heatProduced*prodUnit.Consumption;
+
+                // Saves results
+                
             }
         }
 
-        public static void CalculatePeriod(List<ProductionUnit> prodUnits, List<Timeframe> period, short sortType)
+        public static void CalculateSeason(List<ProductionUnit> prodUnits, List<TimeFrame> period, short sortType,
+        out Dictionary<string, Results> resultDict)
         {
+            resultDict = new Dictionary<string, Results>();
             // Makes prodUnit.SeasonHeatProduction empty before calculation
-            foreach (var prodUnit in prodUnits) prodUnit.SeasonHeatProduction.Clear();
+            // foreach (var prodUnit in prodUnits) prodUnit.SeasonHeatProduction.Clear();
             
             for (int i = 0; i < period.Count; i++) // Loop through each timeframe
             {
@@ -43,7 +44,7 @@ namespace HeatingOptimizer.Optimizer
                 // Sort on every timeframe if looking for cheapest solution, as electicity prices change every timeframe
                 if (i==1 || sortType==0 /*cheapest*/)
                     prodUnits = ProdUnitSorter.Sort(prodUnits, period[i], sortType);
-                CalculateTimeframe(period[i], prodUnits);
+                CalculateTimeframe(period[i], prodUnits, ref resultDict);
             }
         }
     }

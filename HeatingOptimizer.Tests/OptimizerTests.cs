@@ -16,7 +16,7 @@ public class ProdUnitSorterTests
             new ProductionUnit("", 1, 0, 4, 0, 0),
             new ProductionUnit("", 2, 0, 4, 0, 0),
         ];
-        Timeframe timeframe = new(DateTime.Now, DateTime.Now, 0, 0);
+        TimeFrame timeframe = new(DateTime.Now, DateTime.Now, 0, 0);
         short sortType = 0; // Cheapest
         var expectedList = inputList.OrderBy(x => x.ProductionCosts).ToList();
 
