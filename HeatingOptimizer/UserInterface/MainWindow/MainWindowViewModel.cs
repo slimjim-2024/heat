@@ -54,13 +54,6 @@ namespace HeatingOptimizer.ViewModels
         [ObservableProperty]
        private short _selectedIndex = 0; // Default to first index
 
-
-        public void Generate()
-        {
-            // Add way to get timeframe
-            // CostCalculator.CalculatePeriod(SelectedProductionUnits, , SelectedIndex);
-        }
-
         public MainWindowViewModel()
         {
             // in the view model, here are defined the units that need to be displayed in a chart

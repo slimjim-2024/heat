@@ -48,7 +48,6 @@ public partial class MainWindow : Window
             // Load the file and replacing "%20" with spaces, determines whether the file is in binary depending on the extension
             mainWindowViewModel.InputText=LocalPath.Replace("%20", " ");
             DataParser.ParseHeatingData(mainWindowViewModel.InputText, out mainWindowViewModel.Frames);
-
         }
     }
 
@@ -57,20 +56,20 @@ public partial class MainWindow : Window
     }
 
     private void GenerateButton_Click(object sender, RoutedEventArgs e)
-    {   mainWindowViewModel.Series.Clear();
+    {
+        // Returns if no machine or heating data
+        if (mainWindowViewModel.SelectedProductionUnits.Count == 0 || mainWindowViewModel.Frames is null) return;
+
+        mainWindowViewModel.Series.Clear();
         CostCalculator.CalculateSeason(mainWindowViewModel.SelectedProductionUnits, mainWindowViewModel.Frames,
         mainWindowViewModel.SelectedIndex, ref mainWindowViewModel.ResultDictionary);
+
+        // Displays timeframes on x axis
         mainWindowViewModel.XAxes[0].Labels = [.. mainWindowViewModel.Frames.Select(TF => TF.TimeFrom.ToString("dd/MM H:mm"))];
         mainWindowViewModel.XAxes[0].LabelsRotation = 90;
         mainWindowViewModel.XAxes[0].LabelsDensity=0;
         mainWindowViewModel.XAxes[0].TextSize=10;
         mainWindowViewModel.XAxes[0].MinStep=1;
-        // ObservableCollection<ISeries> TempSeries=new ();
-        // TempSeries = mainWindowViewModel.ResultDictionary.Select(PU =>
-        // new StackedAreaSeries<double>{Name=PU.Key, Values=PU.Value.HeatProduced});
-
-        // mainWindowViewModel.ResultDictionary.Select(PU =>
-        // mainWindowViewModel.Series.Append(new StackedAreaSeries<double>{Name=PU.Key, Values=PU.Value.HeatProduced}));
 
         mainWindowViewModel.Series.Add(
            new LineSeries<double>{Name="Winter Heat Demand" ,Values=new ObservableCollection<double>(mainWindowViewModel.Frames.Select(s=> s.HeatDemand)), Fill=null, }

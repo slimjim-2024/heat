@@ -27,7 +27,6 @@ namespace HeatingOptimizer.Optimizer
                 double consumption = heatProduced*prodUnit.Consumption;
 
                 // Saves results
-
                 resultDict[prodUnit.Name].HeatProduced.Add(heatProduced);
                 resultDict[prodUnit.Name].ElectricityProduced.Add(electricityProduced);
                 resultDict[prodUnit.Name].ProductionCosts.Add(cost);
@@ -39,19 +38,19 @@ namespace HeatingOptimizer.Optimizer
         public static void CalculateSeason(List<ProductionUnit> prodUnits, List<TimeFrame> period, short sortType,
         ref Dictionary<string, Results> resultDict)
         {
+            // Sorts data and prepares dictonary
+            prodUnits = ProdUnitSorter.Sort(prodUnits, period[0], sortType);
             resultDict = new Dictionary<string, Results>();
             foreach (var i in prodUnits)
             {
                 resultDict[i.Name] = new Results();
             }
-            // Makes prodUnit.SeasonHeatProduction empty before calculation
-            // foreach (var prodUnit in prodUnits) prodUnit.SeasonHeatProduction.Clear();
             
-            for (int i = 0; i < period.Count; i++) // Loop through each timeframe
+            // Loop through each timeframe
+            for (int i = 0; i < period.Count; i++)
             {
-                // Sort prodUnits on first timeframe
                 // Sort on every timeframe if looking for cheapest solution, as electicity prices change every timeframe
-                if (i==1 || sortType==0 /*cheapest*/)
+                if (sortType==0)
                     prodUnits = ProdUnitSorter.Sort(prodUnits, period[i], sortType);
                 CalculateTimeframe(period[i], prodUnits, ref resultDict);
             }
