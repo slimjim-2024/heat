@@ -13,7 +13,7 @@ namespace HeatingOptimizer.ViewModels
 {
     public partial class MainWindowViewModel : ObservableObject
     {
-        protected internal Dictionary<string, Results> ResultDictionary;
+        protected internal Dictionary<string, Results> ResultDictionary = new Dictionary<string, Results>();
         [ObservableProperty]
         private string _inputText= string.Empty;
 
@@ -47,8 +47,7 @@ namespace HeatingOptimizer.ViewModels
         protected internal List<TimeFrame> Frames;
 
         public List<ProductionUnit> AllProductionUnits { get; set; } = DataParser.ParseMachineData();
-        public List<ProductionUnit> SelectedProductionUnits { get; set; }
-        
+        public List<ProductionUnit> SelectedProductionUnits { get; set; } = [];
 
         // checking which of the options is selected by their index
 

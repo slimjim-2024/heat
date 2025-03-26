@@ -10,6 +10,7 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using LiveChartsCore.Defaults;
 using HeatingOptimizer.Optimizer;
+using LiveChartsCore;
 
 
 namespace HeatingOptimizer.UI;
@@ -56,18 +57,30 @@ public partial class MainWindow : Window
     }
 
     private void GenerateButton_Click(object sender, RoutedEventArgs e)
-    {
+    {   mainWindowViewModel.Series.Clear();
         CostCalculator.CalculateSeason(mainWindowViewModel.SelectedProductionUnits, mainWindowViewModel.Frames,
-        mainWindowViewModel.SelectedIndex, out mainWindowViewModel.ResultDictionary);
+        mainWindowViewModel.SelectedIndex, ref mainWindowViewModel.ResultDictionary);
         mainWindowViewModel.XAxes[0].Labels = [.. mainWindowViewModel.Frames.Select(TF => TF.TimeFrom.ToString("dd/MM H:mm"))];
         mainWindowViewModel.XAxes[0].LabelsRotation = 90;
         mainWindowViewModel.XAxes[0].LabelsDensity=0;
         mainWindowViewModel.XAxes[0].TextSize=10;
         mainWindowViewModel.XAxes[0].MinStep=1;
-        //mainWindowViewModel.Series.Add(
-        //    new LineSeries<double>{Name="Winter Time Data" ,Values=new ObservableCollection<double>(mainWindowViewModel.Frames.Select(s=> s.HeatDemand)), Fill=null, }
-        //);
+        // ObservableCollection<ISeries> TempSeries=new ();
+        // TempSeries = mainWindowViewModel.ResultDictionary.Select(PU =>
+        // new StackedAreaSeries<double>{Name=PU.Key, Values=PU.Value.HeatProduced});
 
+        // mainWindowViewModel.ResultDictionary.Select(PU =>
+        // mainWindowViewModel.Series.Append(new StackedAreaSeries<double>{Name=PU.Key, Values=PU.Value.HeatProduced}));
 
+        mainWindowViewModel.Series.Add(
+           new LineSeries<double>{Name="Winter Heat Demand" ,Values=new ObservableCollection<double>(mainWindowViewModel.Frames.Select(s=> s.HeatDemand)), Fill=null, }
+        );
+        foreach (var PU in mainWindowViewModel.ResultDictionary)
+        {
+            mainWindowViewModel.Series.Add(new StackedAreaSeries<double>{Name=PU.Key, Values=PU.Value.HeatProduced});
+        }
+
+        mainWindowViewModel.XAxes[0].MinLimit = 0;
+        mainWindowViewModel.YAxes[0].MinLimit = 0;
     }
 }
