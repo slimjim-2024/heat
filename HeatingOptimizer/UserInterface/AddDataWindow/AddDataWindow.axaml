@@ -12,18 +12,8 @@
         <TextBlock Margin="10" HorizontalAlignment="Center">
             <Run FontSize="25" FontWeight="Light" Foreground="White" Text="Add a machine" />
         </TextBlock>
-        <Grid Name="MainGrid">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding MachineFields}" Margin="10">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Field" Binding="{Binding Label}" IsReadOnly="True" Width="200"/>
-                    <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-        <Button HorizontalAlignment="Center" Margin="20" Click="AddMachine">Add</Button>
+        <!-- grid for the fields -->
+        <Grid Name="MainGrid"></Grid>
+        <Button HorizontalAlignment="Center" Margin="20">Add</Button>
     </StackPanel>
 </Window>

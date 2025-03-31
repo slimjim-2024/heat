@@ -38,16 +38,16 @@ namespace HeatingOptimizer.UI
             }
         }
 
-        // still need to make it save to a data base, but it shows the data user enters
-        public void AddMachineData()
-        {
-            foreach (var field in MachineFields)
-            {
-                string? label = field.Label;
-                string? value = field.Value;
-                // Process the values as needed
-                Console.WriteLine($"{label}: {value}");
-            }
-        }
+        // // still need to make it save to a data base, but it shows the data user enters
+        // public void AddMachineData()
+        // {
+        //     foreach (var field in MachineFields)
+        //     {
+        //         string? label = field.Label;
+        //         string? value = field.Value;
+        //         // Process the values as needed
+        //         Console.WriteLine($"{label}: {value}");
+        //     }
+        // }
     }
 }

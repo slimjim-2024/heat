@@ -56,10 +56,10 @@ namespace HeatingOptimizer.UI
             }
         }
         // end of the function
-        private void AddMachine(object sender, RoutedEventArgs e)
-        {
-            var viewModel = (AddDataViewModel?)DataContext;
-            viewModel?.AddMachineData(); // Call the method in the view model
-        }
+        // private void AddMachine(object sender, RoutedEventArgs e)
+        // {
+        //     var viewModel = (AddDataViewModel?)DataContext;
+        //     viewModel?.AddMachineData(); // Call the method in the view model
+        // }
     }
 }
