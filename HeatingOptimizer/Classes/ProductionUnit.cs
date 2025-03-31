@@ -23,4 +23,8 @@ public class ProductionUnit
     {
         return $"{Name}";
     }
+
+    // // setting up the production unit
+    public ProductionUnit() { }
 }
+

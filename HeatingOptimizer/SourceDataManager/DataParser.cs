@@ -20,6 +20,10 @@ public class DataParser
 
     public static List<ProductionUnit> ParseMachineData(string path = "machines.csv")
     {
+        var config = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            HeaderValidated = null, // Ignore header validation
+        };
         // Our class property names match our CSV file header names, we can read the file without any configuration.
         using (var reader = new StreamReader(path))
         using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
