@@ -11,7 +11,7 @@
         <vms:EditWindowViewModel />
     </Window.DataContext>
 
-    <StackPanel>
+    <StackPanel VerticalAlignment="Center">
         <TextBlock Margin="10" HorizontalAlignment="Center">
             <Run
                 FontSize="25"
@@ -42,7 +42,7 @@
             </ListBox.ItemTemplate>
         </ListBox> -->
         <DataGrid ItemsSource="{Binding Machines}" AutoGenerateColumns="True"
-        GridLinesVisibility="All" Margin="10" HorizontalAlignment="Stretch">
+        GridLinesVisibility="All" Margin="10" HorizontalAlignment="Center" IsReadOnly="True">
             <!-- <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
                 <DataGridTextColumn Header="Max Heat Output" Binding="{Binding MaxHeatOutput}" Width="*" />
