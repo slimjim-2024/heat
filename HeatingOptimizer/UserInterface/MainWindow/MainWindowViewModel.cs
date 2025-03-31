@@ -8,6 +8,8 @@ using HeatingOptimizer.SourceDataManager;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using LiveChartsCore.Defaults;
+using CommunityToolkit.Mvvm.Input;
+using HeatingOptimizer.UI;
 
 namespace HeatingOptimizer.ViewModels
 {
@@ -53,7 +55,6 @@ namespace HeatingOptimizer.ViewModels
 
         [ObservableProperty]
        private short _selectedIndex = 0; // Default to first index
-
 
         public void Generate()
         {

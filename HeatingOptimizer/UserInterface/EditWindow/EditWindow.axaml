@@ -1,0 +1,57 @@
+<Window
+    x:Class="HeatingOptimizer.UI.EditWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:HeatingOptimizer.UI"
+    xmlns:vms="clr-namespace:HeatingOptimizer.UI"
+    Title="Edit File"
+    x:DataType="vms:EditWindowViewModel">
+
+    <Window.DataContext>
+        <vms:EditWindowViewModel />
+    </Window.DataContext>
+
+    <StackPanel>
+        <TextBlock Margin="10" HorizontalAlignment="Center">
+            <Run
+                FontSize="25"
+                FontWeight="Light"
+                Foreground="White"
+                Text="Edit a machine" />
+        </TextBlock>
+        <!-- <StackPanel Orientation="Horizontal" Margin="5">
+                        <TextBlock Text="Name" Width="100"/>
+                        <TextBlock Text="Max Heat Output" Width="100"/>
+                        <TextBlock Text="Max Electricity" Width="100"/>
+                        <TextBlock Text="Production Costs" Width="100"/>
+                        <TextBlock Text="CO2 Emissions" Width="100"/>
+                        <TextBlock Text="Consumption" Width="100"/>
+                    </StackPanel> -->
+         <!-- <ListBox x:Name="MachinesList" ItemsSource="{Binding Machines}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <TextBlock Text="{Binding Name}" Width="100"/>
+                        <TextBlock Text="{Binding MaxHeatOutput}" Width="100"/>
+                        <TextBlock Text="{Binding MaxElectricity}" Width="100"/>
+                        <TextBlock Text="{Binding ProductionCosts}" Width="100"/>
+                        <TextBlock Text="{Binding CO2Emissions}" Width="100"/>
+                        <TextBlock Text="{Binding Consumption}" Width="100"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox> -->
+        <DataGrid ItemsSource="{Binding Machines}" AutoGenerateColumns="True"
+        GridLinesVisibility="All" Margin="10" HorizontalAlignment="Stretch">
+            <!-- <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                <DataGridTextColumn Header="Max Heat Output" Binding="{Binding MaxHeatOutput}" Width="*" />
+                <DataGridTextColumn Header="Max Electricity" Binding="{Binding MaxElectricity}" Width="*" />
+                <DataGridTextColumn Header="Production Costs" Binding="{Binding ProductionCosts}" Width="*" />
+                <DataGridTextColumn Header="CO2 Emissions" Binding="{Binding CO2Emissions}" Width="*" />
+                <DataGridTextColumn Header="Consumption" Binding="{Binding Consumption}" Width="*" />
+            </DataGrid.Columns> -->
+
+        </DataGrid>
+    </StackPanel>
+</Window>
