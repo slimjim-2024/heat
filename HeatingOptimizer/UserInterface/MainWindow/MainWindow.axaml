@@ -16,20 +16,24 @@
         <vms:MainWindowViewModel />
     </Window.DataContext>
 
-        <ScrollViewer HorizontalAlignment="Stretch">
+        <DockPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <Button Classes="optionBar" Click="BrowseFile" HotKey="Ctrl+o">Browse file</Button>
+                <Button Classes="optionBar" Click="LoadButton_Click">Load</Button>
+                <Button Classes="optionBar">Save</Button>
+                <Button Classes="optionBar">Edit</Button>
+            </StackPanel>
+        <ScrollViewer HorizontalAlignment="Stretch" DockPanel.Dock="Top">
         <!-- Adding a heading (label) to a project -->
         <StackPanel Margin="20" ScrollViewer.AllowAutoHide="True" ScrollViewer.VerticalScrollBarVisibility="Visible" >
             <TextBlock Margin="0 5" FontSize="18" FontWeight="Bold">File entry</TextBlock>
             <TextBox Watermark="Enter the file path to the csv file" Text="{Binding InputText, Mode=TwoWay}"/>
 
             <!-- Adding a chart container (canvas) -->
-            <StackPanel Margin="20">
+            <StackPanel Margin="20" HorizontalAlignment="Center">
                 <!-- Adding a container for the buttons-->
                 <WrapPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Button Click="LoadButton_Click" HorizontalAlignment="Stretch">Load</Button>
-                    <Button Margin="10" Click="BrowseFile">Browse file</Button>
-                    <Button Margin="10">Save</Button>
-                    <Button Margin="10">Edit</Button>
+                    
 
                     <!-- Production Unit ListBox-->
                     <ListBox x:Name="ProductionUnitsListBox"
@@ -51,22 +55,38 @@
                             <ComboBoxItem>Less CO2 Emissions</ComboBoxItem>
                             <ComboBoxItem>Less Fuel Consumption</ComboBoxItem>
                         </ComboBox>
+
+                        <ListBox ItemsSource="{Binding SeasonSelection}" SelectedItem="{Binding SelectedSeason}">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
                     </StackPanel>
 
-                    <Button Margin="10" Click="GenerateButton_Click">Generate</Button>
+                    <Button Margin="10" Command="{Binding GenerateButton_Click}" CommandParameter="{Binding SelectedSeason}">Generate</Button>
 
                 </WrapPanel>
 
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <WrapPanel HorizontalAlignment="Left">
                     <lvc:CartesianChart
                         Width="800"
                         Height="400"
+                        PointerPressedCommand="{Binding PressedCommand}"    
                         Series="{Binding Series}"
                         XAxes="{Binding XAxes}"
                         YAxes="{Binding YAxes}"
                         ZoomMode="X"/>
-                </StackPanel>
+                    <lvc:PieChart
+                        Width="400"
+                        Height="400"
+                        Series="{Binding PieSeries}"
+                        LegendPosition="Right"/>
+                    
+                </WrapPanel>
             </StackPanel>
     </StackPanel>
     </ScrollViewer>
+        </DockPanel>
 </Window>

@@ -5,12 +5,7 @@ using System;
 using HeatingOptimizer.ViewModels;
 using Avalonia.Interactivity;
 using HeatingOptimizer.SourceDataManager;
-using LiveChartsCore.SkiaSharpView;
-using System.Linq;
-using System.Collections.ObjectModel;
-using LiveChartsCore.Defaults;
-using HeatingOptimizer.Optimizer;
-using LiveChartsCore;
+
 
 
 namespace HeatingOptimizer.UI;
@@ -55,31 +50,31 @@ public partial class MainWindow : Window
     {
     }
 
-    private void GenerateButton_Click(object sender, RoutedEventArgs e)
-    {
-        // Returns if no machine or heating data
-        if (mainWindowViewModel.SelectedProductionUnits.Count == 0 || mainWindowViewModel.Frames is null) return;
+    // private void GenerateButton_Click(object sender, RoutedEventArgs e)
+    // {
+    //     // Returns if no machine or heating data
+    //     if (mainWindowViewModel.SelectedProductionUnits.Count == 0 || mainWindowViewModel.Frames is null) return;
 
-        mainWindowViewModel.Series.Clear();
-        CostCalculator.CalculateSeason(mainWindowViewModel.SelectedProductionUnits, mainWindowViewModel.Frames,
-        mainWindowViewModel.SelectedIndex, ref mainWindowViewModel.ResultDictionary);
+    //     mainWindowViewModel.Series.Clear();
+    //     CostCalculator.CalculateSeason(mainWindowViewModel.SelectedProductionUnits, mainWindowViewModel.Frames,
+    //     mainWindowViewModel.SelectedIndex, ref mainWindowViewModel.ResultDictionary);
 
-        // Displays timeframes on x axis
-        mainWindowViewModel.XAxes[0].Labels = [.. mainWindowViewModel.Frames.Select(TF => TF.TimeFrom.ToString("dd/MM H:mm"))];
-        mainWindowViewModel.XAxes[0].LabelsRotation = 90;
-        mainWindowViewModel.XAxes[0].LabelsDensity=0;
-        mainWindowViewModel.XAxes[0].TextSize=10;
-        mainWindowViewModel.XAxes[0].MinStep=1;
+    //     // Displays timeframes on x axis
+    //     mainWindowViewModel.XAxes[0].Labels = [.. mainWindowViewModel.Frames.Select(TF => TF.TimeFrom.ToString("dd/MM H:mm"))];
+    //     mainWindowViewModel.XAxes[0].LabelsRotation = 90;
+    //     mainWindowViewModel.XAxes[0].LabelsDensity=0;
+    //     mainWindowViewModel.XAxes[0].TextSize=10;
+    //     mainWindowViewModel.XAxes[0].MinStep=1;
 
-        mainWindowViewModel.Series.Add(
-           new LineSeries<double>{Name="Winter Heat Demand" ,Values=new ObservableCollection<double>(mainWindowViewModel.Frames.Select(s=> s.HeatDemand)), Fill=null, }
-        );
-        foreach (var PU in mainWindowViewModel.ResultDictionary)
-        {
-            mainWindowViewModel.Series.Add(new StackedAreaSeries<double>{Name=PU.Key, Values=PU.Value.HeatProduced});
-        }
+    //     mainWindowViewModel.Series.Add(
+    //        new LineSeries<double>{Name="Winter Heat Demand" ,Values=new ObservableCollection<double>(mainWindowViewModel.Frames.Select(s=> s.HeatDemand)), Fill=null, }
+    //     );
+    //     foreach (var PU in mainWindowViewModel.ResultDictionary)
+    //     {
+    //         mainWindowViewModel.Series.Add(new StackedAreaSeries<double>{Name=PU.Key, Values=PU.Value.HeatProduced, Fill= new SolidColorPaint{Color = mainWindowViewModel.colorDict[PU.Key]}, });
+    //     }
 
-        mainWindowViewModel.XAxes[0].MinLimit = 0;
-        mainWindowViewModel.YAxes[0].MinLimit = 0;
-    }
+    //     mainWindowViewModel.XAxes[0].MinLimit = 0;
+    //     mainWindowViewModel.YAxes[0].MinLimit = 0;
+    // }
 }
