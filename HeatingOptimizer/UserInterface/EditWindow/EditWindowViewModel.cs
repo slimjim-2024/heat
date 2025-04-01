@@ -4,6 +4,8 @@ using System;
 using HeatingOptimizer.SourceDataManager;
 using System.Collections.Generic;
 using HeatingOptimizer.ViewModels;
+using Avalonia.Data.Converters;
+using System.Globalization;
 
 namespace HeatingOptimizer.UI
 {
@@ -11,6 +13,7 @@ namespace HeatingOptimizer.UI
     {
         [ObservableProperty]
         private ObservableCollection<ProductionUnit> _machines;
+
         public EditWindowViewModel()
         {
         }
@@ -18,6 +21,8 @@ namespace HeatingOptimizer.UI
         {
             _machines = new ObservableCollection<ProductionUnit>(mainWindowViewModel.AllProductionUnits); // Initialize the collection with the provided production units
         }
+        
+        
             
     }
 }

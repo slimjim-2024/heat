@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:HeatingOptimizer.UI"
+    xmlns:cnv="clr-namespace:HeatingOptimizer.Converters"
     xmlns:vms="clr-namespace:HeatingOptimizer.UI"
     Title="Edit File"
     x:DataType="vms:EditWindowViewModel">
@@ -10,6 +11,7 @@
     <Window.DataContext>
         <vms:EditWindowViewModel />
     </Window.DataContext>
+
 
     <StackPanel VerticalAlignment="Center">
         <TextBlock Margin="10" HorizontalAlignment="Center">
@@ -43,6 +45,9 @@
         </ListBox> -->
         <DataGrid ItemsSource="{Binding Machines}" AutoGenerateColumns="True"
         GridLinesVisibility="All" Margin="10" HorizontalAlignment="Center" IsReadOnly="True">
+            <DataGrid.Resources>
+        <cnv:StringFormatConverter x:Key="ImageGetter" />
+    </DataGrid.Resources>
             <!-- <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
                 <DataGridTextColumn Header="Max Heat Output" Binding="{Binding MaxHeatOutput}" Width="*" />
@@ -51,6 +56,15 @@
                 <DataGridTextColumn Header="CO2 Emissions" Binding="{Binding CO2Emissions}" Width="*" />
                 <DataGridTextColumn Header="Consumption" Binding="{Binding Consumption}" Width="*" />
             </DataGrid.Columns> -->
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Image">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Name, Converter={StaticResource ImageGetter}, ConverterParameter='avares://HeatingOptimizer/Assets/Images/{0}.jpg'}" Height="90"/>
+                        </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+            </DataGrid.Columns>
 
         </DataGrid>
     </StackPanel>

@@ -7,9 +7,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using HeatingOptimizer.SourceDataManager;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using LiveChartsCore.Defaults;
-using CommunityToolkit.Mvvm.Input;
-using HeatingOptimizer.UI;
 
 namespace HeatingOptimizer.ViewModels
 {
