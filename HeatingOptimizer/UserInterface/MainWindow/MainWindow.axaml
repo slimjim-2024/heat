@@ -52,11 +52,11 @@
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <ComboBox SelectedIndex="{Binding SelectedIndex}" Margin="10">
                             <ComboBoxItem>Cheapest</ComboBoxItem>
-                            <ComboBoxItem>Less CO2 Emissions</ComboBoxItem>
-                            <ComboBoxItem>Less Fuel Consumption</ComboBoxItem>
+                            <ComboBoxItem>Most Eco Friendly(CO2)</ComboBoxItem>
+                            <ComboBoxItem>Most Efficiency(Least Consumption)</ComboBoxItem>
                         </ComboBox>
 
-                        <ListBox ItemsSource="{Binding SeasonSelection}" SelectedItem="{Binding SelectedSeason}">
+                        <ListBox ItemsSource="{Binding SeasonSelection}" SelectedItem="{Binding SelectedSeason}" >
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Horizontal"/>

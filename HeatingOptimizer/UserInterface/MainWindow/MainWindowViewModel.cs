@@ -22,10 +22,10 @@ namespace HeatingOptimizer.ViewModels
         private Random rand = new Random();
         protected internal Dictionary<string, SKColor> colorDict=new()
         {
-            {"GB1", SKColors.Red},
-            {"GB2", SKColors.Blue},
-            {"OB1", SKColors.Green},
-            {"GM1", SKColors.Yellow},
+            {"GB1", SKColors.LimeGreen},
+            {"GB2", SKColors.Yellow},
+            {"OB1", SKColors.Crimson},
+            {"GM1", SKColors.Cyan},
             {"HP1", SKColors.Orange}
         };
 
@@ -36,7 +36,7 @@ namespace HeatingOptimizer.ViewModels
         private string _inputText= string.Empty;
 
         [ObservableProperty]
-        private string _selectedSeason = string.Empty;
+        private string _selectedSeason = "Winter";
 
         [ObservableProperty]
         private ObservableCollection<ISeries> _series = [];
