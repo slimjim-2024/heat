@@ -7,7 +7,7 @@ using HeatingOptimizer.ViewModels;
 using Avalonia.Data.Converters;
 using System.Globalization;
 
-namespace HeatingOptimizer.UI
+namespace HeatingOptimizer.ViewModels
 {
     public partial class EditWindowViewModel : ObservableObject
     {

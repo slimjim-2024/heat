@@ -3,8 +3,8 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:HeatingOptimizer.UI"
-    xmlns:cnv="clr-namespace:HeatingOptimizer.Converters"
-    xmlns:vms="clr-namespace:HeatingOptimizer.UI"
+    xmlns:cnv="clr-namespace:HeatingOptimizer.Converters;assembly=HeatingOptimizer"
+    xmlns:vms="clr-namespace:HeatingOptimizer.ViewModels;assembly=HeatingOptimizer"
     Title="Edit File"
     x:DataType="vms:EditWindowViewModel">
 
@@ -44,18 +44,12 @@
             </ListBox.ItemTemplate>
         </ListBox> -->
         <DataGrid ItemsSource="{Binding Machines}" AutoGenerateColumns="True"
-        GridLinesVisibility="All" Margin="10" HorizontalAlignment="Center" IsReadOnly="True">
+        GridLinesVisibility="All" Margin="10" HorizontalAlignment="Center" IsReadOnly="False"
+        VerticalScrollBarVisibility="Visible">
             <DataGrid.Resources>
         <cnv:StringFormatConverter x:Key="ImageGetter" />
     </DataGrid.Resources>
-            <!-- <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
-                <DataGridTextColumn Header="Max Heat Output" Binding="{Binding MaxHeatOutput}" Width="*" />
-                <DataGridTextColumn Header="Max Electricity" Binding="{Binding MaxElectricity}" Width="*" />
-                <DataGridTextColumn Header="Production Costs" Binding="{Binding ProductionCosts}" Width="*" />
-                <DataGridTextColumn Header="CO2 Emissions" Binding="{Binding CO2Emissions}" Width="*" />
-                <DataGridTextColumn Header="Consumption" Binding="{Binding Consumption}" Width="*" />
-            </DataGrid.Columns> -->
+
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Image">
                     <DataGridTemplateColumn.CellTemplate>

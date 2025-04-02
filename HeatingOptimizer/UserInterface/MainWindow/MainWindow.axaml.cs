@@ -23,6 +23,10 @@ public partial class MainWindow : Window
         InitializeComponent();
         DataContext = mainWindowViewModel; // Set the DataContext here
     }
+    public MainWindow(List<ProductionUnit> units): this()
+    {
+        mainWindowViewModel.AllProductionUnits=units;
+    }
     public async void BrowseFile(object sender, RoutedEventArgs e)
     {
         IReadOnlyList<IStorageFile> result = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
@@ -47,7 +51,7 @@ public partial class MainWindow : Window
             // Set the title of the window to the name of the file, removes extensions from name
             // Load the file and replacing "%20" with spaces, determines whether the file is in binary depending on the extension
             mainWindowViewModel.InputText = LocalPath.Replace("%20", " ");
-            DataParser.ParseHeatingData(mainWindowViewModel.InputText, out mainWindowViewModel.Frames);
+            DataParser.ParseHeatingDataCSV(mainWindowViewModel.InputText, out mainWindowViewModel.Frames);
 
         }
     }

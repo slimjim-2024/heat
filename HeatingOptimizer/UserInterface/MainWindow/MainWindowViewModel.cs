@@ -45,7 +45,7 @@ namespace HeatingOptimizer.ViewModels
         }];
         protected internal List<TimeFrame> Frames;
 
-        public List<ProductionUnit> AllProductionUnits { get; set; } = DataParser.ParseMachineData();
+        public List<ProductionUnit> AllProductionUnits { get; set; } =DataParser.ParseMachineDataCSV();
         public List<ProductionUnit> SelectedProductionUnits { get; set; } = [];
 
         // checking which of the options is selected by their index
