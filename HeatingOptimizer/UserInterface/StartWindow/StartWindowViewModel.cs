@@ -7,7 +7,7 @@ namespace HeatingOptimizer.ViewModels;
 public partial class StartWindowViewModel : ObservableObject
 {
     [ObservableProperty]
-    private string _pathToMachines;
+    private string _pathToMachines = "No file selected";
 
     protected internal List<ProductionUnit> productionUnits;
 

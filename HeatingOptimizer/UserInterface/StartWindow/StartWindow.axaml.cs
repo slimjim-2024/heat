@@ -42,14 +42,14 @@ public partial class StartWindow : Window
         {
             // Get the path of the selected file
             var LocalPath = result[0].Path.AbsolutePath;
-            startWindowViewModel.PathToMachines = LocalPath;
+            startWindowViewModel.PathToMachines = LocalPath.Replace("%20", " ");
             if(LocalPath.Contains(".json"))
             {
-                startWindowViewModel.productionUnits= DataParser.ParseMachineDataJson(LocalPath);
+                startWindowViewModel.productionUnits= DataParser.ParseMachineDataJson(startWindowViewModel.PathToMachines);
             }
             else if(LocalPath.Contains(".csv"))
             {
-                startWindowViewModel.productionUnits = DataParser.ParseMachineDataCSV(LocalPath);
+                startWindowViewModel.productionUnits = DataParser.ParseMachineDataCSV(startWindowViewModel.PathToMachines);
             }
             else
             {
@@ -61,6 +61,13 @@ public partial class StartWindow : Window
     }
     private void ConfirmClick(object sender, RoutedEventArgs e)
     {
+        if(startWindowViewModel.PathToMachines == "No file selected"    || 
+        startWindowViewModel.PathToMachines == "Please select a file first"|| 
+        startWindowViewModel.PathToMachines == "The file is not a csv or json file")
+        {
+            startWindowViewModel.PathToMachines = "Please select a file first";
+            return;
+        }
         MainWindow mainWindow = new(startWindowViewModel.productionUnits);
         mainWindow.Show();
         Close();

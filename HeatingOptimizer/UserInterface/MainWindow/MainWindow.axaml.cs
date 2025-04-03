@@ -25,13 +25,13 @@ public partial class MainWindow : Window
     }
     public MainWindow(List<ProductionUnit> units): this()
     {
-        mainWindowViewModel.AllProductionUnits=units;
+        mainWindowViewModel.AllProductionUnits=new ObservableCollection<ProductionUnit>(units);
     }
     public async void BrowseFile(object sender, RoutedEventArgs e)
     {
         IReadOnlyList<IStorageFile> result = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
-            Title = "Open a csv file with the timeFrames",
+            Title = "Open a csv file with the timeframes",
             // File type picker
             FileTypeFilter = new List<FilePickerFileType>
             {
