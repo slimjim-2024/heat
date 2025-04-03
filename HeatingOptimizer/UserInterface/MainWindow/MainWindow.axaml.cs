@@ -18,11 +18,15 @@ public partial class MainWindow : Window
         InitializeComponent();
         DataContext = mainWindowViewModel; // Set the DataContext here
     }
-    public async void BrowseFile( object sender, RoutedEventArgs e )
+    public MainWindow(List<ProductionUnit> units): this()
+    {
+        mainWindowViewModel.AllProductionUnits=new ObservableCollection<ProductionUnit>(units);
+    }
+    public async void BrowseFile(object sender, RoutedEventArgs e)
     {
         IReadOnlyList<IStorageFile> result = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
-            Title = "Open a csv file with the timeFrames",
+            Title = "Open a csv file with the timeframes",
             // File type picker
             FileTypeFilter = new List<FilePickerFileType>
             {
@@ -35,14 +39,14 @@ public partial class MainWindow : Window
             AllowMultiple = false // Allow only one file to be selected
         });
 
-        if (result != null && result.Count > 0) 
+        if (result != null && result.Count > 0)
         {
             // Get the path of the selected file
             var LocalPath = result[0].Path.AbsolutePath;
             // Set the title of the window to the name of the file, removes extensions from name
             // Load the file and replacing "%20" with spaces, determines whether the file is in binary depending on the extension
             mainWindowViewModel.InputText=LocalPath.Replace("%20", " ");
-            DataParser.ParseHeatingData(mainWindowViewModel.InputText, out mainWindowViewModel.Frames);
+            DataParser.ParseHeatingDataCSV(mainWindowViewModel.InputText, out mainWindowViewModel.Frames);
         }
     }
 
@@ -50,31 +54,44 @@ public partial class MainWindow : Window
     {
     }
 
-    // private void GenerateButton_Click(object sender, RoutedEventArgs e)
-    // {
-    //     // Returns if no machine or heating data
-    //     if (mainWindowViewModel.SelectedProductionUnits.Count == 0 || mainWindowViewModel.Frames is null) return;
 
-    //     mainWindowViewModel.Series.Clear();
-    //     CostCalculator.CalculateSeason(mainWindowViewModel.SelectedProductionUnits, mainWindowViewModel.Frames,
-    //     mainWindowViewModel.SelectedIndex, ref mainWindowViewModel.ResultDictionary);
+    private void GenerateButton_Click(object sender, RoutedEventArgs e)
+    {
+        mainWindowViewModel.Series.Clear();
+        CostCalculator.CalculateSeason(mainWindowViewModel.SelectedProductionUnits, mainWindowViewModel.Frames,
+        mainWindowViewModel.SelectedIndex, ref mainWindowViewModel.ResultDictionary);
+        mainWindowViewModel.XAxes[0].Labels = [.. mainWindowViewModel.Frames.Select(TF => TF.TimeFrom.ToString("dd/MM H:mm"))];
+        mainWindowViewModel.XAxes[0].LabelsRotation = 90;
+        mainWindowViewModel.XAxes[0].LabelsDensity = 0;
+        mainWindowViewModel.XAxes[0].TextSize = 10;
+        mainWindowViewModel.XAxes[0].MinStep = 1;
+   
+   
+   mainWindowViewModel.Series.Add(
+           new LineSeries<double> { Name = "Winter Heat Demand", Values = new ObservableCollection<double>(mainWindowViewModel.Frames.Select(s => s.HeatDemand)), Fill = null, }
+        );
+        foreach (var PU in mainWindowViewModel.ResultDictionary)
+        {
+            mainWindowViewModel.Series.Add(new StackedAreaSeries<double> { Name = PU.Key, Values = PU.Value.HeatProduced });
+        }
 
-    //     // Displays timeframes on x axis
-    //     mainWindowViewModel.XAxes[0].Labels = [.. mainWindowViewModel.Frames.Select(TF => TF.TimeFrom.ToString("dd/MM H:mm"))];
-    //     mainWindowViewModel.XAxes[0].LabelsRotation = 90;
-    //     mainWindowViewModel.XAxes[0].LabelsDensity=0;
-    //     mainWindowViewModel.XAxes[0].TextSize=10;
-    //     mainWindowViewModel.XAxes[0].MinStep=1;
+        mainWindowViewModel.XAxes[0].MinLimit = 0;
+        mainWindowViewModel.YAxes[0].MinLimit = 0;
+    }
+    private void EditFile(object sender, RoutedEventArgs e)
+    {
+        // Create an instance of EditWindow
+        var editWindow = new EditWindow(ref mainWindowViewModel);
 
-    //     mainWindowViewModel.Series.Add(
-    //        new LineSeries<double>{Name="Winter Heat Demand" ,Values=new ObservableCollection<double>(mainWindowViewModel.Frames.Select(s=> s.HeatDemand)), Fill=null, }
-    //     );
-    //     foreach (var PU in mainWindowViewModel.ResultDictionary)
-    //     {
-    //         mainWindowViewModel.Series.Add(new StackedAreaSeries<double>{Name=PU.Key, Values=PU.Value.HeatProduced, Fill= new SolidColorPaint{Color = mainWindowViewModel.colorDict[PU.Key]}, });
-    //     }
+        // Show the EditWindow
+        editWindow.Show();
+    }
+    private void AddData(object sender, RoutedEventArgs e)
+    {
+        // Create an instance of AddWindow
+        var addWindow = new AddDataWindow();
 
-    //     mainWindowViewModel.XAxes[0].MinLimit = 0;
-    //     mainWindowViewModel.YAxes[0].MinLimit = 0;
-    // }
+        // Show the AddWindow
+        addWindow.Show();
+    }
 }

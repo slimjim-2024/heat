@@ -1,0 +1,19 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="HeatingOptimizer.UI.AddDataWindow"
+        xmlns:local="clr-namespace:HeatingOptimizer.UI"
+        xmlns:vms="clr-namespace:HeatingOptimizer.UI"
+        x:DataType="vms:AddDataViewModel"
+        Title="Add a machine">
+    <Window.DataContext>
+        <vms:AddDataViewModel/>
+    </Window.DataContext>
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock Margin="10" HorizontalAlignment="Center">
+            <Run FontSize="25" FontWeight="Light" Foreground="White" Text="Add a machine" />
+        </TextBlock>
+        <!-- grid for the fields -->
+        <Grid Name="MainGrid"></Grid>
+        <Button HorizontalAlignment="Center" Margin="20">Add</Button>
+    </StackPanel>
+</Window>

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using CsvHelper;
 
 namespace HeatingOptimizer.SourceDataManager;
@@ -18,8 +20,12 @@ public class DataParser
     //     ParseHeatingData();
     // }
 
-    public static List<ProductionUnit> ParseMachineData(string path = "machines.csv")
+    public static List<ProductionUnit> ParseMachineDataCSV(string path = "machines.csv")
     {
+        var config = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            HeaderValidated = null, // Ignore header validation
+        };
         // Our class property names match our CSV file header names, we can read the file without any configuration.
         using (var reader = new StreamReader(path))
         using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
@@ -27,8 +33,10 @@ public class DataParser
             return csv.GetRecords<ProductionUnit>().ToList();
         }
     }
+    public static List<ProductionUnit> ParseMachineDataJson(string path = "machines.json")
+    => JsonSerializer.Deserialize<List<ProductionUnit>>(File.ReadAllText(path)) ?? new List<ProductionUnit>();
 
-    public static void ParseHeatingData(string path, out Dictionary<string, List<TimeFrame>> TimeFrames) // function for getting data from csv file
+    public static void ParseHeatingDataCSV(string path, out List<TimeFrame> WinterTimeFrame) // function for getting data from csv file
     {
         string? line = null;
         TimeFrames = new (); // list of timeframes
