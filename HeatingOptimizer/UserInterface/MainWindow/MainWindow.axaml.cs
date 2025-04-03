@@ -5,12 +5,7 @@ using System;
 using HeatingOptimizer.ViewModels;
 using Avalonia.Interactivity;
 using HeatingOptimizer.SourceDataManager;
-using LiveChartsCore.SkiaSharpView;
-using System.Linq;
-using System.Collections.ObjectModel;
-using LiveChartsCore.Defaults;
-using HeatingOptimizer.Optimizer;
-using LiveChartsCore;
+
 
 
 namespace HeatingOptimizer.UI;
@@ -50,15 +45,15 @@ public partial class MainWindow : Window
             var LocalPath = result[0].Path.AbsolutePath;
             // Set the title of the window to the name of the file, removes extensions from name
             // Load the file and replacing "%20" with spaces, determines whether the file is in binary depending on the extension
-            mainWindowViewModel.InputText = LocalPath.Replace("%20", " ");
+            mainWindowViewModel.InputText=LocalPath.Replace("%20", " ");
             DataParser.ParseHeatingDataCSV(mainWindowViewModel.InputText, out mainWindowViewModel.Frames);
-
         }
     }
 
     private void LoadButton_Click(object sender, RoutedEventArgs e)
     {
     }
+
 
     private void GenerateButton_Click(object sender, RoutedEventArgs e)
     {
@@ -70,14 +65,9 @@ public partial class MainWindow : Window
         mainWindowViewModel.XAxes[0].LabelsDensity = 0;
         mainWindowViewModel.XAxes[0].TextSize = 10;
         mainWindowViewModel.XAxes[0].MinStep = 1;
-        // ObservableCollection<ISeries> TempSeries=new ();
-        // TempSeries = mainWindowViewModel.ResultDictionary.Select(PU =>
-        // new StackedAreaSeries<double>{Name=PU.Key, Values=PU.Value.HeatProduced});
-
-        // mainWindowViewModel.ResultDictionary.Select(PU =>
-        // mainWindowViewModel.Series.Append(new StackedAreaSeries<double>{Name=PU.Key, Values=PU.Value.HeatProduced}));
-
-        mainWindowViewModel.Series.Add(
+   
+   
+   mainWindowViewModel.Series.Add(
            new LineSeries<double> { Name = "Winter Heat Demand", Values = new ObservableCollection<double>(mainWindowViewModel.Frames.Select(s => s.HeatDemand)), Fill = null, }
         );
         foreach (var PU in mainWindowViewModel.ResultDictionary)

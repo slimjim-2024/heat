@@ -11,7 +11,7 @@ namespace HeatingOptimizer.SourceDataManager;
 
 public class DataParser
 {
-    // protected internal static List<TimeFrame> WinterTimeFrame = []; // list of timeframes
+    protected internal static List<TimeFrame> WinterTimeFrame = []; // list of timeframes
     protected internal static List<TimeFrame> SummerTimeFrame = []; // list of timeframes
 
     // public CsvParsedData()
@@ -39,7 +39,7 @@ public class DataParser
     public static void ParseHeatingDataCSV(string path, out List<TimeFrame> WinterTimeFrame) // function for getting data from csv file
     {
         string? line = null;
-        WinterTimeFrame = new List<TimeFrame>(); // list of timeframes
+        TimeFrames = new (); // list of timeframes
         // if (File.Exists(path))return;
         try
         {
@@ -75,6 +75,9 @@ public class DataParser
                     // WinterTimeFrame.Add(new Timeframe(DateTime.Parse(winter[0]), DateTime.Parse(winter[1]), Convert.ToDouble(winter[2], CultureInfo.InvariantCulture), Convert.ToDecimal(winter[3], CultureInfo.InvariantCulture))); // adds the data to the list
                     // SummerTimeFrame.Add(new Timeframe(DateTime.Parse(summer[0]), DateTime.Parse(summer[1]), Convert.ToDouble(summer[2], CultureInfo.InvariantCulture), Convert.ToDecimal(summer[3], CultureInfo.InvariantCulture))); // adds the data to the list
                 }
+                
+                    TimeFrames.Add("Winter", WinterTimeFrame); // adds the data to the list
+                    TimeFrames.Add("Summer", SummerTimeFrame); // adds the data to the list
             }
         }
         catch (Exception e) // if exception appears, then return a message that file could not be read. 
