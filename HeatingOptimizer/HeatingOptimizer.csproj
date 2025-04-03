@@ -23,6 +23,6 @@
     <PackageReference Include="CsvHelper" Version="33.0.1"/>
   </ItemGroup>
   <ItemGroup>
-  <AvaloniaResource Include="Assets\**"/>
-</ItemGroup>
+    <AvaloniaResource Include="Assets\**"/>
+  </ItemGroup>
 </Project>

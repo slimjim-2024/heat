@@ -36,10 +36,10 @@ public class DataParser
     public static List<ProductionUnit> ParseMachineDataJson(string path = "machines.json")
     => JsonSerializer.Deserialize<List<ProductionUnit>>(File.ReadAllText(path)) ?? new List<ProductionUnit>();
 
-    public static void ParseHeatingDataCSV(string path, out List<TimeFrame> WinterTimeFrame) // function for getting data from csv file
+    public static void ParseHeatingDataCSV(string path, ref Dictionary<string,List<TimeFrame>> TimeFrames) // function for getting data from csv file
     {
         string? line = null;
-        TimeFrames = new (); // list of timeframes
+        TimeFrames = new Dictionary<string, List<TimeFrame>>(); // list of timeframes
         // if (File.Exists(path))return;
         try
         {
