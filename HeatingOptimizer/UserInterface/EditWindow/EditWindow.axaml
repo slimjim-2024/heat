@@ -13,7 +13,7 @@
     </Window.DataContext>
 
 
-    <StackPanel VerticalAlignment="Center">
+    <StackPanel Margin="20">
         <TextBlock Margin="10" HorizontalAlignment="Center">
             <Run
                 FontSize="25"
@@ -44,12 +44,10 @@
             </ListBox.ItemTemplate>
         </ListBox> -->
         <DataGrid ItemsSource="{Binding Machines}" AutoGenerateColumns="True"
-        GridLinesVisibility="All" Margin="10" HorizontalAlignment="Center" IsReadOnly="False"
-        VerticalScrollBarVisibility="Visible">
+        GridLinesVisibility="All" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsReadOnly="False">
             <DataGrid.Resources>
         <cnv:StringFormatConverter x:Key="ImageGetter" />
     </DataGrid.Resources>
-
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Image">
                     <DataGridTemplateColumn.CellTemplate>

@@ -6,20 +6,24 @@ using System.Collections.Generic;
 using HeatingOptimizer.ViewModels;
 using Avalonia.Data.Converters;
 using System.Globalization;
+using System.Linq;
 
 namespace HeatingOptimizer.ViewModels
 {
     public partial class EditWindowViewModel : ObservableObject
     {
         [ObservableProperty]
-        private ObservableCollection<ProductionUnit> _machines;
+        private ObservableCollection<ProductionUnit> _machines=[];
 
         public EditWindowViewModel()
         {
         }
         public EditWindowViewModel(ref MainWindowViewModel mainWindowViewModel)
         {
+            
             _machines = new ObservableCollection<ProductionUnit>(mainWindowViewModel.AllProductionUnits); // Initialize the collection with the provided production units
+            
+             // Initialize the collection with the provided production units
         }
         
         

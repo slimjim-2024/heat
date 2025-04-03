@@ -43,11 +43,11 @@ public partial class StartWindow : Window
             // Get the path of the selected file
             var LocalPath = result[0].Path.AbsolutePath;
             startWindowViewModel.PathToMachines = LocalPath.Replace("%20", " ");
-            if(LocalPath.Contains(".json"))
+            if(LocalPath.EndsWith(".json"))
             {
                 startWindowViewModel.productionUnits= DataParser.ParseMachineDataJson(startWindowViewModel.PathToMachines);
             }
-            else if(LocalPath.Contains(".csv"))
+            else if(LocalPath.EndsWith(".csv"))
             {
                 startWindowViewModel.productionUnits = DataParser.ParseMachineDataCSV(startWindowViewModel.PathToMachines);
             }

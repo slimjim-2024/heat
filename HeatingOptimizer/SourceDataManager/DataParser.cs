@@ -22,10 +22,6 @@ public class DataParser
 
     public static List<ProductionUnit> ParseMachineDataCSV(string path = "machines.csv")
     {
-        var config = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            HeaderValidated = null, // Ignore header validation
-        };
         // Our class property names match our CSV file header names, we can read the file without any configuration.
         using (var reader = new StreamReader(path))
         using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
@@ -33,13 +29,13 @@ public class DataParser
             return csv.GetRecords<ProductionUnit>().ToList();
         }
     }
-    public static List<ProductionUnit> ParseMachineDataJson(string path = "machines.json")
+    public static List<ProductionUnit> ParseMachineDataJson(string path = "machines.json") 
     => JsonSerializer.Deserialize<List<ProductionUnit>>(File.ReadAllText(path)) ?? new List<ProductionUnit>();
 
-    public static void ParseHeatingDataCSV(string path, out List<TimeFrame> WinterTimeFrame) // function for getting data from csv file
+    public static void ParseHeatingDataCSV(string path, ref Dictionary<string, List<TimeFrame>> timeFrames) // function for getting data from csv file
     {
         string? line = null;
-        TimeFrames = new (); // list of timeframes
+        timeFrames = new (); // list of timeframes
         // if (File.Exists(path))return;
         try
         {
@@ -76,8 +72,8 @@ public class DataParser
                     // SummerTimeFrame.Add(new Timeframe(DateTime.Parse(summer[0]), DateTime.Parse(summer[1]), Convert.ToDouble(summer[2], CultureInfo.InvariantCulture), Convert.ToDecimal(summer[3], CultureInfo.InvariantCulture))); // adds the data to the list
                 }
                 
-                    TimeFrames.Add("Winter", WinterTimeFrame); // adds the data to the list
-                    TimeFrames.Add("Summer", SummerTimeFrame); // adds the data to the list
+                    timeFrames.Add("Winter", WinterTimeFrame); // adds the data to the list
+                    timeFrames.Add("Summer", SummerTimeFrame); // adds the data to the list
             }
         }
         catch (Exception e) // if exception appears, then return a message that file could not be read. 

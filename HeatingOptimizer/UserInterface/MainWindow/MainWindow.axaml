@@ -17,12 +17,16 @@
     </Window.DataContext>
 
         <DockPanel>
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                <Button Classes="optionBar" Click="BrowseFile" HotKey="Ctrl+o">Browse file</Button>
-                <Button Classes="optionBar" Click="LoadButton_Click">Load</Button>
-                <Button Classes="optionBar">Save</Button>
-                <Button Classes="optionBar">Edit</Button>
-            </StackPanel>
+            <Menu HorizontalAlignment="Stretch" DockPanel.Dock="Top">
+                <!-- <StackPanel Orientation="Horizontal" DockPanel.Dock="Top"> -->
+                <MenuItem Header="File" Classes="optionBar" HorizontalAlignment="Stretch">
+                <MenuItem Header="Open Timeframe Data" Click="BrowseFile" HotKey="Ctrl+o"/>
+                <MenuItem Header="Load Data" Click="LoadButton_Click"/>
+                <MenuItem Header="Save"/>
+                </MenuItem>
+                <MenuItem Classes="optionBar" Header="Edit Machine info" Click="EditFile"/>
+
+            </Menu>
         <ScrollViewer HorizontalAlignment="Stretch" DockPanel.Dock="Top">
         <!-- Adding a heading (label) to a project -->
         <StackPanel Margin="20" ScrollViewer.AllowAutoHide="True" ScrollViewer.VerticalScrollBarVisibility="Visible" >
