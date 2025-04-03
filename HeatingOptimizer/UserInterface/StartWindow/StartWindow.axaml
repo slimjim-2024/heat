@@ -1,0 +1,23 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:vms="clr-namespace:HeatingOptimizer.ViewModels;assembly=HeatingOptimizer"
+        x:Class="HeatingOptimizer.UI.StartWindow"
+        Title="StartWindow"
+        x:DataType="vms:StartWindowViewModel">
+        <Window.DataContext>
+          <vms:StartWindowViewModel />
+          </Window.DataContext>
+        <StackPanel>
+            <TextBlock FontWeight="Bold" Foreground="AliceBlue" HorizontalAlignment="Center" FontSize="40"> Welcome to Heating Optimizer!</TextBlock>
+            <TextBlock HorizontalAlignment="Center" FontSize="20" Text="{Binding PathToMachines}"></TextBlock>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+              <Button Content="Load Machines" Click="LoadMachines" Margin="10"/>
+              <Button Content="Confirm" Click="ConfirmClick" Margin="10"/>
+            </StackPanel>
+            <Image Margin="0 20 0 0" Source="/Assets/Images/StartImage.png" Width="500" HorizontalAlignment="Center"/>
+
+          </StackPanel>
+</Window>

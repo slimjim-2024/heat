@@ -1,0 +1,65 @@
+<Window
+    x:Class="HeatingOptimizer.UI.EditWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:HeatingOptimizer.UI"
+    xmlns:cnv="clr-namespace:HeatingOptimizer.Converters;assembly=HeatingOptimizer"
+    xmlns:vms="clr-namespace:HeatingOptimizer.ViewModels;assembly=HeatingOptimizer"
+    Title="Edit File"
+    x:DataType="vms:EditWindowViewModel">
+
+    <Window.DataContext>
+        <vms:EditWindowViewModel />
+    </Window.DataContext>
+
+
+    <StackPanel VerticalAlignment="Center">
+        <TextBlock Margin="10" HorizontalAlignment="Center">
+            <Run
+                FontSize="25"
+                FontWeight="Light"
+                Foreground="White"
+                Text="Edit a machine" />
+        </TextBlock>
+        <!-- <StackPanel Orientation="Horizontal" Margin="5">
+                        <TextBlock Text="Name" Width="100"/>
+                        <TextBlock Text="Max Heat Output" Width="100"/>
+                        <TextBlock Text="Max Electricity" Width="100"/>
+                        <TextBlock Text="Production Costs" Width="100"/>
+                        <TextBlock Text="CO2 Emissions" Width="100"/>
+                        <TextBlock Text="Consumption" Width="100"/>
+                    </StackPanel> -->
+         <!-- <ListBox x:Name="MachinesList" ItemsSource="{Binding Machines}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <TextBlock Text="{Binding Name}" Width="100"/>
+                        <TextBlock Text="{Binding MaxHeatOutput}" Width="100"/>
+                        <TextBlock Text="{Binding MaxElectricity}" Width="100"/>
+                        <TextBlock Text="{Binding ProductionCosts}" Width="100"/>
+                        <TextBlock Text="{Binding CO2Emissions}" Width="100"/>
+                        <TextBlock Text="{Binding Consumption}" Width="100"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox> -->
+        <DataGrid ItemsSource="{Binding Machines}" AutoGenerateColumns="True"
+        GridLinesVisibility="All" Margin="10" HorizontalAlignment="Center" IsReadOnly="False"
+        VerticalScrollBarVisibility="Visible">
+            <DataGrid.Resources>
+        <cnv:StringFormatConverter x:Key="ImageGetter" />
+    </DataGrid.Resources>
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Image">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Name, Converter={StaticResource ImageGetter}, ConverterParameter='avares://HeatingOptimizer/Assets/Images/{0}.jpg'}" Height="90"/>
+                        </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+            </DataGrid.Columns>
+
+        </DataGrid>
+    </StackPanel>
+</Window>

@@ -11,24 +11,11 @@ namespace HeatingOptimizer.SourceDataManager;
 
 public class MachineParser
 {
-    public string path = "machines.csv"; // path to the csv file
-    
-    protected internal static List<ProductionUnit> Machines = new List<ProductionUnit>(); // list of machines
-    List<ProductionUnit> MachineData = DataParser.ParseMachineData(); // get the data from the csv file
+    public static List<ProductionUnit> Machines = new List<ProductionUnit>(); // list of machines
 
     public MachineParser(string path)
     {
-        Machines = DataParser.ParseMachineData(path); // get the data from the csv file
-    }
-
-    public static List<ProductionUnit> GetMachines()
-    {
-        return Machines; // return the list of machines
-    }
-
-    public static void SetMachines(List<ProductionUnit> machines)
-    {
-        Machines = machines; // set the list of machines
+        Machines = DataParser.ParseMachineDataCSV(path); // get the data from the csv file
     }
 
     public void ParseMachineData(string path, out List<ProductionUnit> machines) // function for getting data from csv file
