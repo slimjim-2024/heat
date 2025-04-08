@@ -12,7 +12,7 @@
         <vms:EditWindowViewModel />
     </Window.DataContext>
 
-
+<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="0" Padding="0" Background="#FF1F1F1F">
     <StackPanel Margin="20">
         <TextBlock Margin="10" HorizontalAlignment="Center">
             <Run
@@ -44,20 +44,22 @@
             </ListBox.ItemTemplate>
         </ListBox> -->
         <DataGrid ItemsSource="{Binding Machines}" AutoGenerateColumns="True"
-        GridLinesVisibility="All" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsReadOnly="False">
+        GridLinesVisibility="All" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="False">
             <DataGrid.Resources>
         <cnv:StringFormatConverter x:Key="ImageGetter" />
     </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Image">
+                <DataGridTemplateColumn Header="Image" MaxWidth="200" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding Name, Converter={StaticResource ImageGetter}, ConverterParameter='avares://HeatingOptimizer/Assets/Images/{0}.jpg'}" Height="90"/>
+                            <Border Height="150" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                <Image Source="{Binding Name, Converter={StaticResource ImageGetter}, ConverterParameter='avares://HeatingOptimizer/Assets/Images/{0}.jpg'}" Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                            </Border>
                         </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
             </DataGrid.Columns>
-
         </DataGrid>
     </StackPanel>
+    </ScrollViewer>
 </Window>
