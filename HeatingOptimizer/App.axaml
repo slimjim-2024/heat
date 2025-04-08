@@ -6,6 +6,7 @@
 
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/> 
         <Styles>
             <Style Selector="Menu" >
                 <Setter Property="Background" Value="#FF1F1F1F"/>
