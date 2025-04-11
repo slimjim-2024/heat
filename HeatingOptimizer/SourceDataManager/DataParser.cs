@@ -22,11 +22,20 @@ public class DataParser
 
     public static List<ProductionUnit> ParseMachineDataCSV(string path = "machines.csv")
     {
-        // Our class property names match our CSV file header names, we can read the file without any configuration.
         using (var reader = new StreamReader(path))
         using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
         {
-            return csv.GetRecords<ProductionUnit>().ToList();
+        try
+        {
+            return [.. csv.GetRecords<ProductionUnit>()];
+        }
+        catch (Exception)
+        {
+            return [];
+        }
+
+        // Our class property names match our CSV file header names, we can read the file without any configuration.
+            
         }
     }
     public static List<ProductionUnit> ParseMachineDataJson(string path = "machines.json") 

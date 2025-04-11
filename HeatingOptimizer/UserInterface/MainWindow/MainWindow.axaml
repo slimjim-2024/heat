@@ -77,22 +77,33 @@
 
                 </WrapPanel>
 
-                <WrapPanel HorizontalAlignment="Left">
-                    <lvc:CartesianChart
-                        Width="800"
-                        Height="400"
-                        PointerPressedCommand="{Binding PressedCommand}"    
-                        Series="{Binding Series}"
-                        XAxes="{Binding XAxes}"
-                        YAxes="{Binding YAxes}"
-                        ZoomMode="X"/>
-                    <lvc:PieChart
-                        Width="400"
-                        Height="400"
-                        Series="{Binding PieSeries}"
-                        LegendPosition="Right"/>
-                    
-                </WrapPanel>
+                <ListBox ItemsSource="{Binding AllSeries}" HorizontalAlignment="Left" SelectedItem="{Binding Series}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel HorizontalAlignment="Left" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                        <lvc:CartesianChart
+                            Width="600"
+                            Height="350"
+                            PointerPressedCommand="{Binding PressedCommand}"    
+                            Series="{Binding Series}"
+                            XAxes="{Binding XAxes}"
+                            YAxes="{Binding YAxes}"
+                            ZoomMode="X"/>
+                        <lvc:PieChart
+                            Width="400"
+                            Height="400"
+                            Series="{Binding PieSeries}"
+                            LegendPosition="Right"/>
+                        </WrapPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                </ListBox>
             </StackPanel>
     </StackPanel>
     </ScrollViewer>

@@ -11,7 +11,7 @@ namespace HeatingOptimizer.SourceDataManager;
 
 public class MachineParser
 {
-    public static List<ProductionUnit> Machines = new List<ProductionUnit>(); // list of machines
+    public static List<ProductionUnit> Machines = new(); // list of machines
 
     public MachineParser(string path)
     {
@@ -24,7 +24,7 @@ public class MachineParser
         machines = new List<ProductionUnit>(); // list of machines
         try
         {
-            using (StreamReader sr = new StreamReader(path)) //reads the .csv file
+            using (StreamReader sr = new(path)) //reads the .csv file
             {
                 while ((line = sr.ReadLine()) != null) // if file is not empty, then return the data
                 {

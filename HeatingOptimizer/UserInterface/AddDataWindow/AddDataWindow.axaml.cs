@@ -31,7 +31,7 @@ namespace HeatingOptimizer.UI
                 MainGrid.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center;
 
                 // Create Label
-                Label label = new Label
+                Label label = new()
                 {
                     Content = viewModel.MachineFields[i].Label + ":",
                     Margin = new Thickness(10),
@@ -43,7 +43,7 @@ namespace HeatingOptimizer.UI
                 MainGrid.Children.Add(label);
 
                 // Create TextBox
-                TextBox textBox = new TextBox
+                TextBox textBox = new()
                 {
                     Margin = new Thickness(10),
                     Width = 200,

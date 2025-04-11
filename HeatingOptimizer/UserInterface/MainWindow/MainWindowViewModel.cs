@@ -14,14 +14,15 @@ using LiveChartsCore.Drawing;
 using System;
 using System.Linq;
 using HeatingOptimizer.Optimizer;
+using Avalonia.Controls;
 
 
 namespace HeatingOptimizer.ViewModels
 {
     public partial class MainWindowViewModel : ObservableObject
     {
-        private Random rand = new Random();
-        protected internal Dictionary<string, SKColor> colorDict = new()
+        private readonly Random rand = new();
+        protected internal static Dictionary<string, SKColor> colorDict = new()
         {
             {"GB1", SKColors.LimeGreen},
             {"GB2", SKColors.Yellow},
@@ -32,13 +33,16 @@ namespace HeatingOptimizer.ViewModels
 
         [ObservableProperty]
         private List<string> _seasonSelection = ["Summer", "Winter"];
-        protected internal Dictionary<string, Results> ResultDictionary = new Dictionary<string, Results>();
+        protected internal Dictionary<string, Results> ResultDictionary = new();
         [ObservableProperty]
         private string _inputText = string.Empty;
 
         [ObservableProperty]
         private string _selectedSeason = "Winter";
 
+
+        [ObservableProperty]
+        private ObservableCollection<ViewableSeries> _allSeries =[new (){Name="Winter"}, new(){Name="Summer"}];
 
         [ObservableProperty]
         private ObservableCollection<ISeries> _series = [];
@@ -48,56 +52,7 @@ namespace HeatingOptimizer.ViewModels
         [ObservableProperty]
         private string _pointInfo = string.Empty;
 
-        [ObservableProperty]
-        private ObservableCollection<ICartesianAxis> _xAxes = [new Axis
-        {
-            Name = "Time Period",
-            NamePaint = new SolidColorPaint(SKColor.Parse("#808080")),
-            TextSize = 18,
-            LabelsPaint = new SolidColorPaint(SKColor.Parse("#B0B0B0")),
-            SeparatorsPaint = new SolidColorPaint
-            {
-                Color = SKColor.Parse("#ffffff"),
-                StrokeThickness = 1,
-            },
-            ZeroPaint = new SolidColorPaint
-            {
-                Color = SKColor.Parse("#808080"),
-                StrokeThickness = 2
-            },
-            TicksPaint = new SolidColorPaint
-            {
-                Color = SKColor.Parse("#B0B0B0"),
-                StrokeThickness = 1.5f
-            },
-            MinLimit=0,
-        }];
-        // Y Axis
-        public ICartesianAxis[] YAxes { get; set; } =
-        [
-        new Axis
-        {
-            Name = "Heat Demand",
-            NamePaint = new SolidColorPaint(SKColor.Parse("#808080")),
-            TextSize = 18,
-            LabelsPaint = new SolidColorPaint(SKColor.Parse("#B0B0B0")),
-            SeparatorsPaint = new SolidColorPaint
-            {
-                Color = SKColor.Parse("#ffffff"),
-                StrokeThickness = 1,
-            },
-            ZeroPaint = new SolidColorPaint
-            {
-                Color = SKColor.Parse("#000"),
-                StrokeThickness = 2
-            },
-            TicksPaint = new SolidColorPaint
-            {
-                Color = SKColor.Parse("#B0B0B0"),
-                StrokeThickness = 1.5f
-            }
-        }
-        ];
+        
         [RelayCommand]
         public void PressedCommand(PointerCommandArgs args)
         {
@@ -126,7 +81,11 @@ namespace HeatingOptimizer.ViewModels
         [RelayCommand]
         public void GenerateButton_Click(string sender)
         {
-            if (sender.GetType() == typeof(string))
+            foreach(var UnitSeries in AllSeries)
+            {
+                UnitSeries.GenerateGraph(sender, SelectedProductionUnits, Frames[sender], SelectedIndex);
+            }
+        /*    if (sender.GetType() == typeof(string))
             {
                 Console.WriteLine("Sender is a string, not a button.");
             }
@@ -136,24 +95,25 @@ namespace HeatingOptimizer.ViewModels
             Series.Clear();
             CostCalculator.CalculateSeason(SelectedProductionUnits, Frames[sender],
             SelectedIndex, ref ResultDictionary);
-
+            AllSeries.Add(new());
             // Displays timeframes on x axis
-            XAxes[0].Labels = [.. Frames[sender].Select(TF => TF.TimeFrom.ToString("dd/MM H:mm"))];
-            XAxes[0].LabelsRotation = 90;
-            XAxes[0].LabelsDensity = 0;
-            XAxes[0].TextSize = 10;
-            XAxes[0].MinStep = 1;
+            AllSeries[0].XAxes[0].Labels = [.. Frames[sender].Select(TF => TF.TimeFrom.ToString("dd/MM H:mm"))];
+            AllSeries[0].XAxes[0].LabelsRotation = 90;
+            AllSeries[0].XAxes[0].LabelsDensity = 0;
+            AllSeries[0].XAxes[0].TextSize = 10;
+            AllSeries[0].XAxes[0].MinStep = 1;
 
             Series.Add(
-               new LineSeries<double> { Name = "Winter Heat Demand", Values = new ObservableCollection<double>(Frames[sender].Select(s => s.HeatDemand)), Fill = null, }
+               new LineSeries<double> { Name = $"{sender} Heat Demand", Values = new ObservableCollection<double>(Frames[sender].Select(s => s.HeatDemand)), Fill = null, }
             );
             foreach (var PU in ResultDictionary)
             {
                 Series.Add(new StackedAreaSeries<double> { Name = PU.Key, Values = PU.Value.HeatProduced, Fill = new SolidColorPaint { Color = colorDict[PU.Key] }, });
             }
 
-            XAxes[0].MinLimit = 0;
-            YAxes[0].MinLimit = 0;
+            AllSeries[0].XAxes[0].MinLimit = 0;
+            AllSeries[0].YAxes[0].MinLimit = 0;
+            */
         }
         protected internal Dictionary<string, List<TimeFrame>> Frames;
 
