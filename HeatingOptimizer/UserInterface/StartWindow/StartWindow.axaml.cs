@@ -25,11 +25,11 @@ public partial class StartWindow : Window
             // File type picker
             FileTypeFilter = new List<FilePickerFileType>
             {
-                new FilePickerFileType("CSV Files(*.csv)")
+                new("CSV Files(*.csv)")
                 {
                     Patterns = ["*.csv"]
                 },
-                new FilePickerFileType("JSON Files(*.json)")
+                new("JSON Files(*.json)")
                 {
                     Patterns=["*.json"],
                 },
@@ -51,9 +51,14 @@ public partial class StartWindow : Window
             {
                 startWindowViewModel.productionUnits = DataParser.ParseMachineDataCSV(startWindowViewModel.PathToMachines);
             }
-            else
+            if (startWindowViewModel.productionUnits.Count == 0)
             {
                 startWindowViewModel.PathToMachines = "The file is not a csv or json file";
+                return;
+            }
+            else
+            {
+                startWindowViewModel.PathToMachines = LocalPath.Replace("%20", " ");
                 return;
             }
         }
@@ -61,7 +66,7 @@ public partial class StartWindow : Window
     }
     private void ConfirmClick(object sender, RoutedEventArgs e)
     {
-        if(startWindowViewModel.PathToMachines == "No file selected"    || 
+        if(startWindowViewModel.PathToMachines == "No file selected"|| 
         startWindowViewModel.PathToMachines == "Please select a file first"|| 
         startWindowViewModel.PathToMachines == "The file is not a csv or json file")
         {

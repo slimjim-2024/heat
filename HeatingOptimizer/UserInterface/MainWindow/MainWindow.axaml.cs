@@ -6,7 +6,6 @@ using HeatingOptimizer.ViewModels;
 using Avalonia.Interactivity;
 using HeatingOptimizer.SourceDataManager;
 using System.Collections.ObjectModel;
-using HeatingOptimizer.Optimizer;
 
 
 
@@ -14,7 +13,7 @@ namespace HeatingOptimizer.UI;
 
 public partial class MainWindow : Window
 {
-    private MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
+    private MainWindowViewModel mainWindowViewModel = new();
     public MainWindow()
     {
         InitializeComponent();
@@ -32,7 +31,7 @@ public partial class MainWindow : Window
             // File type picker
             FileTypeFilter = new List<FilePickerFileType>
             {
-                new FilePickerFileType("CSV Files(*.csv)")
+                new("CSV Files(*.csv)")
                 {
                     Patterns = ["*.csv"]
                 },
