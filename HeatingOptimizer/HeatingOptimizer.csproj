@@ -9,8 +9,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="avalonia.controls.datagrid" Version="11.2.6" />
-    <Page Include="UserInterface\MainWindow\EditWindow.axaml" />
-    <Page Include="UserInterface\MainWindow\AddDataWindow.axaml" />
     <PackageReference Include="Avalonia" Version="11.2.6" />
     <PackageReference Include="Avalonia.Desktop" Version="11.2.1" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.1" />

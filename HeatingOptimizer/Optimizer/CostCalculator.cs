@@ -32,27 +32,28 @@ namespace HeatingOptimizer.Optimizer
                 resultDict[prodUnit.Name].ProductionCosts.Add(cost);
                 resultDict[prodUnit.Name].CO2Emissions.Add(emissions);
                 resultDict[prodUnit.Name].Consumption.Add(consumption);
+                resultDict[prodUnit.Name].Times.Add(timeframe.TimeFrom);
             }
         }
 
-        public static void CalculateSeason(List<ProductionUnit> prodUnits, List<TimeFrame> period, short sortType,
+        public static void CalculateSeason(List<ProductionUnit> selectedProductionUnits, List<TimeFrame> period, short sortType,
         ref Dictionary<string, Results> resultDict)
         {
-            // Sorts data and prepares dictonary
-            prodUnits = ProdUnitSorter.Sort(prodUnits, period[0], sortType);
+            // Sorts data and prepares dictionary
+            selectedProductionUnits = ProdUnitSorter.Sort(selectedProductionUnits, period[0], sortType);
             resultDict = new Dictionary<string, Results>();
-            foreach (var i in prodUnits)
+            foreach (var productionUnit in selectedProductionUnits)
             {
-                resultDict[i.Name] = new Results();
+                resultDict[productionUnit.Name] = new Results();
             }
             
             // Loop through each timeframe
-            for (int i = 0; i < period.Count; i++)
+            foreach (var timeFrame in period)
             {
-                // Sort on every timeframe if looking for cheapest solution, as electicity prices change every timeframe
+                // Sort on every timeframe if looking for cheapest solution, as electricity prices change every timeframe
                 if (sortType==0)
-                    prodUnits = ProdUnitSorter.Sort(prodUnits, period[i], sortType);
-                CalculateTimeframe(period[i], prodUnits, ref resultDict);
+                    selectedProductionUnits = ProdUnitSorter.Sort(selectedProductionUnits, timeFrame, sortType);
+                CalculateTimeframe(timeFrame, selectedProductionUnits, ref resultDict);
             }
         }
     }

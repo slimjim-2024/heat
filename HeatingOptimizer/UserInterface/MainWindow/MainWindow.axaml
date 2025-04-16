@@ -4,7 +4,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:MainWindow.UI"
     xmlns:vms="using:HeatingOptimizer.ViewModels"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
     x:DataType="vms:MainWindowViewModel"
@@ -27,11 +26,40 @@
                 <MenuItem Classes="optionBar" Header="Edit Machine info" Click="EditFile"/>
 
             </Menu>
+            <SplitView
+                IsPaneOpen="{Binding IsPaneOpen}" DisplayMode="Overlay"
+                CompactPaneLength="20" PanePlacement="Right" PaneBackground="Bisque" OpenPaneLength="300">
+                <SplitView.Pane>
+                    <DockPanel x:Name="SplitPane" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                               Height="{Binding $parent[SplitView].Bounds.Height}">
+                        <Button DockPanel.Dock="Top" Foreground="Black" 
+                                Command="{Binding PaneInteractionCommand}"
+                                HorizontalAlignment="Center" VerticalAlignment="Top">
+                            Close panel
+                        </Button>
+                        <ListBox ItemsSource="{Binding AllSeries}" SelectedItems="{Binding SelectedSeries}"
+                                  DockPanel.Dock="Top" SelectionMode="Multiple, Toggle">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Background="Bisque"/> 
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border CornerRadius="4" Padding="4" BorderBrush="Navy" BorderThickness="2">
+                                        <TextBlock Text="{Binding Name}" Foreground="Black"/>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
+                </SplitView.Pane>
+                <SplitView.Content>
         <ScrollViewer HorizontalAlignment="Stretch" DockPanel.Dock="Top">
         <!-- Adding a heading (label) to a project -->
         <StackPanel Margin="20" ScrollViewer.AllowAutoHide="True" ScrollViewer.VerticalScrollBarVisibility="Visible" >
             <TextBlock Margin="0 5" FontSize="18" FontWeight="Bold">File entry</TextBlock>
-            <TextBox Watermark="Enter the file path to the csv file" Text="{Binding InputText, Mode=TwoWay}"/>
+                <TextBox Watermark="Enter the file path to the csv file" Text="{Binding InputText, Mode=TwoWay}" />
 
             <!-- Adding a chart container (canvas) -->
             <StackPanel Margin="20" HorizontalAlignment="Center">
@@ -42,7 +70,7 @@
                     <ListBox x:Name="ProductionUnitsListBox"
                         SelectionMode="Multiple,Toggle"
                         ItemsSource="{Binding AllProductionUnits}" 
-                        SelectedItems="{Binding SelectedProductionUnits}, Mode=TwoWay">
+                        SelectedItems="{Binding SelectedProductionUnits}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal"/>
@@ -50,7 +78,8 @@
                         </ListBox.ItemsPanel>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Name}" Margin="5" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Name}" Margin="5" HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
                             </DataTemplate>
                     </ListBox.ItemTemplate>
                         </ListBox>
@@ -67,45 +96,51 @@
                         <ListBox ItemsSource="{Binding SeasonSelection}" SelectedItem="{Binding SelectedSeason}" >
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"/>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"/>
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                         </ListBox>
                     </StackPanel>
 
                     <Button Margin="10" Command="{Binding GenerateButton_Click}" CommandParameter="{Binding SelectedSeason}">Generate</Button>
+                    <Button HorizontalAlignment="Stretch" DockPanel.Dock="Right" Command="{Binding PaneInteractionCommand}"
+                            >Open graph selection dialog</Button>
 
                 </WrapPanel>
-
-                <ListBox ItemsSource="{Binding AllSeries}" HorizontalAlignment="Left" SelectedItem="{Binding Series}">
+                
+                <ListBox ItemsSource="{Binding SelectedSeries}" HorizontalAlignment="Left"
+                         SelectedItem="{Binding Series}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel HorizontalAlignment="Left" />
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
-                
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <WrapPanel>
-                        <lvc:CartesianChart
-                            Width="600"
-                            Height="350"
-                            PointerPressedCommand="{Binding PressedCommand}"    
-                            Series="{Binding Series}"
-                            XAxes="{Binding XAxes}"
-                            YAxes="{Binding YAxes}"
-                            ZoomMode="X"/>
-                        <lvc:PieChart
-                            Width="400"
-                            Height="400"
-                            Series="{Binding PieSeries}"
-                            LegendPosition="Right"/>
-                        </WrapPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border>
+                                <WrapPanel>
+                                    <lvc:CartesianChart
+                                        Width="600"
+                                        Height="350"
+                                        Series="{Binding Series}"
+                                        XAxes="{Binding XAxes}"
+                                        YAxes="{Binding YAxes}"
+                                        ZoomMode="X"/>
+                                        <!-- PointerPressedCommand="{Binding PressedCommand}" -->
+                                    <lvc:PieChart
+                                        Width="400"
+                                        Height="400"
+                                        />
+                                        <!-- Series="{Binding PieSeries}" -->
+                                </WrapPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
             </StackPanel>
     </StackPanel>
     </ScrollViewer>
+                    </SplitView.Content>
+                </SplitView>
         </DockPanel>
 </Window>
