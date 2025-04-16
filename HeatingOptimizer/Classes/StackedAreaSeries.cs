@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using LiveChartsCore;
 using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
@@ -21,7 +22,7 @@ public class StackedAreaSeries : IViewableSeries
         foreach (var selectedProductionUnit in selectedProductionUnits)
         {
             Series.Add(new StackedAreaSeries<double>{Name = selectedProductionUnit.Name, 
-                Values = results[selectedProductionUnit.Name].HeatProduced});
+                Values = results.Select()});
         }
     }
 }
