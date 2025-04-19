@@ -55,13 +55,13 @@ namespace HeatingOptimizer.ViewModels
         [ObservableProperty]
         private ObservableCollection<IViewableSeries> _allSeries = [
             new StackedAreaSeries{Name="Heat Demand" ,Selection = s=> s.HeatProduced,
-                XAxes = XAxes, YAxes = YAxes},
-            new LineSeries{Name=" Electricity price", Selection = s=> (double)s.ElectricityPrice, 
-                XAxes = XAxes, YAxes = YAxes},
-            new ProfitLossSeries{Name = "Money spent", XAxes = XAxes, YAxes = YAxes},
+                },
+            new LineSeries{Name=" Electricity price", Selection = s=> (double)s.ElectricityPrice,
+                },
+            new ProfitLossSeries{Name = "Money spent", },
             new StackedAreaSeries{Name = "Electricity generated", Selection = s=> s.ElectricityProduced,
-                XAxes = XAxes, YAxes = YAxes},
-            new LineSeries{Name = "Heat Demand", Selection = s=> s.HeatDemand, XAxes = XAxes, YAxes = YAxes},
+                MinLimit = -6},
+            new LineSeries{Name = "Heat Demand", Selection = s=> s.HeatDemand},
         ];
         [ObservableProperty] private ObservableCollection<IViewableSeries> _selectedSeries = [];
 
@@ -73,80 +73,6 @@ namespace HeatingOptimizer.ViewModels
         private ObservableCollection<ISeries> _pieSeries = [];
         [ObservableProperty]
         private string _pointInfo = string.Empty;
-        private static ObservableCollection<ICartesianAxis> XAxes = [new Axis
-        {
-            Name = "Time Period",
-            NamePaint = new SolidColorPaint(SKColor.Parse("#808080")),
-            TextSize = 18,
-            LabelsPaint = new SolidColorPaint(SKColor.Parse("#B0B0B0")),
-            SeparatorsPaint = new SolidColorPaint
-            {
-                Color = SKColor.Parse("#ffffff"),
-                StrokeThickness = 1,
-            },
-            ZeroPaint = new SolidColorPaint
-            {
-                Color = SKColor.Parse("#808080"),
-                StrokeThickness = 2
-            },
-            TicksPaint = new SolidColorPaint
-            {
-                Color = SKColor.Parse("#B0B0B0"),
-                StrokeThickness = 1.5f
-            },
-            MinLimit=0,
-        }];
-        
-        private static ObservableCollection<ICartesianAxis> YAxes =
-        [
-            new Axis
-            {
-                NamePaint = new SolidColorPaint(SKColor.Parse("#808080")),
-                TextSize = 18,
-                LabelsPaint = new SolidColorPaint(SKColor.Parse("#B0B0B0")),
-                SeparatorsPaint = new SolidColorPaint
-                {
-                    Color = SKColor.Parse("#ffffff"),
-                    StrokeThickness = 1,
-                },
-                ZeroPaint = new SolidColorPaint
-                {
-                    Color = SKColor.Parse("#000"),
-                    StrokeThickness = 2
-                },
-                TicksPaint = new SolidColorPaint
-                {
-                    Color = SKColor.Parse("#B0B0B0"),
-                    StrokeThickness = 1.5f
-                },
-            }
-        ];
-
-        
-        /*[RelayCommand]
-        public void PressedCommand(PointerCommandArgs args)
-        {
-            var foundPoints = args.Chart.GetPointsAt(args.PointerPosition);
-            PieSeries.Clear();
-            // foreach (var point in foundPoints)
-            // {
-            var point = foundPoints.FirstOrDefault();
-            if (point == null) return;
-
-            var resultValues = ResultDictionary.Where(s => s.Value.HeatProduced[point.Index] > 0).ToList();
-            foreach (var item in resultValues)
-            {
-                PieSeries.Add(new PieSeries<double>()
-                {
-                    Name = item.Key,
-                    Values = [double.Round(item.Value.HeatProduced[point.Index], 2, MidpointRounding.AwayFromZero)],
-                    Fill = new SolidColorPaint { Color = colorDict[item.Key] },
-                    DataLabelsPaint = new SolidColorPaint { Color = SKColors.White },
-                    DataLabelsSize = 20,
-                });
-            }
-            // }
-        }*/
 
         [RelayCommand]
         public void GenerateButton_Click(string sender)
