@@ -39,6 +39,8 @@ namespace HeatingOptimizer.ViewModels
 
         [ObservableProperty]
         private List<string> _seasonSelection = ["Summer", "Winter"];
+        Dictionary<string, List<Result>> ResultsDict = new();
+
         protected internal Dictionary<string, Results> ResultDictionary = new();
         [ObservableProperty]
         private string _inputText = string.Empty;
@@ -51,14 +53,21 @@ namespace HeatingOptimizer.ViewModels
         [RelayCommand] protected internal void PaneInteractionCommand() => IsPaneOpen = !IsPaneOpen;
 
         [ObservableProperty]
-        private ObservableCollection<IViewableSeries> _allSeries =[
-            new StackedAreaSeries{Name="Heat Demand" ,Selection = s=> s.HeatDemand,
+        private ObservableCollection<IViewableSeries> _allSeries = [
+            new StackedAreaSeries{Name="Heat Demand" ,Selection = s=> s.HeatProduced,
                 XAxes = XAxes, YAxes = YAxes},
-            new LineSeries{Name=" Electricity price", Selection = s=> (double)s.ElectricityPrice,},
+            new LineSeries{Name=" Electricity price", Selection = s=> (double)s.ElectricityPrice, 
+                XAxes = XAxes, YAxes = YAxes},
+            new ProfitLossSeries{Name = "Money spent", XAxes = XAxes, YAxes = YAxes},
+            new StackedAreaSeries{Name = "Electricity generated", Selection = s=> s.ElectricityProduced,
+                XAxes = XAxes, YAxes = YAxes},
+            new LineSeries{Name = "Heat Demand", Selection = s=> s.HeatDemand, XAxes = XAxes, YAxes = YAxes},
         ];
-        [ObservableProperty] private ObservableCollection<IViewableSeries> _selectedSeries;
+        [ObservableProperty] private ObservableCollection<IViewableSeries> _selectedSeries = [];
 
+        /*
         [ObservableProperty] private ObservableCollection<ISeries> _series = [];
+        */
 
         [ObservableProperty]
         private ObservableCollection<ISeries> _pieSeries = [];
@@ -92,7 +101,6 @@ namespace HeatingOptimizer.ViewModels
         [
             new Axis
             {
-                Name = "Heat Demand",
                 NamePaint = new SolidColorPaint(SKColor.Parse("#808080")),
                 TextSize = 18,
                 LabelsPaint = new SolidColorPaint(SKColor.Parse("#B0B0B0")),
@@ -110,12 +118,12 @@ namespace HeatingOptimizer.ViewModels
                 {
                     Color = SKColor.Parse("#B0B0B0"),
                     StrokeThickness = 1.5f
-                }
+                },
             }
         ];
 
         
-        [RelayCommand]
+        /*[RelayCommand]
         public void PressedCommand(PointerCommandArgs args)
         {
             var foundPoints = args.Chart.GetPointsAt(args.PointerPosition);
@@ -138,7 +146,7 @@ namespace HeatingOptimizer.ViewModels
                 });
             }
             // }
-        }
+        }*/
 
         [RelayCommand]
         public void GenerateButton_Click(string sender)
@@ -151,6 +159,44 @@ namespace HeatingOptimizer.ViewModels
             if (SelectedProductionUnits.Count == 0) return;
 
             var timeFrames = Frames[sender];
+            
+
+            CostCalculatorV2.CalculateSeason(SelectedProductionUnits, timeFrames,
+            SelectedIndex, ref ResultsDict);
+            // AllSeries.Add(new());
+            // Displays timeframes on X axis
+            foreach (var series in AllSeries)
+            {
+                series.XAxes[0].Labels = [.. timeFrames.Select(timeFrame => timeFrame.TimeFrom.ToString("dd/MM H:mm"))];
+                series.XAxes[0].LabelsRotation = 90;
+                series.XAxes[0].LabelsDensity = -0.1f;
+                series.XAxes[0].TextSize = 9;
+                series.XAxes[0].MinStep = 1;
+            }
+            /*AllSeries[0].XAxes[0].Labels = [.. timeFrames.Select(timeFrame => 
+                timeFrame.TimeFrom.ToString("dd/MM H:mm"))];
+            AllSeries[0].XAxes[0].LabelsRotation = 90;
+            AllSeries[0].XAxes[0].LabelsDensity = -0.1f;
+            AllSeries[0].XAxes[0].TextSize = 9;
+            AllSeries[0].XAxes[0].MinStep = 1;*/
+            
+            foreach(var unitSeries in SelectedSeries)
+            {
+                unitSeries.GenerateGraph(SelectedProductionUnits, timeFrames, in ResultsDict);
+            }
+        }
+        /*[RelayCommand]
+        public void GenerateButton_Click(string sender)
+        {
+        /*    if (sender.GetType() == typeof(string))
+            {
+                Console.WriteLine("Sender is a string, not a button.");
+            }#1#
+            // Returns if no machine or heating data
+            if (SelectedProductionUnits.Count == 0) return;
+
+            var timeFrames = Frames[sender];
+            
 
             Series.Clear();
             CostCalculator.CalculateSeason(SelectedProductionUnits, timeFrames,
@@ -163,9 +209,18 @@ namespace HeatingOptimizer.ViewModels
             AllSeries[0].XAxes[0].LabelsDensity = -0.1f;
             AllSeries[0].XAxes[0].TextSize = 9;
             AllSeries[0].XAxes[0].MinStep = 1;
+            
+            Dictionary<string, List<Result>> results = new();
+            foreach (var result in ResultDictionary)
+            {
+                results.Add(result.Key, []);
+                // result.Value.HeatProduced.Select(s=> results[result.Key].Add(new Result(){HeatProduced = s}));
+                // results[result.Key]
+            }
+            
             foreach(var unitSeries in AllSeries)
             {
-                unitSeries.GenerateGraph(SelectedProductionUnits, in timeFrames, in ResultDictionary);
+                unitSeries.GenerateGraph(SelectedProductionUnits, in timeFrames, in results);
             }
             
             
@@ -179,7 +234,7 @@ namespace HeatingOptimizer.ViewModels
             }
 
             AllSeries[0].XAxes[0].MinLimit = 0;
-            AllSeries[0].YAxes[0].MinLimit = 0;*/
-        }
+            AllSeries[0].YAxes[0].MinLimit = 0;#1#
+        }*/
     }
 }
