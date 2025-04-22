@@ -90,7 +90,7 @@ public class ProfitLossSeries : IViewableSeries
             
         });
         XAxes[0].MinLimit = 0;
-        YAxes[0].MinLimit = 0;
+        // YAxes[0].MinLimit = 0;
         
     }
 }

@@ -23,8 +23,9 @@
         <MenuItem Header="Save" />
       </MenuItem>
       <MenuItem Classes="optionBar" Header="Edit Machine info" Click="EditFile" />
-
     </Menu>
+    
+    <!--Main code begins here-->
     <SplitView
       IsPaneOpen="{Binding IsPaneOpen}" DisplayMode="Overlay"
       CompactPaneLength="20" PanePlacement="Right" PaneBackground="Bisque" OpenPaneLength="300">
@@ -53,8 +54,12 @@
           </ListBox>
         </DockPanel>
       </SplitView.Pane>
+      
+      <!-- MainPage content begins here -->
       <SplitView.Content>
+        <!--
         <ScrollViewer HorizontalAlignment="Stretch" DockPanel.Dock="Top">
+          -->
           <!-- Adding a heading (label) to a project -->
           <StackPanel Margin="20" ScrollViewer.AllowAutoHide="True"
                       ScrollViewer.VerticalScrollBarVisibility="Visible">
@@ -63,23 +68,24 @@
                      Text="{Binding InputText, Mode=TwoWay}" />
 
             <!-- Adding a chart container (canvas) -->
-            <StackPanel Margin="20" HorizontalAlignment="Center">
+            <!--
+            <StackPanel Margin="20" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+              -->
               <!-- Adding a container for the buttons-->
-              <WrapPanel Orientation="Horizontal" VerticalAlignment="Center">
-
-                <!-- Production Unit ListBox-->
+              <WrapPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+              <!-- Production Unit ListBox-->
                 <ListBox x:Name="ProductionUnitsListBox"
                          SelectionMode="Multiple,Toggle"
                          ItemsSource="{Binding AllProductionUnits}"
                          SelectedItems="{Binding SelectedProductionUnits}">
                   <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                      <StackPanel Orientation="Horizontal" />
+                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center" />
                     </ItemsPanelTemplate>
                   </ListBox.ItemsPanel>
                   <ListBox.ItemTemplate>
                     <DataTemplate>
-                      <TextBlock Text="{Binding Name}" Margin="5" HorizontalAlignment="Center"
+                      <TextBlock Text="{Binding Name}" HorizontalAlignment="Center"
                                  VerticalAlignment="Center" />
                     </DataTemplate>
                   </ListBox.ItemTemplate>
@@ -87,24 +93,24 @@
 
                 <!-- Adding the dropdown for the options -->
                 <!-- SelectedItem="{Binding SelectedOption}" -->
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                  <ComboBox SelectedIndex="{Binding SelectedIndex}" Margin="10">
+                  <ComboBox SelectedIndex="{Binding SelectedIndex}" VerticalAlignment="Center"
+                            Margin="10 0 10 0">
                     <ComboBoxItem>Cheapest</ComboBoxItem>
                     <ComboBoxItem>Most Eco Friendly(CO2)</ComboBoxItem>
                     <ComboBoxItem>Most Efficiency(Least Consumption)</ComboBoxItem>
                   </ComboBox>
 
                   <ListBox ItemsSource="{Binding SeasonSelection}"
-                           SelectedItem="{Binding SelectedSeason}">
+                           SelectedItem="{Binding SelectedSeason}" VerticalAlignment="Center">
                     <ListBox.ItemsPanel>
                       <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" />
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" 
+                                    MaxHeight="{Binding $parent[WrapPanel].Bounds.Height}"/>
                       </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                   </ListBox>
-                </StackPanel>
-
-                <Button Margin="10" Command="{Binding GenerateButton_Click}"
+  
+                <Button Margin="5" Command="{Binding GenerateButton_Click}"
                         CommandParameter="{Binding SelectedSeason}">
                   Generate
                 </Button>
@@ -112,32 +118,40 @@
                         Command="{Binding PaneInteractionCommand}">
                   Open graph selection dialog
                 </Button>
+                </WrapPanel>
 
-              </WrapPanel>
-
-              <ListBox ItemsSource="{Binding SelectedSeries}">
+              <ListBox ItemsSource="{Binding SelectedSeries}" HorizontalAlignment="Center"
+                       VerticalAlignment="Center" >
+                <ListBox.Styles>
+                  <Style Selector="ListBoxItem:selected">
+                    <Setter Property="Background" Value="Black"/>
+                  </Style>
+                </ListBox.Styles>
+                
                 <ListBox.ItemsPanel>
                   <ItemsPanelTemplate>
-                    <WrapPanel HorizontalAlignment="Center" />
+                    <WrapPanel HorizontalAlignment="Center" Margin="5 0 5 0"/>
                   </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                   <DataTemplate>
                     <Border HorizontalAlignment="Stretch" CornerRadius="10" Padding="8"
-                            BorderBrush="Aqua" BorderThickness="3">
-                      <WrapPanel>
+                            BorderBrush="DimGray" BorderThickness="3">
+                      <StackPanel>
                         <lvc:CartesianChart
                           Width="500" Height="300" Series="{Binding Series}" ZoomMode="X" 
                           XAxes="{Binding XAxes}" YAxes="{Binding YAxes}" />
                         <!-- PointerPressedCommand="{Binding PressedCommand}" -->
-                      </WrapPanel>
+                      </StackPanel>
                     </Border>
                   </DataTemplate>
                 </ListBox.ItemTemplate>
               </ListBox>
             </StackPanel>
+          <!--
           </StackPanel>
-        </ScrollViewer>
+        -->
+        <!--</ScrollViewer>-->
       </SplitView.Content>
     </SplitView>
   </DockPanel>
