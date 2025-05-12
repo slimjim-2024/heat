@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using SkiaSharp;
 
@@ -10,4 +11,5 @@ public class Results
     public List<decimal> ProductionCosts { get; set; } = [];
     public List<double> CO2Emissions { get; set; } = [];
     public List<double> Consumption { get; set; } = [];
+    public List<DateTime> Times { get; set; } = [];
 }

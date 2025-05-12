@@ -43,10 +43,10 @@ public partial class MainWindow : Window
         if (result != null && result.Count > 0)
         {
             // Get the path of the selected file
-            var LocalPath = result[0].Path.AbsolutePath;
+            var localPath = result[0].Path.AbsolutePath;
             // Set the title of the window to the name of the file, removes extensions from name
             // Load the file and replacing "%20" with spaces, determines whether the file is in binary depending on the extension
-            mainWindowViewModel.InputText=LocalPath.Replace("%20", " ");
+            mainWindowViewModel.InputText=localPath.Replace("%20", " ");
             DataParser.ParseHeatingDataCSV(mainWindowViewModel.InputText, ref mainWindowViewModel.Frames);
         }
     }
