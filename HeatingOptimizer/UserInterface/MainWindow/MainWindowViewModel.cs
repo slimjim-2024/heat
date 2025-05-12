@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
 using LiveChartsCore.Kernel.Events;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using HeatingOptimizer.Optimizer;
 using LiveChartsCore.Kernel.Sketches;
@@ -73,6 +74,12 @@ namespace HeatingOptimizer.ViewModels
         private ObservableCollection<ISeries> _pieSeries = [];
         [ObservableProperty]
         private string _pointInfo = string.Empty;
+
+        [RelayCommand]
+        public void OpenNewWindow(IViewableSeries series)
+        {
+            Debug.WriteLine(series);
+        }
 
         [RelayCommand]
         public void GenerateButton_Click(string sender)

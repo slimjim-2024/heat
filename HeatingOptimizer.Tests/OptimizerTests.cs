@@ -1,7 +1,7 @@
 ﻿using HeatingOptimizer;
 using HeatingOptimizer.Optimizer;
 
-namespace heat.tests;
+namespace HeatingOptimizer.tests;
 
 public class ProdUnitSorterTests
 {
@@ -11,10 +11,6 @@ public class ProdUnitSorterTests
         // Arrange
         List<ProductionUnit> inputList = [
             // ProductionUnit(string name, double maxHeatOutput, double maxElectricity, decimal productionCosts, int co2Emissions, double consumption)
-            new ProductionUnit("", 1, 0, 2, 0, 0),
-            new ProductionUnit("", 1, 0, 3, 0, 0),
-            new ProductionUnit("", 1, 0, 4, 0, 0),
-            new ProductionUnit("", 2, 0, 4, 0, 0),
         ];
         TimeFrame timeframe = new(DateTime.Now, DateTime.Now, 0, 0);
         short sortType = 0; // Cheapest

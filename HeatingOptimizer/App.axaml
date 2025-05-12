@@ -4,10 +4,38 @@
              RequestedThemeVariant="Dark">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
+    <Application.Resources>
+        <SolidColorBrush x:Key="Bg" Color="Black"/>
+    </Application.Resources>
     <Application.Styles>
         <FluentTheme />
-        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/> 
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
         <Styles>
+            <Style Selector="ListBox.Select" >
+                <Setter Property="CornerRadius" Value="4" />
+                <Setter Property="Background" Value="{StaticResource Bg}" />
+            </Style>
+            <Style Selector="ListBox.Graphs > ListBoxItem:selected">
+                <Setter Property="Background" Value="{StaticResource Bg}"/>
+            </Style>
+            <Style Selector="ListBox.Graphs > ListBoxItem">
+                <Setter Property="Background" Value="{StaticResource Bg}"/>
+            </Style>
+            <Style Selector="ListBox.Graphs">
+                <Setter Property="Background" Value="{StaticResource Bg}"></Setter>
+            </Style>
+            <Style Selector="ListBox.Select > ListBoxItem">
+                <Setter Property="Background" Value="{StaticResource Bg}"/>
+                <Setter Property="Padding" Value="10 7"/>
+                <Setter Property="CornerRadius" Value="4" />
+                <Setter Property="BorderBrush" Value="#99ffffff"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Margin" Value="2 0 2 0"/>
+            </Style>
+            
+            <Style Selector="ListBox.Select > ListBoxItem:selected">
+                <Setter Property="Background" Value="#BC13FE"/>
+            </Style>
             <Style Selector="Menu" >
                 <Setter Property="Background" Value="#FF1F1F1F"/>
                 <Setter Property="BorderThickness" Value="0"/>
