@@ -8,7 +8,7 @@
   mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
   x:DataType="vms:MainWindowViewModel"
   x:Class="HeatingOptimizer.UI.MainWindow"
-  Title="Super Optimizing Power Heating System">
+  Title="{Binding InputText, FallbackValue = Super Heating Optimizer}">
 
   <Window.DataContext>
     <vms:MainWindowViewModel />
@@ -27,7 +27,7 @@
     
     <!--Main code begins here-->
     <SplitView
-      IsPaneOpen="{Binding IsPaneOpen}" DisplayMode="CompactOverlay"
+      IsPaneOpen="{Binding IsPaneOpen}" DisplayMode="CompactInline"
       CompactPaneLength="30" PanePlacement="Right" PaneBackground="Bisque" OpenPaneLength="250">
       <SplitView.Pane>
         <DockPanel x:Name="SplitPane" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
@@ -68,7 +68,6 @@
           -->
           <!-- Adding a heading (label) to a project -->
           <DockPanel>
-
             <!-- Adding a container for the buttons-->
               <WrapPanel Orientation="Horizontal" Margin="10 30 10 10" HorizontalAlignment="Center" VerticalAlignment="Stretch" DockPanel.Dock="Top">
               <!-- Production Unit ListBox-->
@@ -91,7 +90,8 @@
                 </ListBox>
 
                   <ListBox ItemsSource="{Binding SeasonSelection}" Classes="Select"
-                           SelectedItem="{Binding SelectedSeason}" VerticalAlignment="Center">
+                           SelectedItem="{Binding SelectedSeason}" VerticalAlignment="Center"
+                           Margin="20 0 20 0 ">
                     <ListBox.ItemsPanel>
                       <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" 
@@ -102,7 +102,7 @@
                 <!-- Adding the dropdown for the options -->
                 <!-- SelectedItem="{Binding SelectedOption}" -->
                   <ComboBox SelectedIndex="{Binding SelectedIndex}" VerticalAlignment="Center"
-                            Margin="10 0 10 0">
+                            Margin="0 0 20 0">
                     <ComboBoxItem>Cheapest</ComboBoxItem>
                     <ComboBoxItem>Most Eco Friendly(CO2)</ComboBoxItem>
                     <ComboBoxItem>Most Efficiency(Least Consumption)</ComboBoxItem>
@@ -113,42 +113,70 @@
                         CommandParameter="{Binding SelectedSeason}">
                   Generate
                 </Button>
-                <Button HorizontalAlignment="Stretch" DockPanel.Dock="Right"
-                        Command="{Binding PaneInteractionCommand}">
+                <!--<Button HorizontalAlignment="Stretch" DockPanel.Dock="Right" Command="{Binding PaneInteractionCommand}">
                   Open graph selection dialog
-                </Button>
+                </Button>-->
               </WrapPanel>
-
               <ListBox ItemsSource="{Binding SelectedSeries}" HorizontalAlignment="Center"
                        VerticalAlignment="Center" DockPanel.Dock="Top" ScrollViewer.AllowAutoHide="True"
-                       ScrollViewer.VerticalScrollBarVisibility="Visible" Classes="Graphs">
+                       ScrollViewer.VerticalScrollBarVisibility="Visible" Classes="Graphs" Padding="10"
+                       SelectionMode="Single">
 
                 
                 <ListBox.ItemsPanel>
                   <ItemsPanelTemplate>
-                    <WrapPanel HorizontalAlignment="Center" Margin="5 0 5 0"/>
+                    <UniformGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5 0 5 0" Columns="2"/>
                   </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                   <DataTemplate>
-                    <Border HorizontalAlignment="Stretch" CornerRadius="10" Padding="8"
+                    <Border CornerRadius="10" Padding="8"
                             BorderBrush="DimGray" BorderThickness="3">
-                      <StackPanel>
-                        <StackPanel.ContextFlyout>
-                          <MenuFlyout>
-                            <MenuItem Command="{Binding RelativeSource={RelativeSource FindAncestor, 
-                                      AncestorType={x:Type vms:MainWindowViewModel}}}" IsEnabled="True"
-                                      Header="Open in a new window" CommandParameter="{Binding }"/>
-                          </MenuFlyout>
-                        </StackPanel.ContextFlyout>
-                        <lvc:CartesianChart
-                          Width="500" Height="300" Series="{Binding Series}" ZoomMode="X" 
-                          XAxes="{Binding XAxes}" YAxes="{Binding YAxes}" />
+                      <Viewbox Stretch="UniformToFill">
+                      <DockPanel>
+
+                        <!--<Button Content="&#x2197;" DockPanel.Dock="Right" Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                      AncestorType={x:Type vms:MainWindowViewModel}}, Path=OpenNewWindow}" CommandParameter="{Binding}"
+                                IsEnabled="True"/>-->
+                        <lvc:CartesianChart Width="600" Height="350" Series="{Binding Series}" ZoomMode="X" 
+                          XAxes="{Binding XAxes}" YAxes="{Binding YAxes}" DockPanel.Dock="Top"
+                          />
+                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" DockPanel.Dock="Bottom"></TextBlock>
                         <!-- PointerPressedCommand="{Binding PressedCommand}" -->
-                      </StackPanel>
+                      </DockPanel>
+                      </Viewbox>
                     </Border>
                   </DataTemplate>
                 </ListBox.ItemTemplate>
+                <!--<ListBox.ItemContainerTheme>
+                  <ControlTheme TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                      <ControlTemplate>
+                      <ContentPresenter Name="PART_ContentPresenter"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="{TemplateBinding CornerRadius}"
+                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                        Content="{TemplateBinding Content}"
+                                        Padding="{TemplateBinding Padding}"
+                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}">
+
+                      <ContentPresenter.ContextFlyout>
+                          <MenuFlyout>
+                            <MenuItem Command="{Binding OpenNewWindowCommand, 
+                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type vms:MainWindowViewModel}}}"
+                                      CommandParameter="{Binding}"
+                                      Header="Open in new Window"/>
+                          </MenuFlyout>
+                      </ContentPresenter.ContextFlyout>
+                    </ContentPresenter>
+                      </ControlTemplate>
+                      </Setter>
+                  </ControlTheme>
+                </ListBox.ItemContainerTheme>-->
+
               </ListBox>
             </DockPanel>
       </SplitView.Content>

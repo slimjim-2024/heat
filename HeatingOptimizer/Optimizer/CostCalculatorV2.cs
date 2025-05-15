@@ -28,12 +28,6 @@ namespace HeatingOptimizer.Optimizer
                 // Saves results
                 resultDict[prodUnit.Name].Add(new Result(heatProduced, electricityProduced, cost,
                     emissions, consumption, timeframe.TimeFrom));
-                /*resultDict[prodUnit.Name].HeatProduced.Add(heatProduced);
-                resultDict[prodUnit.Name].ElectricityProduced.Add(electricityProduced);
-                resultDict[prodUnit.Name].ProductionCosts.Add(cost);
-                resultDict[prodUnit.Name].CO2Emissions.Add(emissions);
-                resultDict[prodUnit.Name].Consumption.Add(consumption);
-                resultDict[prodUnit.Name].Times.Add(timeframe.TimeFrom);*/
             }
         }
 

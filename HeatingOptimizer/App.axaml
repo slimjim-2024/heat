@@ -6,6 +6,13 @@
 
     <Application.Resources>
         <SolidColorBrush x:Key="Bg" Color="Black"/>
+        <!-- Colors from the dictionary -->
+        <Color x:Key="GB1">#32CD32</Color>  <!-- LimeGreen -->
+        <Color x:Key="GB2">#FFFF00</Color>  <!-- Yellow -->
+        <Color x:Key="OB1">#FF7F50</Color>  <!-- Coral -->
+        <Color x:Key="GM1">#00FFFF</Color>  <!-- Cyan -->
+        <Color x:Key="HP1">#008080</Color>  <!-- Teal -->
+
     </Application.Resources>
     <Application.Styles>
         <FluentTheme />
@@ -20,6 +27,7 @@
             </Style>
             <Style Selector="ListBox.Graphs > ListBoxItem">
                 <Setter Property="Background" Value="{StaticResource Bg}"/>
+                <Setter Property="Focusable" Value="False"/>
             </Style>
             <Style Selector="ListBox.Graphs">
                 <Setter Property="Background" Value="{StaticResource Bg}"></Setter>

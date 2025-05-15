@@ -8,7 +8,6 @@ using HeatingOptimizer.SourceDataManager;
 using System.Collections.ObjectModel;
 
 
-
 namespace HeatingOptimizer.UI;
 
 public partial class MainWindow : Window
@@ -19,10 +18,12 @@ public partial class MainWindow : Window
         InitializeComponent();
         DataContext = mainWindowViewModel; // Set the DataContext here
     }
+    
     public MainWindow(List<ProductionUnit> units): this()
     {
         mainWindowViewModel.AllProductionUnits=new ObservableCollection<ProductionUnit>(units);
     }
+    
     public async void BrowseFile(object sender, RoutedEventArgs e)
     {
         IReadOnlyList<IStorageFile> result = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
@@ -47,6 +48,7 @@ public partial class MainWindow : Window
             // Set the title of the window to the name of the file, removes extensions from name
             // Load the file and replacing "%20" with spaces, determines whether the file is in binary depending on the extension
             mainWindowViewModel.InputText=localPath.Replace("%20", " ");
+            
             DataParser.ParseHeatingDataCSV(mainWindowViewModel.InputText, ref mainWindowViewModel.Frames);
         }
     }
@@ -71,5 +73,10 @@ public partial class MainWindow : Window
 
         // Show the AddWindow
         addWindow.Show();
+    }
+
+    private void MenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        Console.WriteLine("Clicked");
     }
 }

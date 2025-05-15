@@ -13,13 +13,7 @@ public class DataParser
 {
     protected internal static List<TimeFrame> WinterTimeFrame = []; // list of timeframes
     protected internal static List<TimeFrame> SummerTimeFrame = []; // list of timeframes
-
-    // public CsvParsedData()
-    // {
-    //     ParseMachineData();
-    //     ParseHeatingData();
-    // }
-
+    
     public static List<ProductionUnit> ParseMachineDataCSV(string path = "machines.csv")
     {
         using (var reader = new StreamReader(path))
@@ -38,6 +32,7 @@ public class DataParser
             
         }
     }
+    
     public static List<ProductionUnit> ParseMachineDataJson(string path = "machines.json") 
     => JsonSerializer.Deserialize<List<ProductionUnit>>(File.ReadAllText(path)) ?? new List<ProductionUnit>();
 
@@ -64,17 +59,17 @@ public class DataParser
                     DateTime dateTimeFrom;
                     DateTime dateTimeTo;
                     double heatDemand;
-                    decimal ElectricityPrice;
+                    decimal electricityPrice;
                     if (DateTime.TryParse(winter[0], CultureInfo.InvariantCulture, out dateTimeFrom)&&
                         DateTime.TryParse(winter[1], CultureInfo.InvariantCulture, out dateTimeTo)&&
                         double.TryParse(winter[2], CultureInfo.InvariantCulture, out heatDemand)&&
-                        decimal.TryParse(winter[3], CultureInfo.InvariantCulture, out ElectricityPrice))
-                    WinterTimeFrame.Add(new TimeFrame(dateTimeFrom, dateTimeTo, heatDemand, ElectricityPrice));
+                        decimal.TryParse(winter[3], CultureInfo.InvariantCulture, out electricityPrice))
+                    WinterTimeFrame.Add(new TimeFrame(dateTimeFrom, dateTimeTo, heatDemand, electricityPrice));
                     if (DateTime.TryParse(summer[0], CultureInfo.InvariantCulture, out dateTimeFrom)&&
                         DateTime.TryParse(summer[1], CultureInfo.InvariantCulture, out dateTimeTo)&&
                         double.TryParse(summer[2], CultureInfo.InvariantCulture, out heatDemand)&&
-                        decimal.TryParse(summer[3], CultureInfo.InvariantCulture, out ElectricityPrice))
-                    SummerTimeFrame.Add(new TimeFrame(dateTimeFrom, dateTimeTo, heatDemand, ElectricityPrice));
+                        decimal.TryParse(summer[3], CultureInfo.InvariantCulture, out electricityPrice))
+                    SummerTimeFrame.Add(new TimeFrame(dateTimeFrom, dateTimeTo, heatDemand, electricityPrice));
 
                     
                     // WinterTimeFrame.Add(new Timeframe(DateTime.Parse(winter[0]), DateTime.Parse(winter[1]), Convert.ToDouble(winter[2], CultureInfo.InvariantCulture), Convert.ToDecimal(winter[3], CultureInfo.InvariantCulture))); // adds the data to the list
