@@ -8,7 +8,10 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
 using LiveChartsCore.Kernel.Events;
 using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using HeatingOptimizer.Optimizer;
 using LiveChartsCore.Kernel.Sketches;
 
@@ -26,6 +29,8 @@ namespace HeatingOptimizer.ViewModels
             {"HP1", SKColors.Teal}
         };
         protected internal Dictionary<string, List<TimeFrame>> Frames;
+        
+        [ObservableProperty] private string _titleText = "Heating Optimizer";
 
         [ObservableProperty]
         private ObservableCollection<ProductionUnit> _allProductionUnits;
@@ -75,92 +80,46 @@ namespace HeatingOptimizer.ViewModels
         private string _pointInfo = string.Empty;
 
         [RelayCommand]
-        public void GenerateButton_Click(string sender)
+        private static void OpenNewWindow(IViewableSeries series)
         {
-        /*    if (sender.GetType() == typeof(string))
-            {
-                Console.WriteLine("Sender is a string, not a button.");
-            }*/
-            // Returns if no machine or heating data
-            if (SelectedProductionUnits.Count == 0) return;
-
-            var timeFrames = Frames[sender];
-            
-
-            CostCalculatorV2.CalculateSeason(SelectedProductionUnits, timeFrames,
-            SelectedIndex, ref ResultsDict);
-            // AllSeries.Add(new());
-            // Displays timeframes on X axis
-            foreach (var series in AllSeries)
-            {
-                series.XAxes[0].Labels = [.. timeFrames.Select(timeFrame => timeFrame.TimeFrom.ToString("dd/MM H:mm"))];
-                series.XAxes[0].LabelsRotation = 90;
-                series.XAxes[0].LabelsDensity = -0.1f;
-                series.XAxes[0].TextSize = 9;
-                series.XAxes[0].MinStep = 1;
-            }
-            /*AllSeries[0].XAxes[0].Labels = [.. timeFrames.Select(timeFrame => 
-                timeFrame.TimeFrom.ToString("dd/MM H:mm"))];
-            AllSeries[0].XAxes[0].LabelsRotation = 90;
-            AllSeries[0].XAxes[0].LabelsDensity = -0.1f;
-            AllSeries[0].XAxes[0].TextSize = 9;
-            AllSeries[0].XAxes[0].MinStep = 1;*/
-            
-            foreach(var unitSeries in SelectedSeries)
-            {
-                unitSeries.GenerateGraph(SelectedProductionUnits, timeFrames, in ResultsDict);
-            }
+            Console.WriteLine(series);
         }
-        /*[RelayCommand]
-        public void GenerateButton_Click(string sender)
+
+        [RelayCommand]
+        public async Task GenerateButton_Click(string sender)
         {
-        /*    if (sender.GetType() == typeof(string))
+            await Task.Run(() =>
             {
-                Console.WriteLine("Sender is a string, not a button.");
-            }#1#
-            // Returns if no machine or heating data
-            if (SelectedProductionUnits.Count == 0) return;
+                if (SelectedProductionUnits.Count == 0) return;
 
-            var timeFrames = Frames[sender];
+                var timeFrames = Frames[sender];
             
 
-            Series.Clear();
-            CostCalculator.CalculateSeason(SelectedProductionUnits, timeFrames,
-            SelectedIndex, ref ResultDictionary);
-            // AllSeries.Add(new());
-            // Displays timeframes on X axis
-            AllSeries[0].XAxes[0].Labels = [.. Frames[sender].Select(timeFrame => 
-                timeFrame.TimeFrom.ToString("dd/MM H:mm"))];
-            AllSeries[0].XAxes[0].LabelsRotation = 90;
-            AllSeries[0].XAxes[0].LabelsDensity = -0.1f;
-            AllSeries[0].XAxes[0].TextSize = 9;
-            AllSeries[0].XAxes[0].MinStep = 1;
+                CostCalculatorV2.CalculateSeason(SelectedProductionUnits, timeFrames,
+                    SelectedIndex, ref ResultsDict);
+                // AllSeries.Add(new());
+                // Displays timeframes on X axis
+                foreach (var series in AllSeries)
+                {
+                    series.XAxes[0].Labels = [.. timeFrames.Select(timeFrame => timeFrame.TimeFrom.ToString("dd/MM H:mm"))];
+                    series.XAxes[0].LabelsRotation = 90;
+                    series.XAxes[0].LabelsDensity = -0.1f;
+                    series.XAxes[0].TextSize = 9;
+                    series.XAxes[0].MinStep = 1;
+                }
+                /*AllSeries[0].XAxes[0].Labels = [.. timeFrames.Select(timeFrame =>
+                    timeFrame.TimeFrom.ToString("dd/MM H:mm"))];
+                AllSeries[0].XAxes[0].LabelsRotation = 90;
+                AllSeries[0].XAxes[0].LabelsDensity = -0.1f;
+                AllSeries[0].XAxes[0].TextSize = 9;
+                AllSeries[0].XAxes[0].MinStep = 1;*/
             
-            Dictionary<string, List<Result>> results = new();
-            foreach (var result in ResultDictionary)
-            {
-                results.Add(result.Key, []);
-                // result.Value.HeatProduced.Select(s=> results[result.Key].Add(new Result(){HeatProduced = s}));
-                // results[result.Key]
-            }
+                foreach(var unitSeries in SelectedSeries)
+                {
+                    unitSeries.GenerateGraph(SelectedProductionUnits, timeFrames, in ResultsDict);
+                }
+            });
             
-            foreach(var unitSeries in AllSeries)
-            {
-                unitSeries.GenerateGraph(SelectedProductionUnits, in timeFrames, in results);
-            }
-            
-            
-
-            /*Series.Add(
-               new LineSeries<double> { Name = $"{sender} Heat Demand", Values = new ObservableCollection<double>(Frames[sender].Select(s => s.HeatDemand)), Fill = null, }
-            );
-            foreach (var PU in ResultDictionary)
-            {
-                Series.Add(new StackedAreaSeries<double> { Name = PU.Key, Values = PU.Value.HeatProduced, Fill = new SolidColorPaint { Color = colorDict[PU.Key] }, });
-            }
-
-            AllSeries[0].XAxes[0].MinLimit = 0;
-            AllSeries[0].YAxes[0].MinLimit = 0;#1#
-        }*/
+        }
     }
 }

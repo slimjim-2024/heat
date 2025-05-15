@@ -8,7 +8,7 @@
   mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
   x:DataType="vms:MainWindowViewModel"
   x:Class="HeatingOptimizer.UI.MainWindow"
-  Title="Super Optimizing Power Heating System">
+  Title="{Binding InputText, FallbackValue = Super Heating Optimizer}">
 
   <Window.DataContext>
     <vms:MainWindowViewModel />
@@ -27,18 +27,23 @@
     
     <!--Main code begins here-->
     <SplitView
-      IsPaneOpen="{Binding IsPaneOpen}" DisplayMode="Overlay"
-      CompactPaneLength="20" PanePlacement="Right" PaneBackground="Bisque" OpenPaneLength="300">
+      IsPaneOpen="{Binding IsPaneOpen}" DisplayMode="CompactInline"
+      CompactPaneLength="30" PanePlacement="Right" PaneBackground="Bisque" OpenPaneLength="250">
       <SplitView.Pane>
         <DockPanel x:Name="SplitPane" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                    Height="{Binding $parent[SplitView].Bounds.Height}">
-          <Button DockPanel.Dock="Top" Foreground="Black"
-                  Command="{Binding PaneInteractionCommand}"
-                  HorizontalAlignment="Center" VerticalAlignment="Top">
-            Close panel
-          </Button>
-          <ListBox ItemsSource="{Binding AllSeries}" SelectedItems="{Binding SelectedSeries}"
-                   DockPanel.Dock="Top" SelectionMode="Multiple, Toggle">
+          <Button DockPanel.Dock="Left" Margin="0" HorizontalAlignment="Right" VerticalAlignment="Stretch" CornerRadius="0"
+                      Command="{Binding PaneInteractionCommand}"
+                      Background="Bisque" Width=" 30" BorderThickness="0" Content="&lt;" Foreground="Black"
+                      VerticalContentAlignment="Center">
+                <Button.Styles>
+                  <Style Selector="Button:pointerover">
+                    <Setter Property="Background" Value="Bisque"></Setter>
+                  </Style>
+                </Button.Styles>
+              </Button>
+          <ListBox Classes="Selector" DockPanel.Dock="Top" ItemsSource="{Binding AllSeries}" SelectedItems="{Binding SelectedSeries}"
+                   SelectionMode="Multiple, Toggle" HorizontalAlignment="Center">
             <ListBox.ItemsPanel>
               <ItemsPanelTemplate>
                 <WrapPanel Background="Bisque" />
@@ -57,24 +62,17 @@
       
       <!-- MainPage content begins here -->
       <SplitView.Content>
+        
         <!--
         <ScrollViewer HorizontalAlignment="Stretch" DockPanel.Dock="Top">
           -->
           <!-- Adding a heading (label) to a project -->
-          <StackPanel Margin="20" ScrollViewer.AllowAutoHide="True"
-                      ScrollViewer.VerticalScrollBarVisibility="Visible">
-            <TextBlock Margin="0 5" FontSize="18" FontWeight="Bold">File entry</TextBlock>
-            <TextBox Watermark="Enter the file path to the csv file"
-                     Text="{Binding InputText, Mode=TwoWay}" />
-
-            <!-- Adding a chart container (canvas) -->
-            <!--
-            <StackPanel Margin="20" HorizontalAlignment="Center" VerticalAlignment="Stretch">
-              -->
-              <!-- Adding a container for the buttons-->
-              <WrapPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+          <DockPanel>
+            <!-- Adding a container for the buttons-->
+              <WrapPanel Orientation="Horizontal" Margin="10 30 10 10" HorizontalAlignment="Center" VerticalAlignment="Stretch" DockPanel.Dock="Top">
               <!-- Production Unit ListBox-->
                 <ListBox x:Name="ProductionUnitsListBox"
+                         Classes="Select"
                          SelectionMode="Multiple,Toggle"
                          ItemsSource="{Binding AllProductionUnits}"
                          SelectedItems="{Binding SelectedProductionUnits}">
@@ -91,17 +89,9 @@
                   </ListBox.ItemTemplate>
                 </ListBox>
 
-                <!-- Adding the dropdown for the options -->
-                <!-- SelectedItem="{Binding SelectedOption}" -->
-                  <ComboBox SelectedIndex="{Binding SelectedIndex}" VerticalAlignment="Center"
-                            Margin="10 0 10 0">
-                    <ComboBoxItem>Cheapest</ComboBoxItem>
-                    <ComboBoxItem>Most Eco Friendly(CO2)</ComboBoxItem>
-                    <ComboBoxItem>Most Efficiency(Least Consumption)</ComboBoxItem>
-                  </ComboBox>
-
-                  <ListBox ItemsSource="{Binding SeasonSelection}"
-                           SelectedItem="{Binding SelectedSeason}" VerticalAlignment="Center">
+                  <ListBox ItemsSource="{Binding SeasonSelection}" Classes="Select"
+                           SelectedItem="{Binding SelectedSeason}" VerticalAlignment="Center"
+                           Margin="20 0 20 0 ">
                     <ListBox.ItemsPanel>
                       <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" 
@@ -109,49 +99,86 @@
                       </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                   </ListBox>
+                <!-- Adding the dropdown for the options -->
+                <!-- SelectedItem="{Binding SelectedOption}" -->
+                  <ComboBox SelectedIndex="{Binding SelectedIndex}" VerticalAlignment="Center"
+                            Margin="0 0 20 0">
+                    <ComboBoxItem>Cheapest</ComboBoxItem>
+                    <ComboBoxItem>Most Eco Friendly(CO2)</ComboBoxItem>
+                    <ComboBoxItem>Most Efficiency(Least Consumption)</ComboBoxItem>
+                  </ComboBox>
+
   
                 <Button Margin="5" Command="{Binding GenerateButton_Click}"
                         CommandParameter="{Binding SelectedSeason}">
                   Generate
                 </Button>
-                <Button HorizontalAlignment="Stretch" DockPanel.Dock="Right"
-                        Command="{Binding PaneInteractionCommand}">
+                <!--<Button HorizontalAlignment="Stretch" DockPanel.Dock="Right" Command="{Binding PaneInteractionCommand}">
                   Open graph selection dialog
-                </Button>
-                </WrapPanel>
-
+                </Button>-->
+              </WrapPanel>
               <ListBox ItemsSource="{Binding SelectedSeries}" HorizontalAlignment="Center"
-                       VerticalAlignment="Center" >
-                <ListBox.Styles>
-                  <Style Selector="ListBoxItem:selected">
-                    <Setter Property="Background" Value="Black"/>
-                  </Style>
-                </ListBox.Styles>
+                       VerticalAlignment="Center" DockPanel.Dock="Top" ScrollViewer.AllowAutoHide="True"
+                       ScrollViewer.VerticalScrollBarVisibility="Visible" Classes="Graphs" Padding="10"
+                       SelectionMode="Single">
+
                 
                 <ListBox.ItemsPanel>
                   <ItemsPanelTemplate>
-                    <WrapPanel HorizontalAlignment="Center" Margin="5 0 5 0"/>
+                    <UniformGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5 0 5 0" Columns="2"/>
                   </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                   <DataTemplate>
-                    <Border HorizontalAlignment="Stretch" CornerRadius="10" Padding="8"
+                    <Border CornerRadius="10" Padding="8"
                             BorderBrush="DimGray" BorderThickness="3">
-                      <StackPanel>
-                        <lvc:CartesianChart
-                          Width="500" Height="300" Series="{Binding Series}" ZoomMode="X" 
-                          XAxes="{Binding XAxes}" YAxes="{Binding YAxes}" />
+                      <Viewbox Stretch="UniformToFill">
+                      <DockPanel>
+
+                        <!--<Button Content="&#x2197;" DockPanel.Dock="Right" Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                      AncestorType={x:Type vms:MainWindowViewModel}}, Path=OpenNewWindow}" CommandParameter="{Binding}"
+                                IsEnabled="True"/>-->
+                        <lvc:CartesianChart Width="600" Height="350" Series="{Binding Series}" ZoomMode="X" 
+                          XAxes="{Binding XAxes}" YAxes="{Binding YAxes}" DockPanel.Dock="Top"
+                          />
+                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" DockPanel.Dock="Bottom"></TextBlock>
                         <!-- PointerPressedCommand="{Binding PressedCommand}" -->
-                      </StackPanel>
+                      </DockPanel>
+                      </Viewbox>
                     </Border>
                   </DataTemplate>
                 </ListBox.ItemTemplate>
+                <!--<ListBox.ItemContainerTheme>
+                  <ControlTheme TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                      <ControlTemplate>
+                      <ContentPresenter Name="PART_ContentPresenter"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="{TemplateBinding CornerRadius}"
+                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                        Content="{TemplateBinding Content}"
+                                        Padding="{TemplateBinding Padding}"
+                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}">
+
+                      <ContentPresenter.ContextFlyout>
+                          <MenuFlyout>
+                            <MenuItem Command="{Binding OpenNewWindowCommand, 
+                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type vms:MainWindowViewModel}}}"
+                                      CommandParameter="{Binding}"
+                                      Header="Open in new Window"/>
+                          </MenuFlyout>
+                      </ContentPresenter.ContextFlyout>
+                    </ContentPresenter>
+                      </ControlTemplate>
+                      </Setter>
+                  </ControlTheme>
+                </ListBox.ItemContainerTheme>-->
+
               </ListBox>
-            </StackPanel>
-          <!--
-          </StackPanel>
-        -->
-        <!--</ScrollViewer>-->
+            </DockPanel>
       </SplitView.Content>
     </SplitView>
   </DockPanel>

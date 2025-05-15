@@ -21,6 +21,8 @@ public class LineSeries : IViewableSeries
         Name = "Time Period",
         NamePaint = new SolidColorPaint(SKColor.Parse("#808080")),
         TextSize = 18,
+        LabelsRotation = 90,
+        LabelsDensity = -0.1f,
         LabelsPaint = new SolidColorPaint(SKColor.Parse("#B0B0B0")),
         SeparatorsPaint = new SolidColorPaint
         {

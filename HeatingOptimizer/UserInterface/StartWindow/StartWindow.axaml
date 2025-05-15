@@ -10,14 +10,16 @@
         <Window.DataContext>
           <vms:StartWindowViewModel />
           </Window.DataContext>
-        <StackPanel>
+          <Viewbox Stretch="Uniform" Margin="30">
+            <StackPanel >
             <TextBlock FontWeight="Bold" Foreground="AliceBlue" HorizontalAlignment="Center" FontSize="40"> Welcome to Heating Optimizer!</TextBlock>
-            <TextBlock HorizontalAlignment="Center" FontSize="20" Text="{Binding PathToMachines}"></TextBlock>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-              <Button Content="Load Machines" Click="LoadMachines" Margin="10"/>
-              <Button Content="Confirm" Click="ConfirmClick" Margin="10"/>
+            <TextBlock HorizontalAlignment="Center" FontSize="20" Margin="0 15 0 0" Text="{Binding PathToMachines}"></TextBlock>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
+              <Button Content="Load Machines" Click="LoadMachines" Margin="3 5"/>
+              <Button Content="Confirm" Click="ConfirmClick" Margin="3 5"/>
             </StackPanel>
-            <Image Margin="0 20 0 0" Source="/Assets/Images/StartImage.png" Width="500" HorizontalAlignment="Center"/>
+            <Image Margin="0 20 0 20" Source="/Assets/Images/StartImage.png" Height="300" HorizontalAlignment="Center"/>
 
           </StackPanel>
+        </Viewbox>
 </Window>
