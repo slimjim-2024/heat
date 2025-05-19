@@ -12,16 +12,35 @@
         <Color x:Key="OB1">#FF7F50</Color>  <!-- Coral -->
         <Color x:Key="GM1">#00FFFF</Color>  <!-- Cyan -->
         <Color x:Key="HP1">#008080</Color>  <!-- Teal -->
+        <FontFamily x:Key="Inter">avares://HeatingOptimizer/Fonts/Inter_Variable.ttf</FontFamily>
+        <FontFamily x:Key="Monsterrat">avares://HeatingOptimizer/Fonts/Monsterrat_Variable.ttf</FontFamily>
 
     </Application.Resources>
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+        <Style Selector=":is(TopLevel)">
+            <Setter Property="FontFamily" Value="{StaticResource Monsterrat}" />
+        </Style>
+
         <Styles>
+            <Style Selector="ListBox.Selector > ListBoxItem">
+                <Setter Property="Foreground" Value="White"/>
+            </Style>
             <Style Selector="ListBox.Select" >
                 <Setter Property="CornerRadius" Value="4" />
                 <Setter Property="Background" Value="{StaticResource Bg}" />
             </Style>
+            <Style Selector="ListBox.Graphs">
+                <Setter Property="Background" Value="{StaticResource Bg}"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="ScrollViewer.AllowAutoHide" Value="True"/>
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Visible"/>
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="SelectionMode" Value="Single"/>
+            </Style>
+
             <Style Selector="ListBox.Graphs > ListBoxItem:selected">
                 <Setter Property="Background" Value="{StaticResource Bg}"/>
             </Style>

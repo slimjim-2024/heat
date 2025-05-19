@@ -59,7 +59,7 @@ namespace HeatingOptimizer.ViewModels
 
         [ObservableProperty]
         private ObservableCollection<IViewableSeries> _allSeries = [
-            new StackedAreaSeries{Name="Heat Demand" ,Selection = s=> s.HeatProduced,
+            new StackedAreaSeries{Name="Heat generated per machine" ,Selection = s=> s.HeatProduced,
                 },
             new LineSeries{Name=" Electricity price", Selection = s=> (double)s.ElectricityPrice,
                 },
