@@ -19,8 +19,8 @@
       <!-- <StackPanel Orientation="Horizontal" DockPanel.Dock="Top"> -->
       <MenuItem Header="File" Classes="optionBar" HorizontalAlignment="Stretch">
         <MenuItem Header="Open Timeframe Data" Click="BrowseFile" HotKey="Ctrl+o" />
-        <MenuItem Header="Load Data" Click="LoadButton_Click" />
-        <MenuItem Header="Save" />
+        <MenuItem Header="Load Result Data" Click="LoadButton_Click" />
+        <MenuItem Header="Save Result Data" Click="SaveButton_Click" HotKey="Ctrl+s"/>
       </MenuItem>
       <MenuItem Classes="optionBar" Header="Edit Machine info" Click="EditFile" />
     </Menu>

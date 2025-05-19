@@ -14,6 +14,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using HeatingOptimizer.Optimizer;
 using LiveChartsCore.Kernel.Sketches;
+using Avalonia.Platform.Storage;
+using Avalonia.Interactivity;
 
 
 namespace HeatingOptimizer.ViewModels
@@ -43,16 +45,16 @@ namespace HeatingOptimizer.ViewModels
 
         [ObservableProperty]
         private List<string> _seasonSelection = ["Summer", "Winter"];
-        Dictionary<string, List<Result>> ResultsDict = new();
+        [ObservableProperty]
+        private string _selectedSeason = "Winter";
+
+        public Dictionary<string, List<Result>> ResultsDict = new();
+
 
         [ObservableProperty]
         private string _inputText = string.Empty;
 
-        [ObservableProperty]
-        private string _selectedSeason = "Winter";
-
         [ObservableProperty] private bool _isPaneOpen = false;
-        
         [RelayCommand] protected internal void PaneInteractionCommand() => IsPaneOpen = !IsPaneOpen;
 
         [ObservableProperty]
@@ -108,7 +110,6 @@ namespace HeatingOptimizer.ViewModels
                     unitSeries.GenerateGraph(SelectedProductionUnits, timeFrames, in ResultsDict);
                 }*/
             });
-            
         }
     }
 }

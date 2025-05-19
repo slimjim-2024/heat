@@ -19,7 +19,7 @@ namespace HeatingOptimizer
         protected internal string Name {get; set;}
         public ObservableCollection<ICartesianAxis> XAxes {get; set;}
         protected internal ObservableCollection<ICartesianAxis> YAxes { get; set; }
-        void GenerateGraph(List<ProductionUnit> selectedProductionUnits, List<TimeFrame> timeFrames,
+        void GenerateGraph(List<ProductionUnit> selectedProductionUnits, List<TimeFrame>? timeFrames,
             in Dictionary<string, List<Result>> results);
     }
 }
