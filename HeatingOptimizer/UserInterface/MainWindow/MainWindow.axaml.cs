@@ -78,16 +78,16 @@ public partial class MainWindow : Window
                     Patterns = ["*.json"]
                 },
             },
-            SuggestedStartLocation = await StorageProvider.TryGetFolderFromPathAsync(Environment.CurrentDirectory), // Open the file dialog in the current directory
-            SuggestedFileName = "",
-            ShowOverwritePrompt = true // Show a prompt if the file already exists
+            SuggestedStartLocation = await StorageProvider.TryGetFolderFromPathAsync(Environment.CurrentDirectory),
+            SuggestedFileName = "results.json",
+            ShowOverwritePrompt = true
         });
 
         if (result != null)
         {
             var options = new JsonSerializerOptions { WriteIndented = true };
-            string json = JsonSerializer.Serialize(mainWindowViewModel.ResultsDict, options);
-            System.IO.File.WriteAllText(result.Path.AbsolutePath, json);
+            await using var stream = await result.OpenWriteAsync();
+            await JsonSerializer.SerializeAsync(stream, mainWindowViewModel.ResultsDict, options);
         }
     }
 
