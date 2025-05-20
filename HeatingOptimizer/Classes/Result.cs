@@ -10,7 +10,7 @@ public class Result
     public decimal ProductionCosts { get; set; }
     public double CO2Emissions { get; set; }
     public double Consumption { get; set; }
-    public DateTime Times { get; set; }
+    public DateTime TimeFrom { get; set; }
 
     public Result()
     {
@@ -24,6 +24,6 @@ public class Result
         ProductionCosts = productionCosts;
         CO2Emissions = co2Emissions;
         Consumption = consumption;
-        Times = times;
+        TimeFrom = times;
     }
 }

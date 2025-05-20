@@ -19,8 +19,8 @@
       <!-- <StackPanel Orientation="Horizontal" DockPanel.Dock="Top"> -->
       <MenuItem Header="File" Classes="optionBar" HorizontalAlignment="Stretch">
         <MenuItem Header="Open Timeframe Data" Click="BrowseFile" HotKey="Ctrl+o" />
-        <MenuItem Header="Load Data" Click="LoadButton_Click" />
-        <MenuItem Header="Save" />
+        <MenuItem Header="Load Result Data" Click="LoadButton_Click" />
+        <MenuItem Header="Save Result Data" Click="SaveButton_Click" HotKey="Ctrl+s"/>
       </MenuItem>
       <MenuItem Classes="optionBar" Header="Edit Machine info" Click="EditFile" />
     </Menu>
@@ -109,8 +109,8 @@
                   <ComboBox SelectedIndex="{Binding SelectedIndex}" VerticalAlignment="Center"
                             Margin="0 0 20 0">
                     <ComboBoxItem>Cheapest</ComboBoxItem>
-                    <ComboBoxItem>Most Eco Friendly(CO2)</ComboBoxItem>
-                    <ComboBoxItem>Most Efficiency(Least Consumption)</ComboBoxItem>
+                    <ComboBoxItem>Most Eco-Friendly (Least CO2 Emissions)</ComboBoxItem>
+                    <ComboBoxItem>Most Efficient (Least Consumption)</ComboBoxItem>
                   </ComboBox>
 
   

@@ -14,6 +14,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using HeatingOptimizer.Optimizer;
 using LiveChartsCore.Kernel.Sketches;
+using Avalonia.Platform.Storage;
+using Avalonia.Interactivity;
 
 
 namespace HeatingOptimizer.ViewModels
@@ -29,7 +31,7 @@ namespace HeatingOptimizer.ViewModels
             {"HP1", SKColors.Teal}
         };
         protected internal Dictionary<string, List<TimeFrame>> Frames;
-        
+
         [ObservableProperty] private string _titleText = "Heating Optimizer";
 
         [ObservableProperty]
@@ -37,42 +39,37 @@ namespace HeatingOptimizer.ViewModels
         public List<ProductionUnit> SelectedProductionUnits { get; set; } = [];
 
         // checking which of the options is selected by their index
-
         [ObservableProperty]
         private short _selectedIndex = 0; // Default to first index
 
 
         [ObservableProperty]
         private List<string> _seasonSelection = ["Summer", "Winter"];
-        Dictionary<string, List<Result>> ResultsDict = new();
-
-        protected internal Dictionary<string, Results> ResultDictionary = new();
-        [ObservableProperty]
-        private string _inputText = string.Empty;
-
         [ObservableProperty]
         private string _selectedSeason = "Winter";
 
+        public Dictionary<string, List<Result>> ResultsDict = new();
+
+
+        [ObservableProperty]
+        private string _inputText = string.Empty;
+
         [ObservableProperty] private bool _isPaneOpen = false;
-        
         [RelayCommand] protected internal void PaneInteractionCommand() => IsPaneOpen = !IsPaneOpen;
 
         [ObservableProperty]
         private ObservableCollection<IViewableSeries> _allSeries = [
-            new StackedAreaSeries{Name="Heat generated per machine" ,Selection = s=> s.HeatProduced,
+            new LineSeries{Name = "Heat demand", Selection = s=> s.HeatDemand},
+            new StackedAreaSeries{Name="Heat distribution" ,Selection = s=> s.HeatProduced,
+
                 },
             new LineSeries{Name=" Electricity price", Selection = s=> (double)s.ElectricityPrice,
                 },
-            new ProfitLossSeries{Name = "Money spent", },
             new StackedAreaSeries{Name = "Electricity generated", Selection = s=> s.ElectricityProduced,
                 MinLimit = -6},
-            new LineSeries{Name = "Heat Demand", Selection = s=> s.HeatDemand},
+            new ProfitLossSeries{Name = "Cost", },
         ];
         [ObservableProperty] private ObservableCollection<IViewableSeries> _selectedSeries = [];
-
-        /*
-        [ObservableProperty] private ObservableCollection<ISeries> _series = [];
-        */
 
         [ObservableProperty]
         private ObservableCollection<ISeries> _pieSeries = [];
@@ -93,7 +90,6 @@ namespace HeatingOptimizer.ViewModels
                 if (SelectedProductionUnits.Count == 0) return;
 
                 var timeFrames = Frames[sender];
-            
 
                 CostCalculatorV2.CalculateSeason(SelectedProductionUnits, timeFrames,
                     SelectedIndex, ref ResultsDict);
@@ -106,20 +102,15 @@ namespace HeatingOptimizer.ViewModels
                     series.XAxes[0].LabelsDensity = -0.1f;
                     series.XAxes[0].TextSize = 9;
                     series.XAxes[0].MinStep = 1;
+
+                    series.GenerateGraph(SelectedProductionUnits, timeFrames, in ResultsDict);
                 }
-                /*AllSeries[0].XAxes[0].Labels = [.. timeFrames.Select(timeFrame =>
-                    timeFrame.TimeFrom.ToString("dd/MM H:mm"))];
-                AllSeries[0].XAxes[0].LabelsRotation = 90;
-                AllSeries[0].XAxes[0].LabelsDensity = -0.1f;
-                AllSeries[0].XAxes[0].TextSize = 9;
-                AllSeries[0].XAxes[0].MinStep = 1;*/
-            
-                foreach(var unitSeries in SelectedSeries)
+
+                /*foreach (var unitSeries in SelectedSeries)
                 {
                     unitSeries.GenerateGraph(SelectedProductionUnits, timeFrames, in ResultsDict);
-                }
+                }*/
             });
-            
         }
     }
 }

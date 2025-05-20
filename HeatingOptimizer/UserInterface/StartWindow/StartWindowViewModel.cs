@@ -10,10 +10,4 @@ public partial class StartWindowViewModel : ObservableObject
     private string _pathToMachines = "No file selected";
 
     protected internal List<ProductionUnit> productionUnits = [];
-
-
-    
-
-
-
 }

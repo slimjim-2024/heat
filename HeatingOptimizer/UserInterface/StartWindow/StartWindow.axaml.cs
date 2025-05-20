@@ -21,7 +21,7 @@ public partial class StartWindow : Window
     {
          IReadOnlyList<IStorageFile> result = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
-            Title = "Open a csv file with the timeFrames",
+            Title = "Select a Machine Data file",
             // File type picker
             FileTypeFilter = new List<FilePickerFileType>
             {
