@@ -28,32 +28,37 @@
     <!--Main code begins here-->
     <SplitView
       IsPaneOpen="{Binding IsPaneOpen}" DisplayMode="CompactInline"
-      CompactPaneLength="30" PanePlacement="Right" PaneBackground="Bisque" OpenPaneLength="250">
+      CompactPaneLength="30" PanePlacement="Right" PaneBackground="DarkBlue" OpenPaneLength="280">
       <SplitView.Pane>
         <DockPanel x:Name="SplitPane" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                    Height="{Binding $parent[SplitView].Bounds.Height}">
           <Button DockPanel.Dock="Left" Margin="0" HorizontalAlignment="Right" VerticalAlignment="Stretch" CornerRadius="0"
                       Command="{Binding PaneInteractionCommand}"
-                      Background="Bisque" Width=" 30" BorderThickness="0" Content="&lt;" Foreground="Black"
-                      VerticalContentAlignment="Center">
+                      Background="DarkBlue" Width=" 45" BorderThickness="0" Content="&lt;" Foreground="White"
+                      VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
                 <Button.Styles>
                   <Style Selector="Button:pointerover">
-                    <Setter Property="Background" Value="Bisque"></Setter>
+                    <Setter Property="Background" Value="DarkBlue"></Setter>
                   </Style>
                 </Button.Styles>
               </Button>
-          <ListBox Classes="Selector" DockPanel.Dock="Top" ItemsSource="{Binding AllSeries}" SelectedItems="{Binding SelectedSeries}"
-                   SelectionMode="Multiple, Toggle" HorizontalAlignment="Center">
+          <TextBlock DockPanel.Dock="Top" Background="DarkBlue" Foreground="LightGray" 
+                     TextAlignment="Center" FontWeight="ExtraBold" FontSize="20"
+                     Margin="0 20 0 0"> Graph types</TextBlock>
+          <ListBox Classes="Selector" DockPanel.Dock="Top" ItemsSource="{Binding AllSeries}" 
+                   SelectedItems="{Binding SelectedSeries}"
+                   SelectionMode="Multiple, Toggle" HorizontalAlignment="Center" Background="DarkBlue" >
             <ListBox.ItemsPanel>
               <ItemsPanelTemplate>
-                <WrapPanel Background="Bisque" />
+                <UniformGrid Rows="5" Columns="1" Background="DarkBlue" Margin="0 30 0 30" VerticalAlignment="Stretch" />
               </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
               <DataTemplate>
-                <Border CornerRadius="4" Padding="4" BorderBrush="Navy" BorderThickness="2">
-                  <TextBlock Text="{Binding Name}" Foreground="Black" />
-                </Border>
+                <!--<Border CornerRadius="4" Padding="4" BorderBrush="Navy" BorderThickness="1.5">
+                </Border>-->
+                  <TextBlock Text="{Binding Name}" Foreground="LightGray"  VerticalAlignment="Center"
+                             TextWrapping="Wrap" FontSize="18"/>
               </DataTemplate>
             </ListBox.ItemTemplate>
           </ListBox>
@@ -117,10 +122,9 @@
                   Open graph selection dialog
                 </Button>-->
               </WrapPanel>
-              <ListBox ItemsSource="{Binding SelectedSeries}" HorizontalAlignment="Center"
-                       VerticalAlignment="Center" DockPanel.Dock="Top" ScrollViewer.AllowAutoHide="True"
-                       ScrollViewer.VerticalScrollBarVisibility="Visible" Classes="Graphs" Padding="10"
-                       SelectionMode="Single">
+              <ListBox ItemsSource="{Binding SelectedSeries}"
+                       Classes="Graphs"
+                       DockPanel.Dock="Top">
 
                 
                 <ListBox.ItemsPanel>
@@ -130,53 +134,22 @@
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                   <DataTemplate>
-                    <Border CornerRadius="10" Padding="8"
+                    <Border CornerRadius="10" Padding="12"
                             BorderBrush="DimGray" BorderThickness="3">
                       <Viewbox Stretch="UniformToFill">
                       <DockPanel>
-
                         <!--<Button Content="&#x2197;" DockPanel.Dock="Right" Command="{Binding RelativeSource={RelativeSource FindAncestor, 
                                       AncestorType={x:Type vms:MainWindowViewModel}}, Path=OpenNewWindow}" CommandParameter="{Binding}"
                                 IsEnabled="True"/>-->
-                        <lvc:CartesianChart Width="600" Height="350" Series="{Binding Series}" ZoomMode="X" 
+                        <lvc:CartesianChart Width="800" Height="460" Series="{Binding Series}" ZoomMode="X" 
                           XAxes="{Binding XAxes}" YAxes="{Binding YAxes}" DockPanel.Dock="Top"
                           />
-                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" DockPanel.Dock="Bottom"></TextBlock>
                         <!-- PointerPressedCommand="{Binding PressedCommand}" -->
                       </DockPanel>
                       </Viewbox>
                     </Border>
                   </DataTemplate>
                 </ListBox.ItemTemplate>
-                <!--<ListBox.ItemContainerTheme>
-                  <ControlTheme TargetType="ListBoxItem">
-                    <Setter Property="Template">
-                      <ControlTemplate>
-                      <ContentPresenter Name="PART_ContentPresenter"
-                                        Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        CornerRadius="{TemplateBinding CornerRadius}"
-                                        ContentTemplate="{TemplateBinding ContentTemplate}"
-                                        Content="{TemplateBinding Content}"
-                                        Padding="{TemplateBinding Padding}"
-                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}">
-
-                      <ContentPresenter.ContextFlyout>
-                          <MenuFlyout>
-                            <MenuItem Command="{Binding OpenNewWindowCommand, 
-                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type vms:MainWindowViewModel}}}"
-                                      CommandParameter="{Binding}"
-                                      Header="Open in new Window"/>
-                          </MenuFlyout>
-                      </ContentPresenter.ContextFlyout>
-                    </ContentPresenter>
-                      </ControlTemplate>
-                      </Setter>
-                  </ControlTheme>
-                </ListBox.ItemContainerTheme>-->
-
               </ListBox>
             </DockPanel>
       </SplitView.Content>
