@@ -5,6 +5,7 @@
   xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:vms="using:HeatingOptimizer.ViewModels"
+  xmlns:app="using:HeatingOptimizer"
   mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
   x:DataType="vms:MainWindowViewModel"
   x:Class="HeatingOptimizer.UI.MainWindow"
@@ -47,6 +48,7 @@
                      Margin="0 20 0 0"> Graph types</TextBlock>
           <ListBox Classes="Selector" DockPanel.Dock="Top" ItemsSource="{Binding AllSeries}" 
                    SelectedItems="{Binding SelectedSeries}"
+                   SelectionChanged="SelectedGraphs_OnSelectionChanged"
                    SelectionMode="Multiple, Toggle" HorizontalAlignment="Center" Background="DarkBlue" >
             <ListBox.ItemsPanel>
               <ItemsPanelTemplate>
@@ -122,14 +124,37 @@
                   Open graph selection dialog
                 </Button>-->
               </WrapPanel>
+            <ScrollViewer AllowAutoHide="True" VerticalScrollBarVisibility="Visible" DockPanel.Dock="Top">
+              <StackPanel Orientation="Vertical">
+
+                <Viewbox Stretch="Uniform" MaxHeight="450">
+              <ItemsControl ItemsSource="{Binding SelectedGraph}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate DataType="{x:Type app:IViewableSeries}">
+                    <Border BorderBrush="LightGray" BorderThickness="5" CornerRadius="10">
+                    <lvc:CartesianChart Series="{Binding Series}" 
+                                        XAxes="{Binding XAxes}"
+                                        YAxes="{Binding YAxes}" 
+                                        Width="800" Height="500" ZoomMode="X"/>
+                    
+                    </Border>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </Viewbox>
+              </StackPanel>
+            </ScrollViewer>
               <ListBox ItemsSource="{Binding SelectedSeries}"
-                       Classes="Graphs"
-                       DockPanel.Dock="Top">
+                       SelectedItems="{Binding SelectedGraph}"
+                       SelectionChanged="SelectingItemsControl_OnSelectionChanged"
+                       Classes="Graphs" SelectionMode="Single, Toggle"
+                       MaxHeight="{Binding }"
+                       DockPanel.Dock="Bottom">
 
                 
                 <ListBox.ItemsPanel>
                   <ItemsPanelTemplate>
-                    <UniformGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5 0 5 0" Columns="2"/>
+                    <UniformGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5 0 5 0" Columns="{Binding GridColumns}"/>
                   </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
@@ -141,7 +166,7 @@
                         <!--<Button Content="&#x2197;" DockPanel.Dock="Right" Command="{Binding RelativeSource={RelativeSource FindAncestor, 
                                       AncestorType={x:Type vms:MainWindowViewModel}}, Path=OpenNewWindow}" CommandParameter="{Binding}"
                                 IsEnabled="True"/>-->
-                        <lvc:CartesianChart Width="800" Height="460" Series="{Binding Series}" ZoomMode="X" 
+                        <lvc:CartesianChart Width="800" Height="460" Series="{Binding Series}"
                           XAxes="{Binding XAxes}" YAxes="{Binding YAxes}" DockPanel.Dock="Top"
                           />
                         <!-- PointerPressedCommand="{Binding PressedCommand}" -->
@@ -151,6 +176,7 @@
                   </DataTemplate>
                 </ListBox.ItemTemplate>
               </ListBox>
+
             </DockPanel>
       </SplitView.Content>
     </SplitView>

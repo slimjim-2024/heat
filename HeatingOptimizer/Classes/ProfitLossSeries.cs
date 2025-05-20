@@ -83,13 +83,7 @@ public class ProfitLossSeries : IViewableSeries
         Series.Add(new LineSeries<decimal>
         {
             Name = Name, 
-            Values =new ObservableCollection<decimal>(costs)
-        });
-        Series.Add(new LineSeries<decimal>
-        {
-            Name = $"{Name} lost",
-            Values = new ObservableCollection<decimal>(costs.Select(el => -el))
-            
+            Values =new ObservableCollection<decimal>(costs),
         });
         XAxes[0].MinLimit = 0;
         // YAxes[0].MinLimit = 0;

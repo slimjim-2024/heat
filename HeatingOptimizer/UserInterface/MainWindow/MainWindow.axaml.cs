@@ -6,6 +6,7 @@ using HeatingOptimizer.ViewModels;
 using Avalonia.Interactivity;
 using HeatingOptimizer.SourceDataManager;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CsvHelper;
 using System.Globalization;
 using System.IO.Pipelines;
@@ -111,5 +112,16 @@ public partial class MainWindow : Window
     private void MenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
         Console.WriteLine("Clicked");
+    }
+
+    private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        mainWindowViewModel.GridColumns =
+            mainWindowViewModel.SelectedGraph.Count > 0 ? mainWindowViewModel.SelectedSeries.Count : 2;
+    }
+
+    private void SelectedGraphs_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        mainWindowViewModel.GridColumns = mainWindowViewModel.SelectedGraph.Count > 0 ? mainWindowViewModel.SelectedSeries.Count : 2;
     }
 }

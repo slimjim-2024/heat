@@ -24,4 +24,7 @@
   <ItemGroup>
   <AvaloniaResource Include="Assets\**" />
 </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="UserInterface\AppWindow\AppWindow.axaml" />
+  </ItemGroup>
 </Project>

@@ -15,10 +15,10 @@ namespace HeatingOptimizer
 
     public interface IViewableSeries 
     {
-        protected internal ObservableCollection<ISeries> Series {get; set;} 
-        protected internal string Name {get; set;}
+        public ObservableCollection<ISeries> Series {get; set;} 
+        public string Name {get; set;}
         public ObservableCollection<ICartesianAxis> XAxes {get; set;}
-        protected internal ObservableCollection<ICartesianAxis> YAxes { get; set; }
+        public ObservableCollection<ICartesianAxis> YAxes { get; set; }
         void GenerateGraph(List<ProductionUnit> selectedProductionUnits, List<TimeFrame>? timeFrames,
             in Dictionary<string, List<Result>> results);
     }
