@@ -9,7 +9,7 @@ using SkiaSharp;
 
 namespace HeatingOptimizer;
 
-public class ProfitLossSeries : IViewableSeries
+public class TotalCostSeries : IViewableSeries
 {
     public ObservableCollection<ISeries> Series { get; set; } = [];
     public string Name { get; set; }
@@ -68,42 +68,25 @@ public class ProfitLossSeries : IViewableSeries
     {
         Series.Clear();
         YAxes[0].Name = Name;
-
-        List<decimal> costs = [];
-        List<decimal> revenue = []; // Revenue can be negative if electricity is bought
-        List<decimal> total = [];
+   
+        List<decimal> costs = new List<decimal>();
         for (var i = 0; i < timeFrames.Count; ++i)
         {
             decimal currentCost = 0;
-            decimal currentRevenue = 0;
             foreach (var result in results)
             {
-                currentCost -= result.Value[i].ProductionCosts;
-                currentRevenue += result.Value[i].Revenue;
+                 currentCost -= result.Value[i].ProductionCosts;
             }
             costs.Add(currentCost);
-            revenue.Add(currentRevenue);
-            total.Add(currentRevenue + currentCost);
         }
-
+        
         Series.Add(new LineSeries<decimal>
         {
-            Name = "Fuel Costs",
-            Values = new ObservableCollection<decimal>(costs),
+            Name = Name, 
+            Values =new ObservableCollection<decimal>(costs),
         });
-        Series.Add(new LineSeries<decimal>
-        {
-            Name = "Electicity Costs/Revenue",
-            Values = new ObservableCollection<decimal>(revenue),
-        });
-        Series.Add(new LineSeries<decimal>
-        {
-            Name = "Total Costs/Revenue",
-            Values = new ObservableCollection<decimal>(total),
-        });
-
         XAxes[0].MinLimit = 0;
         // YAxes[0].MinLimit = 0;
-
+        
     }
 }

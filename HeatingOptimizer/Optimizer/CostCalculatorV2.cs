@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 
 namespace HeatingOptimizer.Optimizer
@@ -19,14 +20,15 @@ namespace HeatingOptimizer.Optimizer
                 double fraction = heatProduced / prodUnit.MaxHeatOutput;
                 double electricityProduced = fraction * prodUnit.MaxElectricity;
                 
-                decimal cost = (decimal)(heatProduced*(double)prodUnit.ProductionCosts - electricityProduced*(double)timeframe.ElectricityPrice);
+                decimal cost = (decimal)(heatProduced*(double)prodUnit.ProductionCosts);
+                decimal revenue = (decimal)(electricityProduced*(double)timeframe.ElectricityPrice);
 
                 double emissions = heatProduced*prodUnit.CO2Emissions;
 
                 double consumption = heatProduced*prodUnit.Consumption;
 
                 // Saves results
-                resultDict[prodUnit.Name].Add(new Result(heatProduced, electricityProduced, cost,
+                resultDict[prodUnit.Name].Add(new Result(heatProduced, electricityProduced, cost, revenue,
                     emissions, consumption, timeframe.TimeFrom));
             }
         }
