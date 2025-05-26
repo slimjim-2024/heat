@@ -100,7 +100,7 @@ namespace HeatingOptimizer.ViewModels
                 var timeFrames = Frames[sender];
             
 
-                CostCalculatorV2.CalculateSeason(SelectedProductionUnits, timeFrames,
+                CostCalculator.CalculateSeason(SelectedProductionUnits, timeFrames,
                     SelectedIndex, ref ResultsDict);
                 // AllSeries.Add(new());
                 // Displays timeframes on X axis

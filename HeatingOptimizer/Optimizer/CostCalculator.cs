@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HeatingOptimizer.Optimizer
 {
-    static class CostCalculatorV2
+    static class CostCalculator
     {        
         private static void CalculateTimeframe(TimeFrame timeframe, List<ProductionUnit> prodUnits,
         ref Dictionary<string, List<Result>> resultDict)
