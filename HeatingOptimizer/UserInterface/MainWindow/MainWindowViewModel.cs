@@ -33,6 +33,7 @@ namespace HeatingOptimizer.ViewModels
         [ObservableProperty] private string _titleText = "Heating Optimizer";
 
         [ObservableProperty] private int _gridColumns = 2;
+        [ObservableProperty] private int _gridMaxHeight = 2000;
 
         [ObservableProperty] private ObservableCollection<IViewableSeries> _selectedGraph=[];
 

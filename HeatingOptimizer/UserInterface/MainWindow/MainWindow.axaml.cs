@@ -118,6 +118,7 @@ public partial class MainWindow : Window
     {
         mainWindowViewModel.GridColumns =
             mainWindowViewModel.SelectedGraph.Count > 0 ? mainWindowViewModel.SelectedSeries.Count : 2;
+        mainWindowViewModel.GridMaxHeight = mainWindowViewModel.SelectedGraph.Count > 0 ? 100 : 2000;
     }
 
     private void SelectedGraphs_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
