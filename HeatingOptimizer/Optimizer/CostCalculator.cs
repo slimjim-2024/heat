@@ -1,14 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Avalonia.Reactive;
+
 
 namespace HeatingOptimizer.Optimizer
 {
-    static class CostCalculator
+    public static class CostCalculator
     {        
         private static void CalculateTimeframe(TimeFrame timeframe, List<ProductionUnit> prodUnits,
-        ref Dictionary<string, Results> resultDict)
+        ref Dictionary<string, List<Result>> resultDict)
         {
             double remainingHeat = timeframe.HeatDemand;
             foreach (var prodUnit in prodUnits)
@@ -27,24 +26,20 @@ namespace HeatingOptimizer.Optimizer
                 double consumption = heatProduced*prodUnit.Consumption;
 
                 // Saves results
-                resultDict[prodUnit.Name].HeatProduced.Add(heatProduced);
-                resultDict[prodUnit.Name].ElectricityProduced.Add(electricityProduced);
-                resultDict[prodUnit.Name].ProductionCosts.Add(cost);
-                resultDict[prodUnit.Name].CO2Emissions.Add(emissions);
-                resultDict[prodUnit.Name].Consumption.Add(consumption);
-                resultDict[prodUnit.Name].Times.Add(timeframe.TimeFrom);
+                resultDict[prodUnit.Name].Add(new Result(heatProduced, electricityProduced, cost,
+                    emissions, consumption, timeframe.TimeFrom));
             }
         }
 
         public static void CalculateSeason(List<ProductionUnit> selectedProductionUnits, List<TimeFrame> period, short sortType,
-        ref Dictionary<string, Results> resultDict)
+        ref Dictionary<string, List<Result>> resultDict)
         {
             // Sorts data and prepares dictionary
             selectedProductionUnits = ProdUnitSorter.Sort(selectedProductionUnits, period[0], sortType);
-            resultDict = new Dictionary<string, Results>();
+            resultDict = new Dictionary<string, List<Result>>();
             foreach (var productionUnit in selectedProductionUnits)
             {
-                resultDict[productionUnit.Name] = new Results();
+                resultDict[productionUnit.Name] = new List<Result>();
             }
             
             // Loop through each timeframe

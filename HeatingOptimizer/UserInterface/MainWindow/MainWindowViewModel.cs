@@ -46,7 +46,6 @@ namespace HeatingOptimizer.ViewModels
         private List<string> _seasonSelection = ["Summer", "Winter"];
         Dictionary<string, List<Result>> ResultsDict = new();
 
-        protected internal Dictionary<string, Results> ResultDictionary = new();
         [ObservableProperty]
         private string _inputText = string.Empty;
 
@@ -95,7 +94,7 @@ namespace HeatingOptimizer.ViewModels
                 var timeFrames = Frames[sender];
             
 
-                CostCalculatorV2.CalculateSeason(SelectedProductionUnits, timeFrames,
+                CostCalculator.CalculateSeason(SelectedProductionUnits, timeFrames,
                     SelectedIndex, ref ResultsDict);
                 // AllSeries.Add(new());
                 // Displays timeframes on X axis

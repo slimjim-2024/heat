@@ -4,7 +4,7 @@ VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeatingOptimizer", "HeatingOptimizer\HeatingOptimizer.csproj", "{4049E16B-5CDE-FDEC-49BC-911874B35D77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeatingOptimizer.Tests", "HeatingOptimizer.Tests\HeatingOptimizer.Tests.csproj", "{5638FC20-4574-2D47-B61C-02AB704F37BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeatingOptimizer.Tests", "HeatingOptimizer.Tests\HeatingOptimizer.Tests.csproj", "{E8E84C65-F80C-48EE-BB52-8ECC1A824B63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,9 +16,10 @@ Global
 		{4049E16B-5CDE-FDEC-49BC-911874B35D77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4049E16B-5CDE-FDEC-49BC-911874B35D77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4049E16B-5CDE-FDEC-49BC-911874B35D77}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5638FC20-4574-2D47-B61C-02AB704F37BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5638FC20-4574-2D47-B61C-02AB704F37BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5638FC20-4574-2D47-B61C-02AB704F37BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8E84C65-F80C-48EE-BB52-8ECC1A824B63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8E84C65-F80C-48EE-BB52-8ECC1A824B63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8E84C65-F80C-48EE-BB52-8ECC1A824B63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8E84C65-F80C-48EE-BB52-8ECC1A824B63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
