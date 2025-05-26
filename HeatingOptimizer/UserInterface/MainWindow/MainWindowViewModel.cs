@@ -32,6 +32,11 @@ namespace HeatingOptimizer.ViewModels
         
         [ObservableProperty] private string _titleText = "Heating Optimizer";
 
+        [ObservableProperty] private int _gridColumns = 2;
+        [ObservableProperty] private int _gridMaxHeight = 2000;
+
+        [ObservableProperty] private ObservableCollection<IViewableSeries> _selectedGraph=[];
+
         [ObservableProperty]
         private ObservableCollection<ProductionUnit> _allProductionUnits;
         public List<ProductionUnit> SelectedProductionUnits { get; set; } = [];
@@ -44,7 +49,7 @@ namespace HeatingOptimizer.ViewModels
 
         [ObservableProperty]
         private List<string> _seasonSelection = ["Summer", "Winter"];
-        Dictionary<string, List<Result>> ResultsDict = new();
+        protected internal Dictionary<string, List<Result>> ResultsDict = new();
 
         [ObservableProperty]
         private string _inputText = string.Empty;

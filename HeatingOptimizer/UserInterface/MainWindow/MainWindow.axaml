@@ -5,6 +5,8 @@
   xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:vms="using:HeatingOptimizer.ViewModels"
+  xmlns:app="using:HeatingOptimizer"
+  xmlns:converters="using:HeatingOptimizer.Converters"
   mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
   x:DataType="vms:MainWindowViewModel"
   x:Class="HeatingOptimizer.UI.MainWindow"
@@ -13,14 +15,17 @@
   <Window.DataContext>
     <vms:MainWindowViewModel />
   </Window.DataContext>
+  <Window.Resources>
+    <converters:ObjectToMainWindowViewModelConverter x:Key="ObjectToMainWindowViewModelConverter"/>
+  </Window.Resources>
 
   <DockPanel>
     <Menu HorizontalAlignment="Stretch" DockPanel.Dock="Top">
       <!-- <StackPanel Orientation="Horizontal" DockPanel.Dock="Top"> -->
       <MenuItem Header="File" Classes="optionBar" HorizontalAlignment="Stretch">
         <MenuItem Header="Open Timeframe Data" Click="BrowseFile" HotKey="Ctrl+o" />
-        <MenuItem Header="Load Data" Click="LoadButton_Click" />
-        <MenuItem Header="Save" />
+        <MenuItem Header="Load Result Data" Click="LoadButton_Click" />
+        <MenuItem Header="Save Result Data" Click="SaveButton_Click" HotKey="Ctrl+s"/>
       </MenuItem>
       <MenuItem Classes="optionBar" Header="Edit Machine info" Click="EditFile" />
     </Menu>
@@ -47,6 +52,7 @@
                      Margin="0 20 0 0"> Graph types</TextBlock>
           <ListBox Classes="Selector" DockPanel.Dock="Top" ItemsSource="{Binding AllSeries}" 
                    SelectedItems="{Binding SelectedSeries}"
+                   SelectionChanged="SelectedGraphs_OnSelectionChanged"
                    SelectionMode="Multiple, Toggle" HorizontalAlignment="Center" Background="DarkBlue" >
             <ListBox.ItemsPanel>
               <ItemsPanelTemplate>
@@ -109,8 +115,8 @@
                   <ComboBox SelectedIndex="{Binding SelectedIndex}" VerticalAlignment="Center"
                             Margin="0 0 20 0">
                     <ComboBoxItem>Cheapest</ComboBoxItem>
-                    <ComboBoxItem>Most Eco Friendly(CO2)</ComboBoxItem>
-                    <ComboBoxItem>Most Efficiency(Least Consumption)</ComboBoxItem>
+                    <ComboBoxItem>Most Eco-Friendly (Least CO2 Emissions)</ComboBoxItem>
+                    <ComboBoxItem>Most Efficient (Least Consumption)</ComboBoxItem>
                   </ComboBox>
 
   
@@ -123,25 +129,27 @@
                 </Button>-->
               </WrapPanel>
               <ListBox ItemsSource="{Binding SelectedSeries}"
-                       Classes="Graphs"
+                       SelectedItems="{Binding SelectedGraph}"
+                       SelectionChanged="SelectingItemsControl_OnSelectionChanged"
+                       Classes="Graphs" SelectionMode="Single, Toggle"
+                       MaxHeight="{Binding }"
                        DockPanel.Dock="Top">
-
-                
                 <ListBox.ItemsPanel>
                   <ItemsPanelTemplate>
-                    <UniformGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5 0 5 0" Columns="2"/>
+                    <UniformGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  
+                                 MaxHeight="{Binding GridMaxHeight}" Margin="5 0 5 0" Columns="{Binding GridColumns}"/>
                   </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                   <DataTemplate>
                     <Border CornerRadius="10" Padding="12"
                             BorderBrush="DimGray" BorderThickness="3">
-                      <Viewbox Stretch="UniformToFill">
-                      <DockPanel>
+                      <Viewbox Stretch="Uniform">
+                        <DockPanel>
                         <!--<Button Content="&#x2197;" DockPanel.Dock="Right" Command="{Binding RelativeSource={RelativeSource FindAncestor, 
                                       AncestorType={x:Type vms:MainWindowViewModel}}, Path=OpenNewWindow}" CommandParameter="{Binding}"
                                 IsEnabled="True"/>-->
-                        <lvc:CartesianChart Width="800" Height="460" Series="{Binding Series}" ZoomMode="X" 
+                        <lvc:CartesianChart Width="400" Height="240" Series="{Binding Series}"
                           XAxes="{Binding XAxes}" YAxes="{Binding YAxes}" DockPanel.Dock="Top"
                           />
                         <!-- PointerPressedCommand="{Binding PressedCommand}" -->
@@ -151,6 +159,28 @@
                   </DataTemplate>
                 </ListBox.ItemTemplate>
               </ListBox>
+            <!--
+            <ScrollViewer AllowAutoHide="True" VerticalScrollBarVisibility="Visible" DockPanel.Dock="Bottom">
+              -->
+
+                <Viewbox Stretch="Uniform" DockPanel.Dock="Bottom">
+                  <ItemsControl ItemsSource="{Binding SelectedGraph}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate DataType="{x:Type app:IViewableSeries}">
+                        <Border BorderBrush="LightGray" BorderThickness="5" CornerRadius="10">
+                          <lvc:CartesianChart Series="{Binding Series}" 
+                                              XAxes="{Binding XAxes}"
+                                              YAxes="{Binding YAxes}" 
+                                              Width="1000" Height="500" ZoomMode="X"/>
+                    
+                        </Border>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </Viewbox>
+            <!--
+            </ScrollViewer>
+            -->
             </DockPanel>
       </SplitView.Content>
     </SplitView>
