@@ -58,8 +58,42 @@ public partial class MainWindow : Window
         }
     }
 
-    private void LoadButton_Click(object sender, RoutedEventArgs e)
+    private async void LoadButton_Click(object sender, RoutedEventArgs e)
     {
+        var file = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "Open Results file",
+            FileTypeFilter =
+            [
+                new("JSON Files(*.json)")
+                {
+                    Patterns = ["*.json"]
+                },
+            ],
+            SuggestedStartLocation = await StorageProvider.TryGetFolderFromPathAsync(Environment.CurrentDirectory),
+            SuggestedFileName = "results.json",
+            AllowMultiple = false
+        });
+
+        if (file != null && file.Count > 0)
+        {
+            try
+            {
+                // Opens reading stream from the first file
+                await using var stream = await file[0].OpenReadAsync();
+                using var streamReader = new StreamReader(stream);
+                
+                // Asyncrounously deserializes JSON data
+                mainWindowViewModel.ResultsDict = await JsonSerializer.DeserializeAsync<Dictionary<string, List<Result>>>(stream);
+
+                // Redraws the graphs with loaded data
+                mainWindowViewModel.GenerateGraphs([]);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error loading file: {ex.Message}");
+            }
+        }
     }
 
     private async void SaveButton_Click(object sender, RoutedEventArgs e)

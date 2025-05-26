@@ -38,7 +38,7 @@ public class ProfitLossSeries : IViewableSeries
         },
         MinLimit=0,
     }];
-            
+
     public ObservableCollection<ICartesianAxis> YAxes { get; set; } =
     [
         new Axis
@@ -63,7 +63,7 @@ public class ProfitLossSeries : IViewableSeries
             },
         }
     ];
-    public void GenerateGraph(List<ProductionUnit> selectedProductionUnits, List<TimeFrame> timeFrames,
+    public void GenerateGraph(List<ProductionUnit> selectedProductionUnits, List<TimeFrame>? timeFrames,
         in Dictionary<string, List<Result>> results)
     {
         Series.Clear();
@@ -72,7 +72,9 @@ public class ProfitLossSeries : IViewableSeries
         List<decimal> costs = [];
         List<decimal> revenue = []; // Revenue can be negative if electricity is bought
         List<decimal> total = [];
-        for (var i = 0; i < timeFrames.Count; ++i)
+
+        var nOfTimeFrames = results.First().Value.Count;
+        for (var i = 0; i < nOfTimeFrames; ++i)
         {
             decimal currentCost = 0;
             decimal currentRevenue = 0;

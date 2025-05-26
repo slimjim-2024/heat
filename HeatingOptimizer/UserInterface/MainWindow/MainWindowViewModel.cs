@@ -29,12 +29,12 @@ namespace HeatingOptimizer.ViewModels
             {"HP1", SKColors.Teal}
         };
         protected internal Dictionary<string, List<TimeFrame>> Frames;
-        
+
         [ObservableProperty] private string _titleText = "Heating Optimizer";
 
         [ObservableProperty] private int _gridColumns = 2;
 
-        [ObservableProperty] private ObservableCollection<IViewableSeries> _selectedGraph=[];
+        [ObservableProperty] private ObservableCollection<IViewableSeries> _selectedGraph = [];
 
         [ObservableProperty]
         private ObservableCollection<ProductionUnit> _allProductionUnits;
@@ -58,7 +58,7 @@ namespace HeatingOptimizer.ViewModels
         private string _selectedSeason = "Winter";
 
         [ObservableProperty] private bool _isPaneOpen = false;
-        
+
         [RelayCommand] protected internal void PaneInteractionCommand() => IsPaneOpen = !IsPaneOpen;
 
         [ObservableProperty]
@@ -97,33 +97,36 @@ namespace HeatingOptimizer.ViewModels
                 if (SelectedProductionUnits.Count == 0) return;
 
                 var timeFrames = Frames[sender];
-            
+
 
                 CostCalculatorV2.CalculateSeason(SelectedProductionUnits, timeFrames,
                     SelectedIndex, ref ResultsDict);
-                // AllSeries.Add(new());
-                // Displays timeframes on X axis
-                foreach (var series in AllSeries)
-                {
-                    series.XAxes[0].Labels = [.. timeFrames.Select(timeFrame => timeFrame.TimeFrom.ToString("dd/MM H:mm"))];
-                    series.XAxes[0].LabelsRotation = 90;
-                    series.XAxes[0].LabelsDensity = -0.1f;
-                    series.XAxes[0].TextSize = 9;
-                    series.XAxes[0].MinStep = 1;
-                }
-                /*AllSeries[0].XAxes[0].Labels = [.. timeFrames.Select(timeFrame =>
-                    timeFrame.TimeFrom.ToString("dd/MM H:mm"))];
-                AllSeries[0].XAxes[0].LabelsRotation = 90;
-                AllSeries[0].XAxes[0].LabelsDensity = -0.1f;
-                AllSeries[0].XAxes[0].TextSize = 9;
-                AllSeries[0].XAxes[0].MinStep = 1;*/
-            
-                foreach(var unitSeries in SelectedSeries)
-                {
-                    unitSeries.GenerateGraph(SelectedProductionUnits, timeFrames, in ResultsDict);
-                }
+
+                // Gets labels from the first result's TimeFrom list
+                //List<String> labels = [.. ResultsDict.First().Value.Select(result => result.TimeFrom.ToString("dd/MM H:mm"))];
+                List<String> labels = [.. timeFrames.Select(timeFrame => timeFrame.TimeFrom.ToString("dd/MM H:mm"))];
+                GenerateGraphs(timeFrames);
             });
+        }
+
+        public void GenerateGraphs(List<TimeFrame> timeFrames)
+        { 
             
+
+            foreach (var series in AllSeries)
+            {
+                // Gets labels from the first result's TimeFrom list
+                series.XAxes[0].Labels = [.. ResultsDict.First().Value.Select(result => result.TimeFrom.ToString("dd/MM H:mm"))];
+                series.XAxes[0].LabelsRotation = 90;
+                series.XAxes[0].LabelsDensity = -0.1f;
+                series.XAxes[0].TextSize = 9;
+                series.XAxes[0].MinStep = 1;
+            }
+
+            foreach (var unitSeries in SelectedSeries)
+            {
+                unitSeries.GenerateGraph(SelectedProductionUnits, timeFrames, in ResultsDict);
+            }
         }
     }
 }
