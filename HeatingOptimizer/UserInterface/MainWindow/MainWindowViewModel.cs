@@ -51,7 +51,6 @@ namespace HeatingOptimizer.ViewModels
         private List<string> _seasonSelection = ["Summer", "Winter"];
         protected internal Dictionary<string, List<Result>> ResultsDict = new();
 
-        // protected internal Dictionary<string, List<Result>> ResultDictionary = new();
         [ObservableProperty]
         private string _inputText = string.Empty;
 
