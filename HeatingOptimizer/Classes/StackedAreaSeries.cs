@@ -69,7 +69,7 @@ public class StackedAreaSeries : IViewableSeries
         }
     ];
 
-    public void GenerateGraph(List<ProductionUnit> selectedProductionUnits, List<TimeFrame> timeFrames,
+    public virtual void GenerateGraph(List<ProductionUnit> selectedProductionUnits, List<TimeFrame> timeFrames,
         in Dictionary<string, List<Result>> results)
     {
         Series.Clear();
@@ -77,17 +77,12 @@ public class StackedAreaSeries : IViewableSeries
 
         foreach (var selectedProductionUnit in results)
         {
+            ProductionUnit? machine = selectedProductionUnits.Find(x=> x.Name == selectedProductionUnit.Key);
             Series.Add(new StackedAreaSeries<double>{Name = selectedProductionUnit.Key, 
                 Values = new ObservableCollection<double>(selectedProductionUnit.Value.Select(Selection)),
-                Fill = new SolidColorPaint{Color = MainWindowViewModel.colorDict[selectedProductionUnit.Key]}, LineSmoothness = 0});
+                Fill = new SolidColorPaint{Color = machine!.Color}, LineSmoothness = 0});
         }
-        Series.Add(new StackedAreaSeries<double?>
-        {
-            Name = "Heat Deficiency",
-            Values = new ObservableCollection<double?>(timeFrames.Select(el=> el.HeatDemand == 0.0 ? null : (double?)el.RemainingHeat)),
-            Fill = new SolidColorPaint{Color = SKColors.DarkRed, PathEffect = new DashEffect([5, 5], 1)}, 
-            LineSmoothness = 0
-        });
+
         YAxes[0].MinLimit = MinLimit;
         
     }

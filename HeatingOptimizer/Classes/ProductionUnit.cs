@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using SkiaSharp;
 
 namespace HeatingOptimizer;
 
@@ -21,6 +22,7 @@ public class ProductionUnit
     public decimal ProductionCosts { get; set; }
     public int CO2Emissions { get; set; }
     public double Consumption { get; set; }
+    public SKColor Color { get; set; } = SKColor.Empty;
     public ProductionUnit() { }
 }
 

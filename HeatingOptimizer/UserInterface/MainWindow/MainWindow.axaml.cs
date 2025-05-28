@@ -28,6 +28,10 @@ public partial class MainWindow : Window
     public MainWindow(List<ProductionUnit> units) : this()
     {
         mainWindowViewModel.AllProductionUnits = new ObservableCollection<ProductionUnit>(units);
+        foreach (var productionUnit in units)
+        {
+            productionUnit.Color = MainWindowViewModel.colorDict[productionUnit.Name];
+        }
     }
 
     public async void BrowseFile(object sender, RoutedEventArgs e)

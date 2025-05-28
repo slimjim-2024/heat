@@ -56,7 +56,7 @@
                    SelectionMode="Multiple, Toggle" HorizontalAlignment="Center" Background="DarkBlue" >
             <ListBox.ItemsPanel>
               <ItemsPanelTemplate>
-                <UniformGrid Rows="5" Columns="1" Background="DarkBlue" Margin="0 30 0 30" VerticalAlignment="Stretch" />
+                <UniformGrid Rows="{Binding AllSeries.Count}" Columns="1" Background="DarkBlue" Margin="0 30 0 30" VerticalAlignment="Stretch" />
               </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
@@ -88,6 +88,7 @@
                          ItemsSource="{Binding AllProductionUnits}"
                          SelectedItems="{Binding SelectedProductionUnits}"
                          SelectionChanged="General_OnSelectionChanged">
+                  
                   <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                       <StackPanel Orientation="Horizontal" VerticalAlignment="Center" />
@@ -96,7 +97,8 @@
                   <ListBox.ItemTemplate>
                     <DataTemplate>
                       <TextBlock Text="{Binding Name}" HorizontalAlignment="Center"
-                                 VerticalAlignment="Center" />
+                                 VerticalAlignment="Center" Background="{Binding Color}">
+                      </TextBlock>
                     </DataTemplate>
                   </ListBox.ItemTemplate>
                 </ListBox>
@@ -143,8 +145,9 @@
                         <!--<Button Content="&#x2197;" DockPanel.Dock="Right" Command="{Binding RelativeSource={RelativeSource FindAncestor, 
                                       AncestorType={x:Type vms:MainWindowViewModel}}, Path=OpenNewWindow}" CommandParameter="{Binding}"
                                 IsEnabled="True"/>-->
+                        <TextBlock DockPanel.Dock="Bottom" Foreground="WhiteSmoke" Text="{Binding Name}" TextAlignment="Center"></TextBlock>
                         <lvc:CartesianChart Width="400" Height="240" Series="{Binding Series}"
-                          XAxes="{Binding XAxes}" YAxes="{Binding YAxes}" DockPanel.Dock="Top"
+                          DockPanel.Dock="Top"
                           />
                         <!-- PointerPressedCommand="{Binding PressedCommand}" -->
                       </DockPanel>

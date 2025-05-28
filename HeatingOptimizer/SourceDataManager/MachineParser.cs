@@ -6,6 +6,7 @@ using System.Linq;
 using Avalonia.Controls.Shapes;
 using CsvHelper;
 using CsvHelper.Configuration;
+using HeatingOptimizer.ViewModels;
 
 namespace HeatingOptimizer.SourceDataManager;
 
@@ -36,7 +37,7 @@ public class MachineParser
                         MaxElectricity = double.Parse(MachineData[2], CultureInfo.InvariantCulture), // max electricity of the machine
                         ProductionCosts = decimal.Parse(MachineData[3], CultureInfo.InvariantCulture), // production costs of the machine
                         CO2Emissions = int.Parse(MachineData[4], CultureInfo.InvariantCulture), // CO2 emissions of the machine
-                        Consumption = int.Parse(MachineData[5], CultureInfo.InvariantCulture) // consumption of the machine
+                        Consumption = int.Parse(MachineData[5], CultureInfo.InvariantCulture), // consumption of the machine
                     }; // create a new production unit
 
                     machines.Add(productionUnit); // add the machine to the list of machines
