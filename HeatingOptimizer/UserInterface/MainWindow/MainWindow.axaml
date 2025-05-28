@@ -86,7 +86,8 @@
                          Classes="Select"
                          SelectionMode="Multiple,Toggle"
                          ItemsSource="{Binding AllProductionUnits}"
-                         SelectedItems="{Binding SelectedProductionUnits}">
+                         SelectedItems="{Binding SelectedProductionUnits}"
+                         SelectionChanged="General_OnSelectionChanged">
                   <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                       <StackPanel Orientation="Horizontal" VerticalAlignment="Center" />
@@ -102,6 +103,7 @@
 
                   <ListBox ItemsSource="{Binding SeasonSelection}" Classes="Select"
                            SelectedItem="{Binding SelectedSeason}" VerticalAlignment="Center"
+                           SelectionChanged="General_OnSelectionChanged"
                            Margin="20 0 20 0 ">
                     <ListBox.ItemsPanel>
                       <ItemsPanelTemplate>
@@ -113,20 +115,12 @@
                 <!-- Adding the dropdown for the options -->
                 <!-- SelectedItem="{Binding SelectedOption}" -->
                   <ComboBox SelectedIndex="{Binding SelectedIndex}" VerticalAlignment="Center"
+                            SelectionChanged="General_OnSelectionChanged"
                             Margin="0 0 20 0">
                     <ComboBoxItem>Cheapest</ComboBoxItem>
                     <ComboBoxItem>Most Eco-Friendly (Least CO2 Emissions)</ComboBoxItem>
                     <ComboBoxItem>Most Efficient (Least Consumption)</ComboBoxItem>
                   </ComboBox>
-
-  
-                <Button Margin="5" Command="{Binding GenerateButton_Click}"
-                        CommandParameter="{Binding SelectedSeason}">
-                  Generate
-                </Button>
-                <!--<Button HorizontalAlignment="Stretch" DockPanel.Dock="Right" Command="{Binding PaneInteractionCommand}">
-                  Open graph selection dialog
-                </Button>-->
               </WrapPanel>
               <ListBox ItemsSource="{Binding SelectedSeries}"
                        SelectedItems="{Binding SelectedGraph}"

@@ -35,7 +35,7 @@ namespace HeatingOptimizer.ViewModels
         [ObservableProperty] private int _gridColumns = 2;
         [ObservableProperty] private int _gridMaxHeight = 2000;
 
-        [ObservableProperty] private ObservableCollection<IViewableSeries> _selectedGraph=[];
+        [ObservableProperty] private ObservableCollection<IViewableSeries> _selectedGraph = [];
 
         [ObservableProperty]
         private ObservableCollection<ProductionUnit> _allProductionUnits;
@@ -51,6 +51,7 @@ namespace HeatingOptimizer.ViewModels
         private List<string> _seasonSelection = ["Summer", "Winter"];
         protected internal Dictionary<string, List<Result>> ResultsDict = new();
 
+        // protected internal Dictionary<string, List<Result>> ResultDictionary = new();
         [ObservableProperty]
         private string _inputText = string.Empty;
 
@@ -89,38 +90,78 @@ namespace HeatingOptimizer.ViewModels
             Console.WriteLine(series);
         }
 
+        // After loading data from file
         [RelayCommand]
-        public async Task GenerateButton_Click(string sender)
+        public async Task PrepareLoadedData()
+        {
+            await Task.Run(() =>
+            {
+                List<TimeFrame> timeFrames = [];
+
+                // Results are already loaded
+
+                // Clears series that now countain outdated data
+                foreach (var series in AllSeries)
+                {
+                    series.Series.Clear();
+                }
+
+                GenerateGraphs();
+            });
+        }
+
+        // When  Timeframe or Machine Data  or  Selected Season or Machines  change
+        [RelayCommand]
+        public async Task PrepareCalculatedData()
         {
             await Task.Run(() =>
             {
                 if (SelectedProductionUnits.Count == 0) return;
 
-                var timeFrames = Frames[sender];
-            
+                List<TimeFrame> timeFrames = Frames[SelectedSeason];
 
-                CostCalculator.CalculateSeason(SelectedProductionUnits, timeFrames,
+                // Calculates results
+                CostCalculatorV2.CalculateSeason(SelectedProductionUnits, Frames[SelectedSeason],
                     SelectedIndex, ref ResultsDict);
-                // AllSeries.Add(new());
-                // Displays timeframes on X axis
+
+                // Clears series that now countain outdated data
                 foreach (var series in AllSeries)
                 {
-                    series.XAxes[0].Labels = [.. timeFrames.Select(timeFrame => timeFrame.TimeFrom.ToString("dd/MM H:mm"))];
-                    series.XAxes[0].LabelsRotation = 90;
-                    series.XAxes[0].LabelsDensity = -0.1f;
-                    series.XAxes[0].TextSize = 9;
-                    series.XAxes[0].MinStep = 1;
+                    series.Series.Clear();
                 }
-                /*AllSeries[0].XAxes[0].Labels = [.. timeFrames.Select(timeFrame =>
-                    timeFrame.TimeFrom.ToString("dd/MM H:mm"))];
-                AllSeries[0].XAxes[0].LabelsRotation = 90;
-                AllSeries[0].XAxes[0].LabelsDensity = -0.1f;
-                AllSeries[0].XAxes[0].TextSize = 9;
-                AllSeries[0].XAxes[0].MinStep = 1;*/
-            
-                foreach(var unitSeries in SelectedSeries)
+
+                GenerateGraphs();
+            });
+        }
+
+        // After preparing data and When selected graphs change
+        public async void GenerateGraphs()
+        {
+            await Task.Run(() =>
+            {
+                if (SelectedSeries.Count == 0 || ResultsDict.Count == 0)
                 {
-                    unitSeries.GenerateGraph(SelectedProductionUnits, timeFrames, in ResultsDict);
+                    return;
+                }
+                
+                List <TimeFrame> timeFrames = Frames[SelectedSeason];
+                // Gets labels from the first result's TimeFrom list
+                List<string> labels = [.. ResultsDict.First().Value.Select(result => result.TimeFrom.ToString("dd/MM H:mm"))];
+
+                foreach (var series in SelectedSeries)
+                {
+                    // If data has not yet been generated for that graph
+                    if (series.Series.Count == 0)
+                    {
+                        // Gets labels from the first result's TimeFrom list
+                        series.XAxes[0].Labels = labels;
+                        series.XAxes[0].LabelsRotation = 90;
+                        series.XAxes[0].LabelsDensity = -0.1f;
+                        series.XAxes[0].TextSize = 9;
+                        series.XAxes[0].MinStep = 1;
+
+                        series.GenerateGraph(SelectedProductionUnits, timeFrames, in ResultsDict);
+                    }
                 }
             });
             
