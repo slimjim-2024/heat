@@ -8,6 +8,7 @@ public class TimeFrame
     protected internal DateTime TimeTo { get; }
     protected internal double HeatDemand { get; }
     protected internal decimal ElectricityPrice { get; }
+    protected internal double RemainingHeat { get; set; }
 
     public TimeFrame(DateTime tFrom, DateTime tTo, double hDemand, decimal ePrice)
     {

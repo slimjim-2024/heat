@@ -116,12 +116,12 @@ namespace HeatingOptimizer.ViewModels
         {
             await Task.Run(() =>
             {
-                if (SelectedProductionUnits.Count == 0) return;
+                if (SelectedProductionUnits.Count == 0 || Frames is null || Frames.Count == 0) return;
 
                 List<TimeFrame> timeFrames = Frames[SelectedSeason];
 
                 // Calculates results
-                CostCalculatorV2.CalculateSeason(SelectedProductionUnits, Frames[SelectedSeason],
+                CostCalculator.CalculateSeason(SelectedProductionUnits, Frames[SelectedSeason],
                     SelectedIndex, ref ResultsDict);
 
                 // Clears series that now countain outdated data

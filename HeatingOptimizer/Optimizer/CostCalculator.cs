@@ -7,7 +7,7 @@ namespace HeatingOptimizer.Optimizer
 {
     public static class CostCalculator
     {        
-        private static void CalculateTimeframe(TimeFrame timeframe, List<ProductionUnit> prodUnits,
+        private static double CalculateTimeframe(TimeFrame timeframe, List<ProductionUnit> prodUnits,
         ref Dictionary<string, List<Result>> resultDict)
         {
             double remainingHeat = timeframe.HeatDemand;
@@ -31,6 +31,7 @@ namespace HeatingOptimizer.Optimizer
                 resultDict[prodUnit.Name].Add(new Result(heatProduced, electricityProduced, cost, revenue,
                     emissions, consumption, timeframe.TimeFrom));
             }
+            return remainingHeat;
         }
 
         public static void CalculateSeason(List<ProductionUnit> selectedProductionUnits, List<TimeFrame> period, short sortType,
@@ -50,7 +51,8 @@ namespace HeatingOptimizer.Optimizer
                 // Sort on every timeframe if looking for cheapest solution, as electricity prices change every timeframe
                 if (sortType==0)
                     selectedProductionUnits = ProdUnitSorter.Sort(selectedProductionUnits, timeFrame, sortType);
-                CalculateTimeframe(timeFrame, selectedProductionUnits, ref resultDict);
+                double remainingHeat = CalculateTimeframe(timeFrame, selectedProductionUnits, ref resultDict);
+                timeFrame.RemainingHeat = remainingHeat;
             }
         }
     }

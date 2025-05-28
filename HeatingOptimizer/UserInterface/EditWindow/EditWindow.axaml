@@ -21,30 +21,10 @@
                 Foreground="White"
                 Text="Edit a machine" />
         </TextBlock>
-        <!-- <StackPanel Orientation="Horizontal" Margin="5">
-                        <TextBlock Text="Name" Width="100"/>
-                        <TextBlock Text="Max Heat Output" Width="100"/>
-                        <TextBlock Text="Max Electricity" Width="100"/>
-                        <TextBlock Text="Production Costs" Width="100"/>
-                        <TextBlock Text="CO2 Emissions" Width="100"/>
-                        <TextBlock Text="Consumption" Width="100"/>
-                    </StackPanel> -->
-         <!-- <ListBox x:Name="MachinesList" ItemsSource="{Binding Machines}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="5">
-                        <TextBlock Text="{Binding Name}" Width="100"/>
-                        <TextBlock Text="{Binding MaxHeatOutput}" Width="100"/>
-                        <TextBlock Text="{Binding MaxElectricity}" Width="100"/>
-                        <TextBlock Text="{Binding ProductionCosts}" Width="100"/>
-                        <TextBlock Text="{Binding CO2Emissions}" Width="100"/>
-                        <TextBlock Text="{Binding Consumption}" Width="100"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox> -->
+
         <DataGrid ItemsSource="{Binding Machines}" AutoGenerateColumns="True"
-        GridLinesVisibility="All" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="False">
+        GridLinesVisibility="All" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="False"
+        CellEditEnded="DataGrid_OnCellEditEnded">
             <DataGrid.Resources>
         <cnv:StringFormatConverter x:Key="ImageGetter" />
     </DataGrid.Resources>
