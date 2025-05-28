@@ -24,12 +24,12 @@ public partial class MainWindow : Window
         InitializeComponent();
         DataContext = mainWindowViewModel; // Set the DataContext here
     }
-    
-    public MainWindow(List<ProductionUnit> units): this()
+
+    public MainWindow(List<ProductionUnit> units) : this()
     {
-        mainWindowViewModel.AllProductionUnits=new ObservableCollection<ProductionUnit>(units);
+        mainWindowViewModel.AllProductionUnits = new ObservableCollection<ProductionUnit>(units);
     }
-    
+
     public async void BrowseFile(object sender, RoutedEventArgs e)
     {
         IReadOnlyList<IStorageFile> result = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
@@ -52,9 +52,11 @@ public partial class MainWindow : Window
             // Get the path of the selected file
             var localPath = result[0].Path.AbsolutePath;
             // Set the title of the window to the path of the file
-            mainWindowViewModel.InputText=localPath.Replace("%20", " ");
-            
+            mainWindowViewModel.InputText = localPath.Replace("%20", " ");
+
             DataParser.ParseHeatingDataCSV(mainWindowViewModel.InputText, ref mainWindowViewModel.Frames);
+
+            mainWindowViewModel.PrepareCalculatedData();
         }
     }
 
@@ -82,12 +84,11 @@ public partial class MainWindow : Window
                 // Opens reading stream from the first file
                 await using var stream = await file[0].OpenReadAsync();
                 using var streamReader = new StreamReader(stream);
-                
-                // Asyncrounously deserializes JSON data
-                mainWindowViewModel.ResultsDict = await JsonSerializer.DeserializeAsync<Dictionary<string, List<Result>>>(stream);
 
-                // Redraws the graphs with loaded data
-                mainWindowViewModel.GenerateGraphs([]);
+                // Asyncrounously deserializes JSON data
+                // Updates results and prepares graphs
+                mainWindowViewModel.ResultsDict = await JsonSerializer.DeserializeAsync<Dictionary<string, List<Result>>>(stream);
+                await mainWindowViewModel.PrepareLoadedData();
             }
             catch (Exception ex)
             {
@@ -102,7 +103,7 @@ public partial class MainWindow : Window
         {
             return;
         }
-        
+
         var result = await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
             Title = "Save Results file",
@@ -156,6 +157,13 @@ public partial class MainWindow : Window
 
     private void SelectedGraphs_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        mainWindowViewModel.GridColumns = mainWindowViewModel.SelectedGraph.Count > 0 ? mainWindowViewModel.SelectedSeries.Count : 2;
+        mainWindowViewModel.GridColumns =
+            mainWindowViewModel.SelectedGraph.Count > 0 ? mainWindowViewModel.SelectedSeries.Count : 2;
+        mainWindowViewModel.GenerateGraphs();
+    }
+
+    private async void General_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        await mainWindowViewModel.PrepareCalculatedData();
     }
 }
