@@ -70,10 +70,6 @@ public class DataParser
                         double.TryParse(summer[2], CultureInfo.InvariantCulture, out heatDemand) &&
                         decimal.TryParse(summer[3], CultureInfo.InvariantCulture, out electricityPrice))
                         SummerTimeFrame.Add(new TimeFrame(dateTimeFrom, dateTimeTo, heatDemand, electricityPrice));
-
-
-                    // WinterTimeFrame.Add(new Timeframe(DateTime.Parse(winter[0]), DateTime.Parse(winter[1]), Convert.ToDouble(winter[2], CultureInfo.InvariantCulture), Convert.ToDecimal(winter[3], CultureInfo.InvariantCulture))); // adds the data to the list
-                    // SummerTimeFrame.Add(new Timeframe(DateTime.Parse(summer[0]), DateTime.Parse(summer[1]), Convert.ToDouble(summer[2], CultureInfo.InvariantCulture), Convert.ToDecimal(summer[3], CultureInfo.InvariantCulture))); // adds the data to the list
                 }
 
                 timeFrames.Add("Winter", WinterTimeFrame); // adds the data to the list

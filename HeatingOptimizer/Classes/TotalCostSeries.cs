@@ -86,7 +86,6 @@ public class TotalCostSeries : IViewableSeries
             Values =new ObservableCollection<decimal>(costs),
         });
         XAxes[0].MinLimit = 0;
-        // YAxes[0].MinLimit = 0;
         
     }
 }

@@ -28,10 +28,7 @@ public partial class MainWindow : Window
     public MainWindow(List<ProductionUnit> units) : this()
     {
         mainWindowViewModel.AllProductionUnits = new ObservableCollection<ProductionUnit>(units);
-        foreach (var productionUnit in units)
-        {
-            productionUnit.Color = MainWindowViewModel.colorDict[productionUnit.Name];
-        }
+        
     }
 
     public async void BrowseFile(object sender, RoutedEventArgs e)
@@ -51,7 +48,7 @@ public partial class MainWindow : Window
             AllowMultiple = false // Allow only one file to be selected
         });
 
-        if (result != null && result.Count > 0)
+        if (result.Count > 0)
         {
             // Get the path of the selected file
             var localPath = result[0].Path.AbsolutePath;
@@ -60,7 +57,7 @@ public partial class MainWindow : Window
 
             DataParser.ParseHeatingDataCSV(mainWindowViewModel.InputText, ref mainWindowViewModel.Frames);
 
-            mainWindowViewModel.PrepareCalculatedData();
+            await mainWindowViewModel.PrepareCalculatedData();
         }
     }
 
@@ -81,7 +78,7 @@ public partial class MainWindow : Window
             AllowMultiple = false
         });
 
-        if (file != null && file.Count > 0)
+        if (file.Count > 0)
         {
             try
             {
@@ -91,7 +88,7 @@ public partial class MainWindow : Window
 
                 // Asyncrounously deserializes JSON data
                 // Updates results and prepares graphs
-                mainWindowViewModel.ResultsDict = await JsonSerializer.DeserializeAsync<Dictionary<string, List<Result>>>(stream);
+                mainWindowViewModel.ResultsDict = await JsonSerializer.DeserializeAsync<Dictionary<string, List<Result>>>(stream)??[];
                 await mainWindowViewModel.PrepareLoadedData();
             }
             catch (Exception ex)
@@ -138,14 +135,6 @@ public partial class MainWindow : Window
 
         // Show the EditWindow
         editWindow.Show();
-    }
-    private void AddData(object sender, RoutedEventArgs e)
-    {
-        // Create an instance of AddWindow
-        var addWindow = new AddDataWindow();
-
-        // Show the AddWindow
-        addWindow.Show();
     }
 
     private void MenuItem_OnClick(object? sender, RoutedEventArgs e)

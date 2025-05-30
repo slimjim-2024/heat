@@ -12,6 +12,7 @@
         <Color x:Key="OB1">#FF7F50</Color>  <!-- Coral -->
         <Color x:Key="GM1">#00FFFF</Color>  <!-- Cyan -->
         <Color x:Key="HP1">#008080</Color>  <!-- Teal -->
+        <Color x:Key="PaneColor">LightGray</Color>
         <FontFamily x:Key="Inter">avares://HeatingOptimizer/Fonts/Inter_Variable.ttf</FontFamily>
         <FontFamily x:Key="Monsterrat">avares://HeatingOptimizer/Fonts/Monsterrat_Variable.ttf</FontFamily>
 
@@ -49,7 +50,7 @@
                 <Setter Property="Focusable" Value="False"/>
             </Style>
             <Style Selector="ListBox.Graphs">
-                <Setter Property="Background" Value="{StaticResource Bg}"></Setter>
+                <Setter Property="Background" Value="{StaticResource Bg}"/>
             </Style>
             <Style Selector="ListBox.Select > ListBoxItem">
                 <Setter Property="Background" Value="{StaticResource Bg}"/>
@@ -59,10 +60,6 @@
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="Margin" Value="2 0 2 0"/>
             </Style>
-            
-            <!--<Style Selector="ListBox.Select > ListBoxItem:selected">
-                <Setter Property="Background" Value="{Binding }"/>
-            </Style>-->
             <Style Selector="Menu" >
                 <Setter Property="Background" Value="#FF1F1F1F"/>
                 <Setter Property="BorderThickness" Value="0"/>
@@ -76,7 +73,18 @@
             <Style Selector="MenuItem.optionBar:pointerover" >
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                 <Setter Property="CornerRadius" Value="10"/>
-                <!-- <Setter Property="BorderThickness" Value="4"/> -->
+                <Setter Property="Background" Value="#33FFFFFF"/>
+                <Setter Property="Padding" Value="8 0"/>
+                <Setter Property="BorderThickness" Value="4 0 4 0"/>
+            </Style>
+            <Style Selector="Menu.options > MenuItem" >
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="CornerRadius" Value="0"/>
+                <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+            <Style Selector="Menu.options > MenuItem:pointerover" >
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="CornerRadius" Value="10"/>
                 <Setter Property="Background" Value="#33FFFFFF"/>
                 <Setter Property="Padding" Value="8 0"/>
                 <Setter Property="BorderThickness" Value="4 0 4 0"/>

@@ -26,5 +26,7 @@
 </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Remove="UserInterface\AppWindow\AppWindow.axaml" />
+    <UpToDateCheckInput Remove="UserInterface\AddDataWindow\AddDataWindow.axaml" />
+    <UpToDateCheckInput Remove="UserInterface\CustomControls\Graph_Display.axaml" />
   </ItemGroup>
 </Project>

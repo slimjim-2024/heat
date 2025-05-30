@@ -8,6 +8,7 @@
   xmlns:app="using:HeatingOptimizer"
   xmlns:converters="using:HeatingOptimizer.Converters"
   mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
+  Icon="avares://HeatingOptimizer/Assets/Icons/MainWindow.ico"
   x:DataType="vms:MainWindowViewModel"
   x:Class="HeatingOptimizer.UI.MainWindow"
   Title="{Binding InputText, FallbackValue = Super Heating Optimizer}">
@@ -20,50 +21,45 @@
   </Window.Resources>
 
   <DockPanel>
-    <Menu HorizontalAlignment="Stretch" DockPanel.Dock="Top">
-      <!-- <StackPanel Orientation="Horizontal" DockPanel.Dock="Top"> -->
-      <MenuItem Header="File" Classes="optionBar" HorizontalAlignment="Stretch">
-        <MenuItem Header="Open Timeframe Data" Click="BrowseFile" HotKey="Ctrl+o" />
-        <MenuItem Header="Load Result Data" Click="LoadButton_Click" />
-        <MenuItem Header="Save Result Data" Click="SaveButton_Click" HotKey="Ctrl+s"/>
-      </MenuItem>
+    <Menu HorizontalAlignment="Stretch" DockPanel.Dock="Top" Classes="options">
+      <MenuItem Header="Open Timeframe Data" Click="BrowseFile" HotKey="Ctrl+o" />
+      <MenuItem Header="Load Result Data" Click="LoadButton_Click" />
+      <MenuItem Header="Save Result Data" Click="SaveButton_Click" HotKey="Ctrl+s"/>
       <MenuItem Classes="optionBar" Header="Edit Machine info" Click="EditFile" />
     </Menu>
     
     <!--Main code begins here-->
     <SplitView
       IsPaneOpen="{Binding IsPaneOpen}" DisplayMode="CompactInline"
-      CompactPaneLength="30" PanePlacement="Right" PaneBackground="DarkBlue" OpenPaneLength="280">
+      CompactPaneLength="30" PanePlacement="Right" PaneBackground="{StaticResource PaneColor}" OpenPaneLength="280">
       <SplitView.Pane>
         <DockPanel x:Name="SplitPane" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                    Height="{Binding $parent[SplitView].Bounds.Height}">
           <Button DockPanel.Dock="Left" Margin="0" HorizontalAlignment="Right" VerticalAlignment="Stretch" CornerRadius="0"
                       Command="{Binding PaneInteractionCommand}"
-                      Background="DarkBlue" Width=" 45" BorderThickness="0" Content="&lt;" Foreground="White"
+                      Background="{StaticResource PaneColor}" Width=" 45" BorderThickness="0" Content="&lt;" Foreground="Black"
                       VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
                 <Button.Styles>
                   <Style Selector="Button:pointerover">
-                    <Setter Property="Background" Value="DarkBlue"></Setter>
+                    <Setter Property="Background" Value="{StaticResource PaneColor}"></Setter>
                   </Style>
                 </Button.Styles>
               </Button>
-          <TextBlock DockPanel.Dock="Top" Background="DarkBlue" Foreground="LightGray" 
+          <TextBlock DockPanel.Dock="Top" Background="{StaticResource PaneColor}" Foreground="Black" 
                      TextAlignment="Center" FontWeight="ExtraBold" FontSize="20"
                      Margin="0 20 0 0"> Graph types</TextBlock>
           <ListBox Classes="Selector" DockPanel.Dock="Top" ItemsSource="{Binding AllSeries}" 
                    SelectedItems="{Binding SelectedSeries}"
                    SelectionChanged="SelectedGraphs_OnSelectionChanged"
-                   SelectionMode="Multiple, Toggle" HorizontalAlignment="Center" Background="DarkBlue" >
+                   SelectionMode="Multiple, Toggle" HorizontalAlignment="Center" Background="{StaticResource PaneColor}" >
             <ListBox.ItemsPanel>
               <ItemsPanelTemplate>
-                <UniformGrid Rows="{Binding AllSeries.Count}" Columns="1" Background="DarkBlue" Margin="0 30 0 30" VerticalAlignment="Stretch" />
+                <UniformGrid Rows="{Binding AllSeries.Count}" Columns="1" Background="{StaticResource PaneColor}" Margin="0 30 0 30" VerticalAlignment="Stretch" />
               </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
               <DataTemplate>
-                <!--<Border CornerRadius="4" Padding="4" BorderBrush="Navy" BorderThickness="1.5">
-                </Border>-->
-                  <TextBlock Text="{Binding Name}" Foreground="LightGray"  VerticalAlignment="Center"
+                  <TextBlock Text="{Binding Name}" Foreground="Black"  VerticalAlignment="Center"
                              TextWrapping="Wrap" FontSize="18"/>
               </DataTemplate>
             </ListBox.ItemTemplate>
@@ -73,10 +69,6 @@
       
       <!-- MainPage content begins here -->
       <SplitView.Content>
-        
-        <!--
-        <ScrollViewer HorizontalAlignment="Stretch" DockPanel.Dock="Top">
-          -->
           <!-- Adding a heading (label) to a project -->
           <DockPanel>
             <!-- Adding a container for the buttons-->
@@ -97,7 +89,7 @@
                   <ListBox.ItemTemplate>
                     <DataTemplate>
                       <TextBlock Text="{Binding Name}" HorizontalAlignment="Center"
-                                 VerticalAlignment="Center" Background="{Binding Color}">
+                                 VerticalAlignment="Center" Foreground="{StaticResource {Binding Name}}">
                       </TextBlock>
                     </DataTemplate>
                   </ListBox.ItemTemplate>
@@ -115,7 +107,6 @@
                     </ListBox.ItemsPanel>
                   </ListBox>
                 <!-- Adding the dropdown for the options -->
-                <!-- SelectedItem="{Binding SelectedOption}" -->
                   <ComboBox SelectedIndex="{Binding SelectedIndex}" VerticalAlignment="Center"
                             SelectionChanged="General_OnSelectionChanged"
                             Margin="0 0 20 0">
@@ -142,24 +133,16 @@
                             BorderBrush="DimGray" BorderThickness="3">
                       <Viewbox Stretch="Uniform">
                         <DockPanel>
-                        <!--<Button Content="&#x2197;" DockPanel.Dock="Right" Command="{Binding RelativeSource={RelativeSource FindAncestor, 
-                                      AncestorType={x:Type vms:MainWindowViewModel}}, Path=OpenNewWindow}" CommandParameter="{Binding}"
-                                IsEnabled="True"/>-->
                         <TextBlock DockPanel.Dock="Bottom" Foreground="WhiteSmoke" Text="{Binding Name}" TextAlignment="Center"></TextBlock>
                         <lvc:CartesianChart Width="400" Height="240" Series="{Binding Series}"
-                          DockPanel.Dock="Top"
+                          DockPanel.Dock="Top" IsHitTestVisible="False"
                           />
-                        <!-- PointerPressedCommand="{Binding PressedCommand}" -->
                       </DockPanel>
                       </Viewbox>
                     </Border>
                   </DataTemplate>
                 </ListBox.ItemTemplate>
               </ListBox>
-            <!--
-            <ScrollViewer AllowAutoHide="True" VerticalScrollBarVisibility="Visible" DockPanel.Dock="Bottom">
-              -->
-
                 <Viewbox Stretch="Uniform" DockPanel.Dock="Bottom">
                   <ItemsControl ItemsSource="{Binding SelectedGraph}">
                     <ItemsControl.ItemTemplate>
@@ -175,9 +158,6 @@
                     </ItemsControl.ItemTemplate>
                   </ItemsControl>
                 </Viewbox>
-            <!--
-            </ScrollViewer>
-            -->
             </DockPanel>
       </SplitView.Content>
     </SplitView>

@@ -68,11 +68,11 @@ namespace HeatingOptimizer.ViewModels
                 },
             new StackedAreaSeries
             {
-                Name = "CO2 Emissions (kg/MWh)", Selection = s=> s.CO2Emissions
+                Name = "CO2 Emissions (kg / MWh)", Selection = s=> s.CO2Emissions
             },
             new LineSeries{Name=" Electricity price(DKK / MWh)", Selection = s=> (double)s.ElectricityPrice,
                 },
-            new ProfitLossSeries{Name = "Money spent", },
+            new ProfitLossSeries{Name = "Money spent (DKK)", },
             new StackedAreaSeries{Name = "Electricity generated(MWh)", Selection = s=> s.ElectricityProduced,
                 MinLimit = -6},
             new LineSeries{Name = "Heat Demand(MWh)", Selection = s=> s.HeatDemand},
@@ -120,7 +120,7 @@ namespace HeatingOptimizer.ViewModels
         {
             await Task.Run(() =>
             {
-                if (SelectedProductionUnits.Count == 0 || Frames is null || Frames.Count == 0) return;
+                if (Frames is null || Frames.Count == 0) return;
 
                 List<TimeFrame> timeFrames = Frames[SelectedSeason];
 

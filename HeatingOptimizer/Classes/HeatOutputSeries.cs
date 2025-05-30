@@ -17,7 +17,7 @@ public class HeatOutputSeries : StackedAreaSeries
         base.GenerateGraph(selectedProductionUnits, timeFrames, in results);
         Series.Add(new StackedAreaSeries<double?>
         {
-            Name = "Heat Deficiency",
+            Name = "Heat Required",
             Values = new ObservableCollection<double?>(timeFrames.Select(el=> el.HeatDemand == 0.0 ? null : (double?)el.RemainingHeat)),
             Fill = new SolidColorPaint{Color = SKColors.DarkRed, PathEffect = new DashEffect([5, 5], 1)}, 
             LineSmoothness = 0

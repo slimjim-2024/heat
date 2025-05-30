@@ -80,7 +80,7 @@ public class StackedAreaSeries : IViewableSeries
             ProductionUnit? machine = selectedProductionUnits.Find(x=> x.Name == selectedProductionUnit.Key);
             Series.Add(new StackedAreaSeries<double>{Name = selectedProductionUnit.Key, 
                 Values = new ObservableCollection<double>(selectedProductionUnit.Value.Select(Selection)),
-                Fill = new SolidColorPaint{Color = machine!.Color}, LineSmoothness = 0});
+                Fill = new SolidColorPaint{Color = MainWindowViewModel.colorDict[selectedProductionUnit.Key]}, LineSmoothness = 0});
         }
 
         YAxes[0].MinLimit = MinLimit;
