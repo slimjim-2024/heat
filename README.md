@@ -11,7 +11,33 @@ It processes heating demand and electricity prices from CSV files and calculates
 - Visual Studio Code or Visual Studio
 - Avalonia UI framework (for UI components)
 
-### Steps
+### Instructions on how to use the app
+
+1. Run the project:
+
+   use 'dotnet run' in the therminal
+
+2. Load the machines:
+
+   press 'Load Machines'
+   select your machines file (.csv or .json)
+   press 'confirm'
+
+3. Open Timeframe Data:
+
+   in the topbar select 'Open Timeframe Data' 
+   select your Timeframe
+   on the right side bar, selcet the graph type
+   select what machines you want to use (GB1, GB2, OB1, GM1, HP1)
+
+4. If you need to edit a machine:
+
+   in the topbar select 'edit machine info'
+   press on any data you want to edit
+   press enter on keyboard
+   you will see how it updates live
+
+### How to Build the project?
 
 1. Clone the repository:
 
@@ -26,7 +52,7 @@ It processes heating demand and electricity prices from CSV files and calculates
 
    dotnet run
 
-## Contribution
+## How to pull?
 
 1. Fork the repository.
 2. Create a new branch: "git checkout -b feature-name".
